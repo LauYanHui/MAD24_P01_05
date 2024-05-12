@@ -19,7 +19,8 @@ Stage 1:
 3. User Customization:
    - This feature provides users the chance to display their dietary preferences (allergies/favourite cuisine).
 
-4. Grocery List for users to place ingredients they need to get for a certain recipe from our app.
+4. Grocery List
+   - For users to enter in their ingredients they need to get for a certain recipe from our app.
 
-5 Culinary Technique Tutorials 
-    -provides users insights on why to learn such technique before learning the technique itself
+6. Culinary Technique Tutorials 
+   - provides users insights on why to learn such technique before learning the technique itself
