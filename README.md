@@ -13,7 +13,7 @@ Stage 1:
 
 1. Account Creation/Login (Authentication)
 
-2. A Scroll Display of Recipes:
+2. A Scroll Display of Recipes:(Yan Hui)
    -  Recipes may be filtered out based on user's preferences
 
 3. User Customization:
