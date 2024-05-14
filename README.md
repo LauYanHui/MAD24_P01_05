@@ -22,5 +22,5 @@ Stage 1:
 4. Grocery List
    - For users to enter in their ingredients they need to get for a certain recipe from our app.
 
-6. Culinary Technique Tutorials 
+6. Culinary Technique Tutorials (Ashton)
    - provides users insights on why to learn such technique before learning the technique itself
