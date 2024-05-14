@@ -16,7 +16,7 @@ Stage 1:
 2. A Scroll Display of Recipes:(Yan Hui)
    -  Recipes may be filtered out based on user's preferences
 
-3. User Customization:
+3. User Customization(Jun Hao):
    - This feature provides users the chance to display their dietary preferences (allergies/favourite cuisine).
 
 4. Grocery List
