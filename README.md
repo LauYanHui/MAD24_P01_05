@@ -19,7 +19,7 @@ Stage 1:
 3. User Customization(Jun Hao):
    - This feature provides users the chance to display their dietary preferences (allergies/favourite cuisine).
 
-4. Grocery List
+4. Grocery List (Shan Chun)
    - For users to enter in their ingredients they need to get for a certain recipe from our app.
 
 6. Culinary Technique Tutorials (Ashton)
