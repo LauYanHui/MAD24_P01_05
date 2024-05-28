@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
 
         TextView tvname = findViewById(R.id.recipeName);
-        //TextView cuisine = findViewById(R.id.cuisine);
-        //TextView mainIngredient = findViewById(R.id.mainIngredient);
+        TextView cuisine = findViewById(R.id.cuisine);
+        TextView mainIngredient = findViewById(R.id.mainIngredient);
         TextView ingredientsTv = findViewById(R.id.ingredient);
         //TextView instructionsTv = findViewById(R.id.instructions);
 
-        TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFacts);
+        TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFact);
         Map<String, String> nutritiousFacts = recipe.getNutritiousFacts();
         Log.i(testing, "1");
         StringBuilder nutritionInfo = new StringBuilder();
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         }
         String instructionText = instructionBuilder.toString();
 
-        //cuisine.setText(recipe.cuisine);
-        //mainIngredient.setText(recipe.mainIngredient);
+        cuisine.setText(recipe.cuisine);
+        mainIngredient.setText(recipe.mainIngredient);
         tvname.setText(recipe.name);
         nutritiousFactsTextView.setText(nutritionText);
         ingredientsTv.setText(ingredientText);
