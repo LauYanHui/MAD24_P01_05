@@ -3,6 +3,7 @@ package sg.edu.np.mad.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +27,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         return holder;
     }
     public void onBindViewHolder(RecipeViewHolder holder, int position){
-        Recipe List_item = recipeList.get(position);
-        holder.name.setText(List_item.getName());
-        holder.cuisine.setText(List_item.getCuisine());
-        holder.mainIngredient.setText(List_item.getMainIngredient());
+        Recipe listItem = recipeList.get(position);
+        Log.i("RecipeAdapter", "onBindViewHolder called for position: " + position + ", Recipe name: " + listItem.getName());
+
+        holder.name.setText(listItem.getName());
+        holder.cuisine.setText(listItem.getCuisine());
+        holder.mainIngredient.setText(listItem.getMainIngredient());
         Recipe recipe = recipeList.get(position);
+
         holder.name.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(),MainActivity.class);
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Recipe", (Serializable) recipe);
                 intent.putExtras(bundle);

@@ -69,6 +69,8 @@ public class ListActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     DataSnapshot dataSnapshot = task.getResult();
+                    long numberOfChildren = dataSnapshot.getChildrenCount();
+                    Log.i(testing, "Number of recipes: " + numberOfChildren);
                     for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                         Map<String, Object> recipeData = (Map<String, Object>) recipeSnapshot.getValue();
 
@@ -85,7 +87,7 @@ public class ListActivity extends AppCompatActivity {
                         Recipe recipe = new Recipe(id, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts);
                         recipeList.add(recipe);
                     }
-                    Log.i(testing,"recie List Size: " + recipeList.size());
+                    Log.i(testing,"recipe List Size: " + recipeList.size());
                     recipeAdapter.notifyDataSetChanged();
 
                     // Log the recipes
@@ -97,13 +99,6 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
-//        RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,this);
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//
-//        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(recipeAdapter);
 
     }
 }

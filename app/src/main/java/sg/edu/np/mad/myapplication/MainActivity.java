@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
 import java.util.Map;
@@ -44,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
         Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
 
         TextView tvname = findViewById(R.id.recipeName);
-        TextView cuisine = findViewById(R.id.cuisine);
-        TextView mainIngredient = findViewById(R.id.mainIngredient);
-        TextView ingredientsTv = findViewById(R.id.ingredients);
-        TextView instructionsTv = findViewById(R.id.instructions);
+        //TextView cuisine = findViewById(R.id.cuisine);
+        //TextView mainIngredient = findViewById(R.id.mainIngredient);
+        TextView ingredientsTv = findViewById(R.id.ingredient);
+        //TextView instructionsTv = findViewById(R.id.instructions);
 
         TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFacts);
         Map<String, String> nutritiousFacts = recipe.getNutritiousFacts();
@@ -77,38 +78,18 @@ public class MainActivity extends AppCompatActivity {
         }
         String instructionText = instructionBuilder.toString();
 
-        cuisine.setText(recipe.cuisine);
-        mainIngredient.setText(recipe.mainIngredient);
+        //cuisine.setText(recipe.cuisine);
+        //mainIngredient.setText(recipe.mainIngredient);
         tvname.setText(recipe.name);
         nutritiousFactsTextView.setText(nutritionText);
         ingredientsTv.setText(ingredientText);
 
-        // Display the first instruction initially
-        if (!instructionList.isEmpty()) {
-            instructionsTv.setText(instructionList.get(0));
-        }
 
-        ImageView nextBtn = findViewById(R.id.nextBtnRecipe);
-        ImageView backBtn = findViewById(R.id.backbtnRecipe);
+        ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
+        InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
+        instructionsPager.setAdapter(adapter);
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentInstructionIndex < instructionList.size() - 1) {
-                    currentInstructionIndex++;
-                    instructionsTv.setText(instructionList.get(currentInstructionIndex));
-                }
-            }
-        });
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentInstructionIndex > 0) {
-                    currentInstructionIndex--;
-                    instructionsTv.setText(instructionList.get(currentInstructionIndex));
-                }
-            }
-        });
+
     }
 }
