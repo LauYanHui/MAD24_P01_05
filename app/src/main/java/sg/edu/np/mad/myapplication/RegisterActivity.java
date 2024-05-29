@@ -66,9 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
                 btnRegister.setEnabled(false);
 
                 // Get value user entered in EditText
-                String username = String.valueOf(etUsername.getText());
-                String password = String.valueOf(etPassword.getText());
-                String confirmPassword = String.valueOf(etConfirmPassword.getText());
+                String username = String.valueOf(etUsername.getText()).trim();
+                String password = String.valueOf(etPassword.getText()).trim();
+                String confirmPassword = String.valueOf(etConfirmPassword.getText()).trim();
 
                 try {
                     // Check for invalid fields
