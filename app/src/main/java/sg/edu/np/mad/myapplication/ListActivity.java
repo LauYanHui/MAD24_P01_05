@@ -1,6 +1,7 @@
 package sg.edu.np.mad.myapplication;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,13 +45,13 @@ public class ListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //Button test = findViewById(R.id.back);
-//        test.setOnClickListener(new View.OnClickListener(){
-//            @Override public void onClick(View v){
-//                Intent activityName = new Intent(List.this,ListActivity.class);
-//                startActivity(activityName);
-//            }
-//        });
+        Button groceryList = findViewById(R.id.groceryList);
+        groceryList.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){
+                Intent activityName = new Intent(ListActivity.this,Grocery_List.class);
+                startActivity(activityName);
+            }
+        });
 
         RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -82,9 +83,10 @@ public class ListActivity extends AppCompatActivity {
                         List<String> instructions = (List<String>) recipeData.get("Instructions");
                         List<String> ingredients = (List<String>) recipeData.get("Ingredients");
                         Map<String, String> nutritionFacts = (Map<String, String>) recipeData.get("Nutritious facts");
-
+                        String imageName = (String) recipeData.get("Image");
+                        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
                         // Create a Recipe object
-                        Recipe recipe = new Recipe(id, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts);
+                        Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts);
                         recipeList.add(recipe);
                     }
                     Log.i(testing,"recipe List Size: " + recipeList.size());

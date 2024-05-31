@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         TextView mainIngredient = findViewById(R.id.mainIngredient);
         TextView ingredientsTv = findViewById(R.id.ingredient);
         //TextView instructionsTv = findViewById(R.id.instructions);
-
+        ImageView recipeImage = findViewById(R.id.recipeImage);
         TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFact);
         Map<String, String> nutritiousFacts = recipe.getNutritiousFacts();
         Log.i(testing, "1");
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> instructionList = recipe.getInstructions();
         StringBuilder ingredientBuilder = new StringBuilder();
         for (String ingredient : ingredientList) {
-            ingredientBuilder.append("- ").append(ingredient).append("\n");
+            ingredientBuilder.append("• ").append(ingredient).append("\n");
         }
         String ingredientText = ingredientBuilder.toString();
 
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String instructionText = instructionBuilder.toString();
 
+        recipeImage.setImageResource(recipe.getImageResId());
         cuisine.setText(recipe.cuisine);
         mainIngredient.setText(recipe.mainIngredient);
         tvname.setText(recipe.name);

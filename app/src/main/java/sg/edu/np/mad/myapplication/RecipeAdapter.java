@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> recipeList;
@@ -34,6 +37,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.cuisine.setText(listItem.getCuisine());
         holder.mainIngredient.setText(listItem.getMainIngredient());
         Recipe recipe = recipeList.get(position);
+//        if (Objects.equals(recipe.name, "Nicoise Salad")){
+//            holder.image.setImageResource(R.drawable.nicoisesalad);
+//        }
+        holder.image.setImageResource(recipe.getImageResId());
 
         holder.name.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -45,6 +52,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
                 v.getContext().startActivity(intent);
             }
         });
+
     }
     public int getItemCount() {
         return recipeList.size();
