@@ -2,6 +2,7 @@ package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,10 +21,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class RegisterActivity extends AppCompatActivity {
 
     Button btnRegister;
     Button btnLogin;
+    Button btnNext;
     EditText etUsername;
     EditText etPassword;
     EditText etConfirmPassword;
@@ -44,7 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
 
         // Get widgets
-        btnRegister = findViewById(R.id.btnRegister);
+        // btnRegister = findViewById(R.id.btnRegister);
+        btnNext = findViewById(R.id.btnNext);
         btnLogin = findViewById(R.id.btnLogin);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -58,12 +63,10 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(loginActivity);
             }
         });
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Disable register button
-                btnRegister.setEnabled(false);
-
                 // Get value user entered in EditText
                 String username = String.valueOf(etUsername.getText()).trim();
                 String password = String.valueOf(etPassword.getText()).trim();
@@ -80,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (!password.equals(confirmPassword)) {
                         throw new RuntimeException("Passwords do not match");
                     }
+
                     userRef.child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -94,20 +98,18 @@ public class RegisterActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            // Set data in Firebase
-                            userRef.child(username).setValue(new User(username, password));
-                            Toast.makeText(RegisterActivity.this, "User registered.", Toast.LENGTH_SHORT).show();
-
-                            // Reset fields
-                            etUsername.getText().clear();
-                            etPassword.getText().clear();
-                            etConfirmPassword.getText().clear();
+                            Log.i("Firebase", "here");
+                            // Go to allergy page
+                            Intent goAllergy = new Intent(RegisterActivity.this, AllergyPage.class);
+                            Bundle extras = new Bundle();
+                            extras.putString("username", username);
+                            extras.putString("password", password);
+                            goAllergy.putExtras(extras);
+                            startActivity(goAllergy);
                         }
                     });
                 } catch (RuntimeException e) {
                     Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                } finally {
-                    btnRegister.setEnabled(true);
                 }
             }
         });

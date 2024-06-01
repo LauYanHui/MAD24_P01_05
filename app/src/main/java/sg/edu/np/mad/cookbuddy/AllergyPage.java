@@ -1,5 +1,6 @@
 package sg.edu.np.mad.cookbuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,16 +9,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +51,10 @@ public class AllergyPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        String username = (String) intent.getSerializableExtra("username");
+        String password = (String) intent.getSerializableExtra("password");
 
         //Radio Buttons and CheckBoxes
         submitBTN = findViewById(R.id.button_Submit);
@@ -91,8 +101,33 @@ public class AllergyPage extends AppCompatActivity {
             }
         });
 
-        //For submit button to check checkbox states
-        submitBTN.setOnClickListener(v -> submitCheckboxStates());
+        submitBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Push Data to Database
+                userRef.child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(AllergyPage.this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // check checkbox states
+                        ArrayList<String> allergies = submitCheckboxStates();
+                        User temp = new User(username, password, allergies);
+
+                        // Set data in Firebase
+                        userRef.child(username).setValue(temp);
+                        userRef.child(username).child("allergies").setValue(allergies);
+
+                        // Go homepage
+                        Intent goLogin = new Intent(AllergyPage.this, LoginActivity.class);
+                        startActivity(goLogin);
+                    }
+                });
+            }
+        });
     }
 
     //Visibility to hide checkboxes if NoAllergy selected
@@ -123,8 +158,8 @@ public class AllergyPage extends AppCompatActivity {
     }
 
     //Store Data as a List
-    private void submitCheckboxStates() {
-        List<String> allergies = new ArrayList<>();
+    private ArrayList<String> submitCheckboxStates() {
+        ArrayList<String> allergies = new ArrayList<>();
 
         if (noAllergy.isChecked()) {
             allergies.add("None");
@@ -157,18 +192,7 @@ public class AllergyPage extends AppCompatActivity {
                 allergies.add("TreeNut");
             }
         }
-
-        String userId = userRef.push().getKey();
-
-        //Push Data to Database
-        if (userId != null) {
-            // Set the data at the path corresponding to the new user ID
-            userRef.child(userId).child("Allergies").setValue(allergies)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(AllergyPage.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(AllergyPage.this, "Failed to submit data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-        } else {
-            Toast.makeText(AllergyPage.this, "Failed to generate user ID", Toast.LENGTH_SHORT).show();
-        }
+        return allergies;
     }
 }
 

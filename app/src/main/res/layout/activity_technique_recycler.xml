@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TechniqueRecycler">
+    tools:context=".TechniqueRecycler"
+    android:background="#FAC898">
 
     <LinearLayout
         android:id="@+id/banner_container"
