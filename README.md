@@ -1,4 +1,4 @@
-## App Name: Cooking Companion
+## App Name: CookBuddy
 
 ## App Category: Food & Drink
 ## What is CookBuddy?
