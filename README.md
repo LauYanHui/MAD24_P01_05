@@ -1,7 +1,7 @@
 ## App Name: Cooking Companion
 
 ## App Category: Food & Drink
-## What is Cooking Companion?
+## What is CookBuddy?
 Your go-to app for culinary inspiration and healthy eating! With our app, you will be able to explore a wide variety of recipes and culinary technique tutorials suitable for all skill levels. Whether you're craving comfort food or seeking lighter options, Cooking Companion provides delicious recipes tailored to your taste buds and health goals. Download our app and discover the joy of cooking nutritious meals that nourishes your body and delights your senses!
 
 ## App Objective:
