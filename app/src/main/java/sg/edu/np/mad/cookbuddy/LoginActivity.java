@@ -20,6 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
@@ -79,19 +82,28 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
-                                    String checkPassword = snapshot.child("password").getValue(String.class);
+                                    String username = snapshot.child("username").getValue(String.class);
+                                    String password = snapshot.child("password").getValue(String.class);
+                                    ArrayList<String> allergies = new ArrayList<>();
+
+                                    for (DataSnapshot childSnapShot : snapshot.child("allergies").getChildren()) {
+                                        String allergy = childSnapShot.getValue(String.class);
+                                        allergies.add(allergy);
+                                    }
+
+                                    User temp = new User(username, password, allergies);
 
                                     // account with this username exists
-                                    if (password.equals(checkPassword)) {
+                                    if (password.equals(temp.getPassword())) {
 
                                         // pass user info to next activity
                                         Bundle extras = new Bundle();
-                                        extras.putString("username", username);
+                                        extras.putSerializable("User", (Serializable) temp);
 
                                         // go to home page
-                                        Intent viewList = new Intent(LoginActivity.this, ListActivity.class);
-                                        viewList.putExtras(extras);
-                                        startActivity(viewList);
+                                        Intent goHome = new Intent(LoginActivity.this, HomepageActivity.class);
+                                        goHome.putExtras(extras);
+                                        startActivity(goHome);
                                     }
                                 }
                                 else {

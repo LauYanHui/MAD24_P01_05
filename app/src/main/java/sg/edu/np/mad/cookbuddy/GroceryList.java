@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-public class Grocery_List extends AppCompatActivity {
+public class GroceryList extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private GroceryAdapter adapter;
 
@@ -48,7 +48,7 @@ public class Grocery_List extends AppCompatActivity {
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Grocery_List.this, homepage.class);
+                Intent intent = new Intent(GroceryList.this, HomepageActivity.class);
                 startActivity(intent);
             }
         });

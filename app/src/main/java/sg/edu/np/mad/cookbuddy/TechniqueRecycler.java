@@ -1,6 +1,9 @@
 package sg.edu.np.mad.cookbuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,5 +72,13 @@ public class TechniqueRecycler extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(techniqueAdapter);
 
+        ImageView backIcon = findViewById(R.id.backIconIV);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TechniqueRecycler.this, HomepageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
