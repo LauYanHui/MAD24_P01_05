@@ -1,5 +1,4 @@
 package sg.edu.np.mad.cookbuddy;
-import sg.edu.np.mad.cookbuddy.R;
 
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class AllergyPage extends AppCompatActivity {
 
     private CheckBox Gluten, Eggs, Dairy, Fish, Shellfish, Soy, Peanut, Sesame, TreeNut;
 
@@ -165,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
         if (userId != null) {
             // Set the data at the path corresponding to the new user ID
             userRef.child(userId).child("Allergies").setValue(allergies)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Failed to submit data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> Toast.makeText(AllergyPage.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(AllergyPage.this, "Failed to submit data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         } else {
-            Toast.makeText(MainActivity.this, "Failed to generate user ID", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AllergyPage.this, "Failed to generate user ID", Toast.LENGTH_SHORT).show();
         }
     }
 }
