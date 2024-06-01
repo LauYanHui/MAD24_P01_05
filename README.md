@@ -18,6 +18,7 @@ Stage 1:
 3. A Scroll Display of Recipes:(Yan Hui)
    -  This feature is tailored towards all users trying to find unique recipes to make good food with. This feature will provide users on the various recipes we have on our app. These recipes will be displayed in a visually appealing, scrollable format, providing culinary inspiration to users. When they click on a certain recipe, they will be given a detailed run-down of the recipe, providing users with the list of ingredients required, along with nutritional information for each information like the amount of calories, protein, carbs and fats. On top of that, they will be provided a horizontal scrollable format of the instructions for the recipe, meaning that they can simply scroll to the right to move on to the next instruction.
 
+
 4. Dietary Restrictions(Jun Hao):
    - This feature is tailored towards users that may have certain dietary restrictions like food allergies. In this case, upon account registration, users will be able to key in their 'said' food restriction.
 

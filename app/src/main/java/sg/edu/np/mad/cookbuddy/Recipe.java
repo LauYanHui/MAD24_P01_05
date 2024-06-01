@@ -26,6 +26,7 @@ public class Recipe implements Serializable {
         this.name = name;
         this.nutritiousFacts = nutritiousFacts;
         this.imageResId = imageResId;
+
         this.isFavorite = isFavorite;
 
     }
@@ -80,6 +81,7 @@ public class Recipe implements Serializable {
     public void setImageResId(int imageResId) {
         this.imageResId = imageResId;
     }
+
     public boolean isFavorite() {
         return isFavorite;
     }

@@ -1,5 +1,6 @@
 package sg.edu.np.mad.cookbuddy;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +43,7 @@ public class Grocery_List extends AppCompatActivity {
                 }
             }
         });
+
         ImageView backIcon = findViewById(R.id.backIcon);
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override

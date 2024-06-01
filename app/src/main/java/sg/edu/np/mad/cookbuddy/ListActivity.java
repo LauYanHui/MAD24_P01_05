@@ -22,7 +22,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 //        Button groceryList = findViewById(R.id.groceryList);
 //        groceryList.setOnClickListener(new View.OnClickListener(){
 //            @Override public void onClick(View v){
@@ -55,6 +58,7 @@ public class ListActivity extends AppCompatActivity {
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
+
 
         SlideInUpAnimator animator = new SlideInUpAnimator();
         animator.setAddDuration(500); // Optional customization
@@ -91,6 +95,7 @@ public class ListActivity extends AppCompatActivity {
                         Map<String, String> nutritionFacts = (Map<String, String>) recipeData.get("Nutritious facts");
                         String imageName = (String) recipeData.get("Image");
                         int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+
                         boolean favourite = false;
                         // Create a Recipe object
                         Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);

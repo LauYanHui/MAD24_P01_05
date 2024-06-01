@@ -43,8 +43,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation (libs.glide)
+    annotationProcessor (libs.glide.compiler)
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
-
 }

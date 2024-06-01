@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
+
         //finding the id to set the attributes to
         TextView tvname = findViewById(R.id.recipeName);
         TextView cuisine = findViewById(R.id.cuisine);
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             instructionBuilder.append("- ").append(instructions).append("\n");
         }
         String instructionText = instructionBuilder.toString();
+
         // setting the attributes
         recipeImage.setImageResource(recipe.getImageResId());
         cuisine.setText(recipe.cuisine);
