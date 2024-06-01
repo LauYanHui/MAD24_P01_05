@@ -213,15 +213,15 @@ public class MainActivity extends AppCompatActivity {
     }
     private void submitCheckboxStates() {
         Map<String, Boolean> checkboxes = new HashMap<>();
-        checkboxes.put("checkbox1", Gluten.isChecked());
-        checkboxes.put("checkbox2", Eggs.isChecked());
-        checkboxes.put("checkbox3", Dairy.isChecked());
-        checkboxes.put("checkbox4", Fish.isChecked());
-        checkboxes.put("checkbox5", Shellfish.isChecked());
-        checkboxes.put("checkbox6", Soy.isChecked());
-        checkboxes.put("checkbox7", Peanut.isChecked());
-        checkboxes.put("checkbox8", Sesame.isChecked());
-        checkboxes.put("checkbox9", TreeNut.isChecked());
+        checkboxes.put("Gluten", Gluten.isChecked());
+        checkboxes.put("Eggs", Eggs.isChecked());
+        checkboxes.put("Dairy", Dairy.isChecked());
+        checkboxes.put("Fish", Fish.isChecked());
+        checkboxes.put("Shellfish", Shellfish.isChecked());
+        checkboxes.put("Soy", Soy.isChecked());
+        checkboxes.put("Peanut", Peanut.isChecked());
+        checkboxes.put("Sesame", Sesame.isChecked());
+        checkboxes.put("TreeNut", TreeNut.isChecked());
 
         userRef.setValue(checkboxes)
                 .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
