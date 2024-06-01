@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         TextView SesameTxt = findViewById(R.id.textView_Sesame);
         TextView TreeNutTxt = findViewById(R.id.textView_TreeNut);
 
+        //Set On Click For noAllergy Button
         noAllergy.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 ifNotSelect.setChecked(false);
@@ -84,15 +85,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Set On Click For ifNotSelect Button
         ifNotSelect.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 noAllergy.setChecked(false);
             }
         });
 
+        //For submit button to check checkbox states
         submitBTN.setOnClickListener(v -> submitCheckboxStates());
     }
 
+    //Visibility to hide checkboxes if NoAllergy selected
     private void setVisibilityForAllergies(int visibility) {
         Gluten.setVisibility(visibility);
         Eggs.setVisibility(visibility);
@@ -117,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         CheckBox checkBox = (CheckBox) view;
         boolean isChecked = checkBox.isChecked();
-
-        // No need to explicitly set the check state again, it's handled by the CheckBox itself
     }
+
+    //Store Data as a List
     private void submitCheckboxStates() {
         List<String> allergies = new ArrayList<>();
 
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         String userId = userRef.push().getKey();
 
+        //Push Data to Database
         if (userId != null) {
             // Set the data at the path corresponding to the new user ID
             userRef.child(userId).child("Allergies").setValue(allergies)
