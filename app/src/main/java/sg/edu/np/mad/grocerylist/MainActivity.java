@@ -48,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 String name = items.get(i);
+                makeToast(name);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long l) {
+                makeToast("Removed: " + items.get(i));
+                removeItem(i);
+                return false;
             }
         });
 
@@ -72,13 +82,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void removeItem(int remove){
+        items.remove(remove);
+        adapter.notifyDataSetChanged();
+    }
+
     public void addItem(String item){
         items.add(item);
         listView.setAdapter(adapter);
     }
 
     Toast t;
-
     private void makeToast(String s) {
         if (t != null) t.cancel();
         t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
