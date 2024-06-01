@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        // back to recipe button
         ImageView backbtn = findViewById(R.id.backtohomeBtn);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
-
+        //finding the id to set the attributes to
         TextView tvname = findViewById(R.id.recipeName);
         TextView cuisine = findViewById(R.id.cuisine);
         TextView mainIngredient = findViewById(R.id.mainIngredient);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             instructionBuilder.append("- ").append(instructions).append("\n");
         }
         String instructionText = instructionBuilder.toString();
-
+        // setting the attributes
         recipeImage.setImageResource(recipe.getImageResId());
         cuisine.setText(recipe.cuisine);
         mainIngredient.setText(recipe.mainIngredient);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         nutritiousFactsTextView.setText(nutritionText);
         ingredientsTv.setText(ingredientText);
 
-
+        // slide card view
         ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
         InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
         instructionsPager.setAdapter(adapter);
