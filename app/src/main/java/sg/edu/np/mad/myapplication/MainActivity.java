@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     private CheckBox Gluten, Eggs, Dairy, Fish, Shellfish, Soy, Peanut, Sesame, TreeNut;
     private Button submitBTN;
-    private FirebaseDatabase database;
-    private DatabaseReference dbRef;
 
     String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
     DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
@@ -225,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         checkboxes.put("checkbox8", Sesame.isChecked());
         checkboxes.put("checkbox9", TreeNut.isChecked());
 
-        dbRef.setValue(checkboxes)
+        userRef.setValue(checkboxes)
                 .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Failed to submit data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
