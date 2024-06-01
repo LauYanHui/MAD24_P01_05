@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background = "#DAF0F7"
     android:orientation="vertical">
 
     <ImageView
@@ -21,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginRight="30dp"
-        app:cardBackgroundColor="#DAF0F7"
+
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
         app:cardCornerRadius="11dp"
@@ -129,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="11dp"
-                app:cardBackgroundColor="#DAF0F7"
+
                 >
 
                 <TextView
@@ -148,7 +149,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:cardCornerRadius="11dp"
-            app:cardBackgroundColor="#DAF0F7"
+
             android:background="#9C27B0"
             android:layout_marginLeft="10dp">
 
@@ -184,7 +185,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        app:cardBackgroundColor="#DAF0F7"
+
         app:cardCornerRadius="11dp"
         android:background="#ADD8E6">
 

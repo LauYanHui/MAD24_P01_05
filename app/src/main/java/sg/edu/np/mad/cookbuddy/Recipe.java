@@ -1,6 +1,4 @@
-package sg.edu.np.mad.myapplication;
-
-import android.media.Image;
+package sg.edu.np.mad.cookbuddy;
 
 import java.io.Serializable;
 import java.util.List;
