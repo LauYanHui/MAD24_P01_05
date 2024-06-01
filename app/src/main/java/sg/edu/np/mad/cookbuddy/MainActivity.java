@@ -1,5 +1,6 @@
 package sg.edu.np.mad.cookbuddy;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     String testing = "testing";
+
     private int currentInstructionIndex = 0;  // Track the current instruction
 
     @Override
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         // back to recipe button
         ImageView backbtn = findViewById(R.id.backtohomeBtn);
         backbtn.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i(testing, "1");
         StringBuilder nutritionInfo = new StringBuilder();
         Log.i(testing, "2");
+
         for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
             String key = entry.getKey();
             String value = String.valueOf(entry.getValue());
             Log.i("testing", "Key: " + key + ", Value: " + value);
             nutritionInfo.append(key).append(": ").append(value).append("\n");
         }
+
         Log.i(testing, "3");
         String nutritionText = nutritionInfo.toString();
 
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         String ingredientText = ingredientBuilder.toString();
 
         StringBuilder instructionBuilder = new StringBuilder();
+      
         for (String instructions : instructionList) {
             instructionBuilder.append("- ").append(instructions).append("\n");
         }
@@ -91,8 +97,5 @@ public class MainActivity extends AppCompatActivity {
         ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
         InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
         instructionsPager.setAdapter(adapter);
-
-
-
     }
 }

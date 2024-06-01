@@ -11,13 +11,13 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     TextView mainIngredient;
     TextView cuisine;
     ImageView image;
+
     public RecipeViewHolder(View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.recipeName);
         mainIngredient = itemView.findViewById(R.id.mainIngredient);
         cuisine = itemView.findViewById(R.id.cuisine);
         image = itemView.findViewById(R.id.imageView);
-
     }
 }
 

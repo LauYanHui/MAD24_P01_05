@@ -9,6 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "sg.edu.np.mad.cookbuddy"
+
         minSdk = 33
         targetSdk = 34
         versionCode = 1

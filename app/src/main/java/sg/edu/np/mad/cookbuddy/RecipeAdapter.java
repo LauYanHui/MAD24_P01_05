@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

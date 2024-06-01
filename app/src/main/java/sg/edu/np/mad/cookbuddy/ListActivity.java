@@ -23,8 +23,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,7 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
+
 //        Button groceryList = findViewById(R.id.groceryList);
 //        groceryList.setOnClickListener(new View.OnClickListener(){
 //            @Override public void onClick(View v){
@@ -53,12 +54,12 @@ public class ListActivity extends AppCompatActivity {
 //        });
         ImageView backIcon = findViewById(R.id.backIcon);
         // Code for Recycler View
+
         RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-
 
         SlideInUpAnimator animator = new SlideInUpAnimator();
         animator.setAddDuration(500); // Optional customization
@@ -68,12 +69,12 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setAdapter(recipeAdapter);
 
         //Firebase reference
-        //
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         //locating the recipes for in the firebase
         DatabaseReference myref = database.getReference("Recipes");
         //DatabaseReference recipe1 = myref.child("1");
         //drawing data from the firebase
+
         myref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -85,6 +86,7 @@ public class ListActivity extends AppCompatActivity {
                     for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                         //splitting the data so it can be put to 
                         Map<String, Object> recipeData = (Map<String, Object>) recipeSnapshot.getValue();
+
                         String id = (String) recipeData.get("ID");
                         String cuisine = (String) recipeData.get("Cuisine");
                         String mainIngredient = (String) recipeData.get("Main ingredient");
@@ -93,6 +95,7 @@ public class ListActivity extends AppCompatActivity {
                         List<String> instructions = (List<String>) recipeData.get("Instructions");
                         List<String> ingredients = (List<String>) recipeData.get("Ingredients");
                         Map<String, String> nutritionFacts = (Map<String, String>) recipeData.get("Nutritious facts");
+
                         String imageName = (String) recipeData.get("Image");
                         int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
 
@@ -113,6 +116,7 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Function for the back icon to go back to home page
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +125,5 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

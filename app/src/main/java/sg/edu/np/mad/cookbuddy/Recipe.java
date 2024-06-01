@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Recipe implements Serializable {
     public String id;
+
     private int imageResId;
     public List<String> allergies;
     public String cuisine;
@@ -26,10 +27,9 @@ public class Recipe implements Serializable {
         this.name = name;
         this.nutritiousFacts = nutritiousFacts;
         this.imageResId = imageResId;
-
         this.isFavorite = isFavorite;
-
     }
+  
     @Override
     public String toString() {
         return "Recipe{" +
@@ -74,6 +74,7 @@ public class Recipe implements Serializable {
     public Map<String,String> getNutritionFacts(){
         return nutritiousFacts;
     }
+
     public int getImageResId() {
         return imageResId;
     }
@@ -89,5 +90,4 @@ public class Recipe implements Serializable {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
-
 }
