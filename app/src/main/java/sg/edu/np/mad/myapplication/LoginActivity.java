@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,12 +88,18 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
-
                                     String checkPassword = snapshot.child("password").getValue(String.class);
 
                                     // account with this username exists
                                     if (password.equals(checkPassword)) {
+
+                                        // pass user info to next activity
+                                        Bundle extras = new Bundle();
+                                        extras.putString("username", username);
+
+                                        // go to home page
                                         Intent viewList = new Intent(LoginActivity.this, ListActivity.class);
+                                        viewList.putExtras(extras);
                                         startActivity(viewList);
                                     }
                                 }
