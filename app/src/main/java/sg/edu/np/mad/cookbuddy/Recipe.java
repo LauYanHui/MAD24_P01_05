@@ -14,8 +14,9 @@ public class Recipe implements Serializable {
     public String mainIngredient;
     public String name;
     public Map<String, String> nutritiousFacts;
+    public boolean isFavorite;
     public Recipe(String id,int imageResId, List<String> allergies, String cuisine, List<String> ingredients, List<String> instructions,
-                  String mainIngredient, String name, Map<String, String> nutritiousFacts) {
+                  String mainIngredient, String name, Map<String, String> nutritiousFacts, boolean isFavorite) {
         this.id = id;
         this.allergies = allergies;
         this.cuisine = cuisine;
@@ -25,6 +26,8 @@ public class Recipe implements Serializable {
         this.name = name;
         this.nutritiousFacts = nutritiousFacts;
         this.imageResId = imageResId;
+
+        this.isFavorite = isFavorite;
 
     }
     @Override
@@ -77,6 +80,14 @@ public class Recipe implements Serializable {
 
     public void setImageResId(int imageResId) {
         this.imageResId = imageResId;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
 }

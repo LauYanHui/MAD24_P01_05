@@ -1,5 +1,7 @@
 package sg.edu.np.mad.cookbuddy;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -39,6 +41,15 @@ public class Grocery_List extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     editTextGrocery.setText("");
                 }
+            }
+        });
+
+        ImageView backIcon = findViewById(R.id.backIcon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Grocery_List.this, homepage.class);
+                startActivity(intent);
             }
         });
     }

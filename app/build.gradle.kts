@@ -45,4 +45,5 @@ dependencies {
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
     implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 }
