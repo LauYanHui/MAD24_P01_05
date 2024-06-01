@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,22 +41,29 @@ public class ListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Button groceryList = findViewById(R.id.groceryList);
-        groceryList.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                Intent activityName = new Intent(ListActivity.this,Grocery_List.class);
-                startActivity(activityName);
-            }
-        });
-
+//        Button groceryList = findViewById(R.id.groceryList);
+//        groceryList.setOnClickListener(new View.OnClickListener(){
+//            @Override public void onClick(View v){
+//                Intent activityName = new Intent(ListActivity.this,Grocery_List.class);
+//                startActivity(activityName);
+//            }
+//        });
+        ImageView backIcon = findViewById(R.id.backIcon);
+        // Code for Recycler View
         RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        SlideInUpAnimator animator = new SlideInUpAnimator();
+        animator.setAddDuration(500); // Optional customization
+        animator.setRemoveDuration(500); // Optional customization
+
+        recyclerView.setItemAnimator(animator);
         recyclerView.setAdapter(recipeAdapter);
 
+        //Firebase reference
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myref = database.getReference("Recipes");
@@ -79,8 +88,9 @@ public class ListActivity extends AppCompatActivity {
                         Map<String, String> nutritionFacts = (Map<String, String>) recipeData.get("Nutritious facts");
                         String imageName = (String) recipeData.get("Image");
                         int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+                        boolean favourite = false;
                         // Create a Recipe object
-                        Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts);
+                        Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
                         recipeList.add(recipe);
                     }
                     Log.i(testing,"recipe List Size: " + recipeList.size());
@@ -93,6 +103,14 @@ public class ListActivity extends AppCompatActivity {
                 } else {
                     Log.i(testing, "Error fetching data");
                 }
+            }
+        });
+        // Function for the back icon to go back to home page
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListActivity.this, homepage.class);
+                startActivity(intent);
             }
         });
 

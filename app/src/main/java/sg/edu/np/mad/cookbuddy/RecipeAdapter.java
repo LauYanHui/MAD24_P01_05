@@ -35,9 +35,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.cuisine.setText(listItem.getCuisine());
         holder.mainIngredient.setText(listItem.getMainIngredient());
         Recipe recipe = recipeList.get(position);
-//        if (Objects.equals(recipe.name, "Nicoise Salad")){
-//            holder.image.setImageResource(R.drawable.nicoisesalad);
-//        }
+
         holder.image.setImageResource(recipe.getImageResId());
 
         holder.name.setOnClickListener(new View.OnClickListener(){
@@ -50,7 +48,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
                 v.getContext().startActivity(intent);
             }
         });
-
     }
     public int getItemCount() {
         return recipeList.size();
