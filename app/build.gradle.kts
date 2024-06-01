@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "sg.edu.np.mad.myapplication"
+    namespace = "sg.edu.np.mad.cookbuddy"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "sg.edu.np.mad.myapplication"
-        minSdk = 21
+        applicationId = "sg.edu.np.mad.cookbuddy"
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -41,4 +41,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation (libs.glide)
+    annotationProcessor (libs.glide.compiler)
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 }
