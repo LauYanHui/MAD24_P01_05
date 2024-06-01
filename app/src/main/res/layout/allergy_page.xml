@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AllergyPage">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/food_banner2image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+<!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ-->
+
+    <TextView
+        android:id="@+id/textView_noAllergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:paddingLeft="10dp"
+        android:text="I acknowledge that I have no food allergies: "
+        app:layout_constraintTop_toBottomOf="@id/imageView1"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <RadioButton
+        android:id="@+id/radiobutton_noAllergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="45dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView1" />
+
+    <RadioButton
+        android:id="@+id/radiobutton_ifNotSpecify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="45dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radiobutton_noAllergy" />
+
+    <TextView
+        android:id="@+id/textView_ifNotSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="10dp"
+        android:text="If not, select this and choose: "
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@id/radiobutton_noAllergy"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox_Gluten"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_ifNotSelect" />
+    <CheckBox
+        android:id="@+id/checkBox_Eggs"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Gluten" />
+    <CheckBox
+        android:id="@+id/checkBox_Milk"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Eggs" />
+    <CheckBox
+        android:id="@+id/checkBox_Fish"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Milk" />
+    <CheckBox
+        android:id="@+id/checkBox_Shellfish"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Fish" />
+    <CheckBox
+        android:id="@+id/checkBox_Soy"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Shellfish" />
+    <CheckBox
+        android:id="@+id/checkBox_Peanut"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Soy" />
+    <CheckBox
+        android:id="@+id/checkBox_Sesame"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Peanut" />
+    <CheckBox
+        android:id="@+id/checkBox_TreeNut"
+        android:layout_width="82dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_Sesame" />
+
+    <TextView
+        android:id="@+id/textView_Gluten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Gluten"
+        android:paddingLeft="10dp"
+        android:paddingTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_ifNotSelect"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/textView_Eggs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Eggs"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Gluten"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/textView_Milk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Milk / Dairy Products"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Eggs"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView_Fish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Fish"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Milk"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Shellfish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Shellfish"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Fish"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView_Soy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Soy"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Shellfish"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Peanut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Peanut"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Soy"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Sesame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Sesame"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Peanut"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_TreeNut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" •  Tree Nuts"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_Sesame"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="2dp"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textViewInfo" />
+
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:textSize="10dp"
+        android:text="Information collected here will be kept strictly confidential"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

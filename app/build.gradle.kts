@@ -9,7 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "sg.edu.np.mad.cookbuddy"
-        minSdk = 21
+
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -41,4 +42,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation (libs.glide)
+    annotationProcessor (libs.glide.compiler)
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 }
