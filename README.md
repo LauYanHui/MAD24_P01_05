@@ -31,8 +31,8 @@ Stage 1:
 
 
 ### Video References:
-[How to Braise Meat | Tesco](https://www.youtube.com/watch?v=TyEhYBWDV2o)
-[Pan Frying](https://www.youtube.com/watch?v=C5fG8NTbXso)
-[Simple Steaming Method](https://www.youtube.com/watch?v=URlzwxDNieI)
-[How to Deglaze a pan](https://www.youtube.com/watch?v=E1IdzidpwUE)
-[Cooking Techniques: How to Poach Fish](https://www.youtube.com/watch?v=29dbc18zmkg)
+   - [How to Braise Meat | Tesco](https://www.youtube.com/watch?v=TyEhYBWDV2o)
+   - [Pan Frying](https://www.youtube.com/watch?v=C5fG8NTbXso)
+   - [Simple Steaming Method](https://www.youtube.com/watch?v=URlzwxDNieI)
+   - [How to Deglaze a pan](https://www.youtube.com/watch?v=E1IdzidpwUE)
+   - [Cooking Techniques: How to Poach Fish](https://www.youtube.com/watch?v=29dbc18zmkg)
