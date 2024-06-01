@@ -8,6 +8,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:53405026251:android:afe4413a8669ea89bd984e",
+        "android_client_info": {
+          "package_name": "sg.edu.np.mad.cookbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZKHsDEqwXqiDGIQv9xFW-lMNw_gjBQFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:53405026251:android:da5ae9504c74bec9bd984e",
         "android_client_info": {
           "package_name": "sg.edu.np.mad.myapplication"

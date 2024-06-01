@@ -1,4 +1,4 @@
-package sg.edu.np.mad.myapplication;
+package sg.edu.np.mad.cookbuddy;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +10,8 @@ public class TechniqueViewHolder extends RecyclerView.ViewHolder{
     ImageView techniqueImageView;
     TextView title;
     TextView purpose;
+
+    //constructor for TechniqueViewHolder
     public TechniqueViewHolder(View itemView){
         super(itemView);
         techniqueImageView = itemView.findViewById(R.id.techniqueImageView);

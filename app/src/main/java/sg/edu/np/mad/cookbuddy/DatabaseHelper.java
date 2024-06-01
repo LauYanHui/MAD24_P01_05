@@ -1,4 +1,4 @@
-package sg.edu.np.mad.myapplication;
+package sg.edu.np.mad.cookbuddy;
 
 import android.content.ContentValues;
 import android.content.Context;

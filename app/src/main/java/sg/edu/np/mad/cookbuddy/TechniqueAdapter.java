@@ -1,4 +1,4 @@
-package sg.edu.np.mad.myapplication;
+package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class TechniqueAdapter extends RecyclerView.Adapter<TechniqueViewHolder> {
     private final TechniqueRecycler activity;
     private final ArrayList<Technique> techniqueList;
+
+    //constructor for adapter
     public TechniqueAdapter(ArrayList<Technique> techniqueList, TechniqueRecycler activity){
         this.activity = activity;
         this.techniqueList = techniqueList;
@@ -32,12 +34,13 @@ public class TechniqueAdapter extends RecyclerView.Adapter<TechniqueViewHolder> 
         Technique listItems = techniqueList.get(position);
         holder.title.setText(listItems.getTitle());
         holder.purpose.setText(listItems.getPurpose());
-        Glide.with(activity)
+        Glide.with(activity) // Glide helps with loading pictures to each technique
                 .load(listItems.getImagePath())
                 .into(holder.techniqueImageView);
         holder.techniqueImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //intent setup for when user clicks on a specific technique
                 Intent TechniqueDetails = new Intent(activity, TechniqueDetails.class);
                 TechniqueDetails.putExtra("title",listItems.getTitle());
                 TechniqueDetails.putExtra("purpose",listItems.getPurpose());

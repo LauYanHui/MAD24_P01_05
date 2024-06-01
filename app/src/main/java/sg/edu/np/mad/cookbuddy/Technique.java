@@ -1,12 +1,14 @@
-package sg.edu.np.mad.myapplication;
+package sg.edu.np.mad.cookbuddy;
 
 public class Technique {
-    private int imagePath;
+    private int imagePath; //to be used for Glide library to load images
     private String title;
-    private String purpose;
-    private String description;
-    private String videoPath;
+    private String purpose; //short description on what technique does
+    private String description; //longer description
+    private String videoPath; //to be used for when loading technique videos
 
+
+    //constructor for each technique
     public Technique(int imagePath, String title, String purpose, String description, String videoPath){
         this.imagePath = imagePath;
         this.title = title;
@@ -14,6 +16,8 @@ public class Technique {
         this.description = description;
         this.videoPath = videoPath;
     }
+
+    //handle getters and setters for each technique
     public int getImagePath() {return imagePath;}
 
     public void setImagePath(int imagePath) {this.imagePath = imagePath; }

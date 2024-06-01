@@ -1,4 +1,4 @@
-package sg.edu.np.mad.myapplication;
+package sg.edu.np.mad.cookbuddy;
 
 import android.os.Bundle;
 
@@ -25,6 +25,8 @@ public class TechniqueRecycler extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //create array list and initialize the techniques available on the app
         ArrayList<Technique> techniqueList = new ArrayList<>();
         Technique braising = new Technique(R.drawable.braising,"Braising","Tenderizes meat","Braising is a combination-cooking method" +
                 " that uses both wet and dry heats. " +
@@ -52,12 +54,14 @@ public class TechniqueRecycler extends AppCompatActivity {
                 "Steaming is a moist-heat cooking method where food is cooked using the steam from boiling water. This gentle cooking method helps retain nutrients and moisture, making it ideal for vegetables, fish, and dumplings.",
                 "android.resource://" + getPackageName() + "/" + R.raw.steaming
         );
+        //add techniques to list for recyclerView
         techniqueList.add(braising);
         techniqueList.add(poaching);
         techniqueList.add(deglazing);
         techniqueList.add(panFrying);
         techniqueList.add(steaming);
 
+        //set up adapter with recyclerView
         TechniqueAdapter techniqueAdapter = new TechniqueAdapter(techniqueList,this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

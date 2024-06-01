@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "sg.edu.np.mad.myapplication"
+    namespace = "sg.edu.np.mad.cookbuddy"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "sg.edu.np.mad.myapplication"
-        minSdk = 23
+        applicationId = "sg.edu.np.mad.cookbuddy"
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
