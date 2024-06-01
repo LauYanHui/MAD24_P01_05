@@ -1,13 +1,24 @@
 package sg.edu.np.mad.myapplication;
+import sg.edu.np.mad.myapplication.R;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,31 +27,52 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.w3c.dom.Text;
 
-import sg.edu.np.mad.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private CheckBox Gluten, Eggs, Dairy, Fish, Shellfish, Soy, Peanut, Sesame, TreeNut;
+    private Button submitBTN;
+    private FirebaseDatabase database;
+    private DatabaseReference dbRef;
+
+    String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
+    DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+
+
         //Radio Buttons and CheckBoxes
-        Button submitBTN = findViewById(R.id.button_Submit);
+        submitBTN = findViewById(R.id.button_Submit);
         RadioButton noAllergy = findViewById(R.id.radiobutton_noAllergy);
         RadioButton ifNotSelect = findViewById(R.id.radiobutton_ifNotSpecify);
-        CheckBox Gluten = findViewById(R.id.checkBox_Gluten);
-        CheckBox Eggs = findViewById(R.id.checkBox_Eggs);
-        CheckBox Dairy = findViewById(R.id.checkBox_Milk);
-        CheckBox Fish = findViewById(R.id.checkBox_Fish);
-        CheckBox Shellfish = findViewById(R.id.checkBox_Shellfish);
-        CheckBox Soy = findViewById(R.id.checkBox_Soy);
-        CheckBox Peanut = findViewById(R.id.checkBox_Peanut);
-        CheckBox Sesame = findViewById(R.id.checkBox_Sesame);
-        CheckBox TreeNut = findViewById(R.id.checkBox_TreeNut);
+        Gluten = findViewById(R.id.checkBox_Gluten);
+        Eggs = findViewById(R.id.checkBox_Eggs);
+        Dairy = findViewById(R.id.checkBox_Milk);
+        Fish = findViewById(R.id.checkBox_Fish);
+        Shellfish = findViewById(R.id.checkBox_Shellfish);
+        Soy = findViewById(R.id.checkBox_Soy);
+        Peanut = findViewById(R.id.checkBox_Peanut);
+        Sesame = findViewById(R.id.checkBox_Sesame);
+        TreeNut = findViewById(R.id.checkBox_TreeNut);
 
         //Texts
         TextView ifNotSelectTxt = findViewById(R.id.textView_ifNotSelect);
@@ -100,26 +132,106 @@ public class MainActivity extends AppCompatActivity {
                 TreeNutTxt.setVisibility(View.VISIBLE);
             }
         });
+
         ifNotSelect.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 noAllergy.setChecked(false);
-            } else {
-                return;
             }
+
         });
 
-        submitBTN.setOnClickListener((new View.OnClickListener() {
+        submitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View v) {
+                submitCheckboxStates();
             }
-        }));
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
         });
+        Gluten.setOnClickListener(this::onCheckboxClicked);
+        Eggs.setOnClickListener(this::onCheckboxClicked);
+        Dairy.setOnClickListener(this::onCheckboxClicked);
+        Fish.setOnClickListener(this::onCheckboxClicked);
+        Shellfish.setOnClickListener(this::onCheckboxClicked);
+        Soy.setOnClickListener(this::onCheckboxClicked);
+        Peanut.setOnClickListener(this::onCheckboxClicked);
+        Sesame.setOnClickListener(this::onCheckboxClicked);
+        TreeNut.setOnClickListener(this::onCheckboxClicked);
+
+        submitBTN.setOnClickListener(v -> submitCheckboxStates());
+    }
+    public void onCheckboxClicked(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        boolean isChecked = checkBox.isChecked();
+
+        int id = view.getId();
+
+        if (id == R.id.checkBox_Gluten) {
+            // Handle Gluten checkbox
+            Gluten.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Eggs) {
+            // Handle Eggs checkbox
+            Eggs.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Milk) {
+            // Handle Dairy checkbox
+            Dairy.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Fish) {
+            // Handle Fish checkbox
+            Fish.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Shellfish) {
+            // Handle Shellfish checkbox
+            Shellfish.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Soy) {
+            // Handle Soy checkbox
+            Soy.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Peanut) {
+            // Handle Peanut checkbox
+            Peanut.setChecked(true);
+        }
+        else if (id == R.id.checkBox_Sesame) {
+            // Handle Sesame checkbox
+            Sesame.setChecked(true);
+        }
+        else if (id == R.id.checkBox_TreeNut) {
+            // Handle TreeNut checkbox
+            TreeNut.setChecked(true);
+        }
+        else {
+            // Handle default case
+            Gluten.setChecked(false);
+            Eggs.setChecked(false);
+            Dairy.setChecked(false);
+            Fish.setChecked(false);
+            Shellfish.setChecked(false);
+            Soy.setChecked(false);
+            Peanut.setChecked(false);
+            Sesame.setChecked(false);
+            TreeNut.setChecked(false);
+        }
+    }
+    private void submitCheckboxStates() {
+        Map<String, Boolean> checkboxes = new HashMap<>();
+        checkboxes.put("checkbox1", Gluten.isChecked());
+        checkboxes.put("checkbox2", Eggs.isChecked());
+        checkboxes.put("checkbox3", Dairy.isChecked());
+        checkboxes.put("checkbox4", Fish.isChecked());
+        checkboxes.put("checkbox5", Shellfish.isChecked());
+        checkboxes.put("checkbox6", Soy.isChecked());
+        checkboxes.put("checkbox7", Peanut.isChecked());
+        checkboxes.put("checkbox8", Sesame.isChecked());
+        checkboxes.put("checkbox9", TreeNut.isChecked());
+
+        dbRef.setValue(checkboxes)
+                .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Data submitted successfully!", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Failed to submit data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
+
+
+
+
+

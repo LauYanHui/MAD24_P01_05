@@ -10,11 +10,12 @@
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars"
+        android:layout_height="180dp"
+        android:background="@drawable/food_banner2image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
+<!--    https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ-->
 
     <TextView
         android:id="@+id/textView_noAllergy"
@@ -63,7 +64,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_ifNotSelect" />
@@ -73,7 +73,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Gluten" />
@@ -83,7 +82,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Eggs" />
@@ -93,7 +91,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Milk" />
@@ -103,7 +100,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Fish" />
@@ -113,7 +109,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Shellfish" />
@@ -123,7 +118,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Soy" />
@@ -133,7 +127,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Peanut" />
@@ -143,7 +136,6 @@
         android:layout_height="30dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
-        android:onClick="onCheckboxClicked"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox_Sesame" />
@@ -249,20 +241,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="2dp"
         android:text="Submit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_TreeNut" />
+        app:layout_constraintBottom_toTopOf="@id/textViewInfo" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textViewInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:textSize="10dp"
         android:text="Information collected here will be kept strictly confidential"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/button_Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
