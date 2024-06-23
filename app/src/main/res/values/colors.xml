@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="beige">#FEE2E2</color>
+    <color name="chamoisee">#8d775f</color>>
+    <color name="ecru">#d5bf86</color>
+    <color name="lemonChiffon">#f1f0cc</color>
+    <color name="madder">#a71d31</color>
+    <color name="blackBean">#3f0d12</color>
+    <color name="darkPurple">#32213a</color>
+    <color name="spaceCadet">#383b53</color>
+    <color name="grey">#66717e</color>
+    <color name="pearl">#D4D6B9</color>
+    <color name="sage">#D1CAA1</color>
+
+</resources>
