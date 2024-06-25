@@ -4,44 +4,66 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class GroceryAdapter extends ArrayAdapter<String> {
+public class GroceryAdapter extends BaseAdapter {
+    private Context context;
+    private List<GroceryItem> groceryList;
+    private LayoutInflater inflater;
 
-    private DatabaseHelper dbHelper;
-    private List<String> groceries;
-
-    public GroceryAdapter(Context context, List<String> groceries, DatabaseHelper dbHelper) {
-        super(context, 0, groceries);
-        this.dbHelper = dbHelper;
-        this.groceries = groceries;
+    public GroceryAdapter(Context context, List<GroceryItem> groceryList) {
+        this.context = context;
+        this.groceryList = groceryList;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public int getCount() {
+        return groceryList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return groceryList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+            // if no old view to reuse
+            convertView = inflater.inflate(R.layout.grocery_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.checkBox = convertView.findViewById(R.id.checkBox);
+            holder.textView = convertView.findViewById(R.id.textView);
+            convertView.setTag(holder);
+        } else {
+            // get old view
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        TextView textViewGrocery = convertView.findViewById(R.id.textViewGrocery);
-        ImageView buttonDelete = convertView.findViewById(R.id.buttonDelete);
-
-        final String grocery = getItem(position);
-        textViewGrocery.setText(grocery);
-
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteGrocery(grocery);
-                groceries.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+        final GroceryItem item = groceryList.get(position);
+        holder.textView.setText(item.getName());
+        holder.checkBox.setChecked(item.isChecked());
+        holder.checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> item.setChecked(isChecked)));
 
         return convertView;
+    }
+
+    private static class ViewHolder {
+        CheckBox checkBox;
+        TextView textView;
     }
 }
