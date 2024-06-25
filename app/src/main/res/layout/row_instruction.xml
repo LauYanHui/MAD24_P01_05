@@ -7,10 +7,11 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/instructionText"
+        android:id="@+id/tvInstructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Instruction"
         android:gravity="center"
         android:textSize="20sp"/>
+
 </LinearLayout>

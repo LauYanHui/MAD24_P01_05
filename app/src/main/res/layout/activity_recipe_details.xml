@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.RecipeDetailsActivity"
@@ -11,76 +10,68 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/backtohomeBtn"
+        android:id="@+id/ivBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/backicon"
+        android:background="@drawable/ic_back_32"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginStart="10dp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginRight="30dp"
-
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        app:cardCornerRadius="11dp"
-        android:background="#ADD8E6">
+        app:cardCornerRadius="11dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivRecipeImg"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:src="@android:drawable/sym_def_app_icon"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="10dp">
 
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@android:drawable/sym_def_app_icon"/>
+                <TextView
+                    android:id="@+id/tvRecipeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Recipe Name"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:textAlignment="center"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvCuisine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="30dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="Cuisine"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:background="@drawable/style_rounded_et" />
 
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textStyle="bold"
-                        android:textSize="30dp"/>
-
-                    <TextView
-                        android:id="@+id/cuisine"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="20dp"
-                        android:gravity="center"
-                        android:background="@drawable/style_rounded_et"
-                        android:text="Nutritious Facts"/>
-
-                    <TextView
-                        android:id="@+id/mainIngredient"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:textSize="20dp"
-                        android:background="@drawable/style_rounded_et"
-                        android:text="Nutritious Facts"/>
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvMainIngredient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="Main Ingredient"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:background="@drawable/style_rounded_et" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -89,78 +80,79 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="0dp"
-        >
+        android:weightSum="2"
+        android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="Ingredients"
-
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nutritious Facts"
-            android:layout_marginLeft="50dp"
-            android:textStyle="bold"
-
-            android:textSize="25dp"/>
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:orientation="horizontal">
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/test1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="11dp"
-
-                >
-
-                <TextView
-                    android:id="@+id/ingredient"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="recipe ingredients"
-                    android:textSize="20dp"
-                    android:lineSpacingExtra="5dp"/>
-            </androidx.cardview.widget.CardView>
-        </ScrollView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/test2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_weight="1"
-            app:cardCornerRadius="11dp"
-
-            android:background="#9C27B0"
-            android:layout_marginLeft="10dp">
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="5dp">
 
             <TextView
-                android:id="@+id/nutritiousFact"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="another ingredient"
-                android:textSize="20dp"
-                android:lineSpacingExtra="5dp"/>
-        </androidx.cardview.widget.CardView>
+                android:text="Ingredients"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="11dp">
+
+                    <TextView
+                        android:id="@+id/tvIngredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Apple"
+                        android:textSize="20sp"
+                        android:lineSpacingExtra="5dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="5dp"/>
+                </androidx.cardview.widget.CardView>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nutrients"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textAlignment="center"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="11dp">
+
+                <TextView
+                    android:id="@+id/tvNutrients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Carbs"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="5dp"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -169,8 +161,8 @@
         android:layout_height="wrap_content"
         android:text="Instructions"
         android:layout_gravity="center_horizontal"
-        android:textSize="20dp"
-        />
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -178,19 +170,21 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-
         app:cardCornerRadius="11dp"
         android:background="#ADD8E6">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/instructionsPager"
+            android:id="@+id/pagerInstructions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
         android:layout_gravity="center_horizontal"
-        android:text="Swipe left to see new instructions"/>
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:text="Swipe left to see new instructions"
+        android:textStyle="italic"/>
 </LinearLayout>
