@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FAC898">
+    >
 
     <!-- Horizontal LinearLayout for EditText and ImageView -->
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/backicon"
+            android:src="@drawable/ic_back_32"
             />
 
         <EditText
@@ -34,7 +34,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/add"
+            android:src="@drawable/ic_add_24"
             android:contentDescription="Add" />
 
     </LinearLayout>

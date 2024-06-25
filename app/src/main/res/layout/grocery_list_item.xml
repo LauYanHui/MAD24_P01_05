@@ -11,6 +11,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="Grocery Item"
+        android:textStyle="bold"
         android:textSize="18sp" />
 
     <CheckBox

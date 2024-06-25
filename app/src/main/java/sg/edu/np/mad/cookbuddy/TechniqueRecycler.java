@@ -31,33 +31,33 @@ public class TechniqueRecycler extends AppCompatActivity {
 
         //create array list and initialize the techniques available on the app
         ArrayList<Technique> techniqueList = new ArrayList<>();
-        Technique braising = new Technique(R.drawable.braising,"Braising","Tenderizes meat","Braising is a combination-cooking method" +
+        Technique braising = new Technique(R.drawable.img_braising,"Braising","Tenderizes meat","Braising is a combination-cooking method" +
                 " that uses both wet and dry heats. " +
                 "Food is typically browned first at high temperature before being simmered" +
                 " in a covered pot in cooking liquid","android.resource://" + getPackageName() + "/" +R.raw.braising);
-        Technique poaching = new Technique(R.drawable.poaching, "Poaching", "Gently cooks delicate foods", "Poaching involves cooking food by submerging it in a liquid " +
+        Technique poaching = new Technique(R.drawable.img_poaching, "Poaching", "Gently cooks delicate foods", "Poaching involves cooking food by submerging it in a liquid " +
                 "at a low temperature, typically below boiling, which is ideal for delicate foods like eggs and fish."
                 ,"android.resource://" + getPackageName() + "/" +R.raw.poaching);
-        Technique deglazing = new Technique(R.drawable.deglazing,
+        Technique deglazing = new Technique(R.drawable.img_deglazing,
                 "Deglazing", "Enhances flavor through fond", "Deglazing involves adding liquid to a hot pan to" +
                 " loosen and dissolve food particles stuck to the bottom. " +
                 "This technique is commonly used to create a flavorful base for sauces by incorporating the browned bits, or 'fond,' " +
                 "left after sautéing or searing.","android.resource://" + getPackageName() + "/" +R.raw.deglazing);
         Technique panFrying = new Technique(
-                R.drawable.panfrying,
+                R.drawable.img_pan_frying,
                 "Pan Frying",
                 "Quickly cooks food with minimal oil",
                 "Pan frying is a dry-heat cooking method where food is cooked in a small amount of oil or fat in a hot pan. This technique is ideal for quickly cooking small or thin pieces of food to develop a crispy exterior.",
                 "android.resource://" + getPackageName() + "/" + R.raw.panfrying
         );
         Technique steaming = new Technique(
-                R.drawable.steaming,
+                R.drawable.img_steaming,
                 "Steaming",
                 "Retains nutrients and moisture",
                 "Steaming is a moist-heat cooking method where food is cooked using the steam from boiling water. This gentle cooking method helps retain nutrients and moisture, making it ideal for vegetables, fish, and dumplings.",
                 "android.resource://" + getPackageName() + "/" + R.raw.steaming
         );
-        //add techniques to list for recyclerView
+        //icon_add_24 techniques to list for recyclerView
         techniqueList.add(braising);
         techniqueList.add(poaching);
         techniqueList.add(deglazing);
