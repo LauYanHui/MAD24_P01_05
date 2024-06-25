@@ -44,7 +44,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         });
 
         // back to recipe button
-        ivBack = findViewById(R.id.backtohomeBtn);
+        ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,29 +53,31 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // handle intent
         Intent intent = getIntent();
-        Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
+        Recipe recipe = intent.getSerializableExtra("Recipe", Recipe.class);
+        Map<String, String> nutritiousFacts = recipe.getNutrients();
+        List<String> ingredientList = recipe.getIngredients();
+        List<String> instructionList = recipe.getInstructions();
 
         // get views
-        tvName = findViewById(R.id.recipeName);
-        tvCuisine = findViewById(R.id.cuisine);
-        tvMainIngredient = findViewById(R.id.mainIngredient);
-        tvIngredients = findViewById(R.id.ingredient);
-        ivRecipeImage = findViewById(R.id.recipeImage);
-        tvNutrients = findViewById(R.id.nutritiousFact);
+        tvName = findViewById(R.id.tvRecipeName);
+        tvCuisine = findViewById(R.id.tvCuisine);
+        tvMainIngredient = findViewById(R.id.tvMainIngredient);
+        tvIngredients = findViewById(R.id.tvIngredients);
+        ivRecipeImage = findViewById(R.id.ivRecipeImg);
+        tvNutrients = findViewById(R.id.tvNutrients);
 
-        Map<String, String> nutritiousFacts = recipe.getNutrients();
+        // handle nutrient information
         StringBuilder nutritionInfo = new StringBuilder();
         for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             nutritionInfo.append(key).append(": ").append(value).append("\n");
         }
-
         String nutritionText = nutritionInfo.toString();
 
-        List<String> ingredientList = recipe.getIngredients();
-        List<String> instructionList = recipe.getInstructions();
+        // handle ingredient information
         StringBuilder ingredientBuilder = new StringBuilder();
         for (String ingredient : ingredientList) {
             ingredientBuilder.append("• ").append(ingredient).append("\n");
@@ -90,8 +92,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         tvNutrients.setText(nutritionText);
         ivRecipeImage.setImageResource(recipe.getImageResId());
 
-        // slide card view
-        ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
+        // handle instructions
+        ViewPager2 instructionsPager = findViewById(R.id.pagerInstructions);
         InstructionAdapter adapter = new InstructionAdapter(instructionList);
         instructionsPager.setAdapter(adapter);
     }
