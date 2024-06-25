@@ -1,10 +1,10 @@
 package sg.edu.np.mad.cookbuddy;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     String testing = "testing";
 
-    private int currentInstructionIndex = 0;  // Track the current instruction
+    private Recipe selectedRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,68 +34,81 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // back to recipe button
-        ImageView backbtn = findViewById(R.id.backtohomeBtn);
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityName = new Intent(MainActivity.this, ListActivity.class);
-                startActivity(activityName);
-            }
-        });
-
+        // Retrieve selected recipe from intent
         Intent intent = getIntent();
-        Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
+        selectedRecipe = (Recipe) intent.getSerializableExtra("Recipe");
 
-        //finding the id to set the attributes to
+        // Initialize views
         TextView tvname = findViewById(R.id.recipeName);
         TextView cuisine = findViewById(R.id.cuisine);
         TextView mainIngredient = findViewById(R.id.mainIngredient);
-        TextView ingredientsTv = findViewById(R.id.ingredient);
-        //TextView instructionsTv = findViewById(R.id.instructions);
         ImageView recipeImage = findViewById(R.id.recipeImage);
-        TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFact);
-        Map<String, String> nutritiousFacts = recipe.getNutritiousFacts();
-        Log.i(testing, "1");
-        StringBuilder nutritionInfo = new StringBuilder();
-        Log.i(testing, "2");
 
-        for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
-            String key = entry.getKey();
-            String value = String.valueOf(entry.getValue());
-            Log.i("testing", "Key: " + key + ", Value: " + value);
-            nutritionInfo.append(key).append(": ").append(value).append("\n");
+        // Set data to views
+        if (selectedRecipe != null) {
+            tvname.setText(selectedRecipe.getName());
+            cuisine.setText(selectedRecipe.getCuisine());
+            mainIngredient.setText(selectedRecipe.getMainIngredient());
+            recipeImage.setImageResource(selectedRecipe.getImageResId());
         }
+        loadInformationFragment();
 
-        Log.i(testing, "3");
-        String nutritionText = nutritionInfo.toString();
+        // Back to recipe list button
+        ImageView backbtn = findViewById(R.id.backtohomeBtn);
+        backbtn.setOnClickListener(v -> {
+            Intent backToListIntent = new Intent(MainActivity.this, ListActivity.class);
+            startActivity(backToListIntent);
+        });
 
-        List<String> ingredientList = recipe.getIngredients();
-        List<String> instructionList = recipe.getInstructions();
-        StringBuilder ingredientBuilder = new StringBuilder();
-        for (String ingredient : ingredientList) {
-            ingredientBuilder.append("• ").append(ingredient).append("\n");
-        }
-        String ingredientText = ingredientBuilder.toString();
+        // Load instruction fragment button
+        Button instructionBtn = findViewById(R.id.InstructionBtn);
+        instructionBtn.setOnClickListener(v -> loadInstructionFragment());
 
-        StringBuilder instructionBuilder = new StringBuilder();
-      
-        for (String instructions : instructionList) {
-            instructionBuilder.append("- ").append(instructions).append("\n");
-        }
-        String instructionText = instructionBuilder.toString();
-
-        // setting the attributes
-        recipeImage.setImageResource(recipe.getImageResId());
-        cuisine.setText(recipe.cuisine);
-        mainIngredient.setText(recipe.mainIngredient);
-        tvname.setText(recipe.name);
-        nutritiousFactsTextView.setText(nutritionText);
-        ingredientsTv.setText(ingredientText);
-
-        // slide card view
-        ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
-        InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
-        instructionsPager.setAdapter(adapter);
+        // Load information fragment button
+        Button informationBtn = findViewById(R.id.InformationBtn);
+        informationBtn.setOnClickListener(v -> loadInformationFragment());
     }
+
+    private void loadInstructionFragment() {
+        if (selectedRecipe != null) {
+            // Prepare instruction list to pass to InstructionFragment
+            List<String> instructionList = selectedRecipe.getInstructions();
+            InstructionFragment instructionFragment = InstructionFragment.newInstance(instructionList);
+
+            // Load InstructionFragment
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, instructionFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            Log.e(testing, "Selected recipe is null");
+        }
+    }
+
+    private void loadInformationFragment() {
+        if (selectedRecipe != null) {
+            // Prepare nutrition facts and ingredients to pass to InformationFragment
+            StringBuilder nutritionInfo = new StringBuilder();
+            for (Map.Entry<String, String> entry : selectedRecipe.getNutritiousFacts().entrySet()) {
+                nutritionInfo.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+            String nutritionText = nutritionInfo.toString();
+
+            StringBuilder ingredientBuilder = new StringBuilder();
+            for (String ingredient : selectedRecipe.getIngredients()) {
+                ingredientBuilder.append("• ").append(ingredient).append("\n");
+            }
+            String ingredientText = ingredientBuilder.toString();
+
+            // Load InformationFragment
+            InformationFragment informationFragment = InformationFragment.newInstance(nutritionText, ingredientText);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, informationFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            Log.e(testing, "Selected recipe is null");
+        }
+    }
+
 }
