@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.Serializable;
 
-public class HomepageActivity extends AppCompatActivity {
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.User;
+
+public class HomeActivity extends AppCompatActivity {
 
     Intent activityName;
 
@@ -21,7 +24,7 @@ public class HomepageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_homepage);
+        setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,20 +41,20 @@ public class HomepageActivity extends AppCompatActivity {
 
         techniquePage.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
-                activityName = new Intent(HomepageActivity.this, TechniqueRecycler.class);
+                activityName = new Intent(HomeActivity.this, TechniqueActivity.class);
                 startActivity(activityName);
             }
         });
 
         recipePage.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
-                activityName = new Intent(HomepageActivity.this,ListActivity.class);
+                activityName = new Intent(HomeActivity.this, RecipeActivity.class);
                 startActivity(activityName);
             }
         });
         groceryList.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
-                activityName = new Intent(HomepageActivity.this, GroceryListActivity.class);
+                activityName = new Intent(HomeActivity.this, GroceryListActivity.class);
                 startActivity(activityName);
             }
         });
@@ -62,7 +65,7 @@ public class HomepageActivity extends AppCompatActivity {
                 // pass user info to next activity
                 Bundle extras = new Bundle();
                 extras.putSerializable("User", (Serializable) user);
-                activityName = new Intent(HomepageActivity.this, ProfileActivity.class);
+                activityName = new Intent(HomeActivity.this, ProfileActivity.class);
                 activityName.putExtras(extras);
                 startActivity(activityName);
             }

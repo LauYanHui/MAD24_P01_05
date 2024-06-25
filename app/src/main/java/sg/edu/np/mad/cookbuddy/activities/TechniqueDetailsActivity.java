@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,7 +19,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class TechniqueDetails extends AppCompatActivity {
+import sg.edu.np.mad.cookbuddy.R;
+
+public class TechniqueDetailsActivity extends AppCompatActivity {
     private FrameLayout videoFrameLayout; //get framelayout for video
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class TechniqueDetails extends AppCompatActivity {
         VideoView videoView = findViewById(R.id.videoView);
         videoFrameLayout = findViewById(R.id.videoFrameLayout);
 
-        //receive intent from TechniqueRecycler and make changes to text
+        //receive intent from TechniqueActivity and make changes to text
         Intent receivingTechnique = getIntent();
         tvTitle.setText(receivingTechnique.getStringExtra("title"));
         tvPurpose.setText(receivingTechnique.getStringExtra("purpose"));
@@ -50,7 +52,7 @@ public class TechniqueDetails extends AppCompatActivity {
         backIconIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent techniqueRecycler = new Intent(TechniqueDetails.this, TechniqueRecycler.class);
+                Intent techniqueRecycler = new Intent(TechniqueDetailsActivity.this, TechniqueActivity.class);
                 startActivity(techniqueRecycler);
             }
         });

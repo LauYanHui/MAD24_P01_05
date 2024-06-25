@@ -1,9 +1,8 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sg.edu.np.mad.cookbuddy.adapters.GroceryAdapter;
+import sg.edu.np.mad.cookbuddy.models.GroceryItem;
+import sg.edu.np.mad.cookbuddy.R;
 
 public class GroceryListActivity extends AppCompatActivity {
 
@@ -26,7 +29,7 @@ public class GroceryListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grocery_list);
+        setContentView(R.layout.activity_grocery);
 
         list = findViewById(R.id.listView);
         textBox = findViewById(R.id.editTextGrocery);
@@ -63,7 +66,7 @@ public class GroceryListActivity extends AppCompatActivity {
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroceryListActivity.this, HomepageActivity.class);
+                Intent intent = new Intent(GroceryListActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

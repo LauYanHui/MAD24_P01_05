@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import sg.edu.np.mad.cookbuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             Log.i("Firebase", "here");
                             // Go to allergy page
-                            Intent goAllergy = new Intent(RegisterActivity.this, AllergyPage.class);
+                            Intent goAllergy = new Intent(RegisterActivity.this, AllergyActivity.class);
                             Bundle extras = new Bundle();
                             extras.putString("username", username);
                             extras.putString("password", password);

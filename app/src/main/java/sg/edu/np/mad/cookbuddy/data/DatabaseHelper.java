@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.data;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
+
+import sg.edu.np.mad.cookbuddy.models.GroceryItem;
+import sg.edu.np.mad.cookbuddy.R;
 
 public class GroceryAdapter extends BaseAdapter {
     private Context context;
@@ -44,7 +45,7 @@ public class GroceryAdapter extends BaseAdapter {
 
         if (convertView == null) {
             // if no old view to reuse
-            convertView = inflater.inflate(R.layout.grocery_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.row_grocery, parent, false);
             holder = new ViewHolder();
             holder.checkBox = convertView.findViewById(R.id.checkBox);
             holder.textView = convertView.findViewById(R.id.textView);

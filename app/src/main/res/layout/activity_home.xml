@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAC898"
-    tools:context=".HomepageActivity">
+    tools:context=".activities.HomeActivity">
 
 
     <!-- Big Card on Top (half the size) -->

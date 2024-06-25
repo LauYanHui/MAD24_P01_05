@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +23,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.User;
 
 
-public class AllergyPage extends AppCompatActivity {
+public class AllergyActivity extends AppCompatActivity {
 
     private CheckBox Gluten, Eggs, Dairy, Fish, Shellfish, Soy, Peanut, Sesame, TreeNut;
 
@@ -45,7 +46,7 @@ public class AllergyPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.allergy_page);
+        setContentView(R.layout.activity_allergies);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -109,7 +110,7 @@ public class AllergyPage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(AllergyPage.this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AllergyActivity.this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -122,7 +123,7 @@ public class AllergyPage extends AppCompatActivity {
                         userRef.child(username).child("allergies").setValue(allergies);
 
                         // Go homepage
-                        Intent goLogin = new Intent(AllergyPage.this, LoginActivity.class);
+                        Intent goLogin = new Intent(AllergyActivity.this, LoginActivity.class);
                         startActivity(goLogin);
                     }
                 });

@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 
 import android.content.Intent;
@@ -18,16 +18,25 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-    String testing = "testing";
+import sg.edu.np.mad.cookbuddy.adapters.InstructionAdapter;
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.Recipe;
 
-    private int currentInstructionIndex = 0;  // Track the current instruction
+public class RecipeDetailsActivity extends AppCompatActivity {
+    private ImageView ivBack;
+    private TextView tvName;
+    private TextView tvCuisine;
+    private TextView tvMainIngredient;
+    private TextView tvIngredients;
+    private TextView tvNutrients;
+    private ImageView ivRecipeImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_details);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -35,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // back to recipe button
-        ImageView backbtn = findViewById(R.id.backtohomeBtn);
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        ivBack = findViewById(R.id.backtohomeBtn);
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent activityName = new Intent(MainActivity.this, ListActivity.class);
+                Intent activityName = new Intent(RecipeDetailsActivity.this, RecipeActivity.class);
                 startActivity(activityName);
             }
         });
@@ -47,27 +56,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("Recipe");
 
-        //finding the id to set the attributes to
-        TextView tvname = findViewById(R.id.recipeName);
-        TextView cuisine = findViewById(R.id.cuisine);
-        TextView mainIngredient = findViewById(R.id.mainIngredient);
-        TextView ingredientsTv = findViewById(R.id.ingredient);
-        //TextView instructionsTv = findViewById(R.id.instructions);
-        ImageView recipeImage = findViewById(R.id.recipeImage);
-        TextView nutritiousFactsTextView = findViewById(R.id.nutritiousFact);
-        Map<String, String> nutritiousFacts = recipe.getNutritiousFacts();
-        Log.i(testing, "1");
-        StringBuilder nutritionInfo = new StringBuilder();
-        Log.i(testing, "2");
+        // get views
+        tvName = findViewById(R.id.recipeName);
+        tvCuisine = findViewById(R.id.cuisine);
+        tvMainIngredient = findViewById(R.id.mainIngredient);
+        tvIngredients = findViewById(R.id.ingredient);
+        ivRecipeImage = findViewById(R.id.recipeImage);
+        tvNutrients = findViewById(R.id.nutritiousFact);
 
+        Map<String, String> nutritiousFacts = recipe.getNutrients();
+        StringBuilder nutritionInfo = new StringBuilder();
         for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
             String key = entry.getKey();
-            String value = String.valueOf(entry.getValue());
-            Log.i("testing", "Key: " + key + ", Value: " + value);
+            String value = entry.getValue();
             nutritionInfo.append(key).append(": ").append(value).append("\n");
         }
 
-        Log.i(testing, "3");
         String nutritionText = nutritionInfo.toString();
 
         List<String> ingredientList = recipe.getIngredients();
@@ -78,24 +82,17 @@ public class MainActivity extends AppCompatActivity {
         }
         String ingredientText = ingredientBuilder.toString();
 
-        StringBuilder instructionBuilder = new StringBuilder();
-      
-        for (String instructions : instructionList) {
-            instructionBuilder.append("- ").append(instructions).append("\n");
-        }
-        String instructionText = instructionBuilder.toString();
-
-        // setting the attributes
-        recipeImage.setImageResource(recipe.getImageResId());
-        cuisine.setText(recipe.cuisine);
-        mainIngredient.setText(recipe.mainIngredient);
-        tvname.setText(recipe.name);
-        nutritiousFactsTextView.setText(nutritionText);
-        ingredientsTv.setText(ingredientText);
+        // set values
+        tvName.setText(recipe.getName());
+        tvCuisine.setText(recipe.getCuisine());
+        tvMainIngredient.setText(recipe.getMainIngredient());
+        tvIngredients.setText(ingredientText);
+        tvNutrients.setText(nutritionText);
+        ivRecipeImage.setImageResource(recipe.getImageResId());
 
         // slide card view
         ViewPager2 instructionsPager = findViewById(R.id.instructionsPager);
-        InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
+        InstructionAdapter adapter = new InstructionAdapter(instructionList);
         instructionsPager.setAdapter(adapter);
     }
 }

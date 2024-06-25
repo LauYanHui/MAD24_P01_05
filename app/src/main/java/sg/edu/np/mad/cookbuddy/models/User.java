@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

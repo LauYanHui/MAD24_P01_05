@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class TechniqueRecycler extends AppCompatActivity {
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.adapters.TechniqueAdapter;
+import sg.edu.np.mad.cookbuddy.models.Technique;
+
+public class TechniqueActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_technique_recycler);
+        setContentView(R.layout.activity_technique);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -76,7 +80,7 @@ public class TechniqueRecycler extends AppCompatActivity {
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TechniqueRecycler.this, HomepageActivity.class);
+                Intent intent = new Intent(TechniqueActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

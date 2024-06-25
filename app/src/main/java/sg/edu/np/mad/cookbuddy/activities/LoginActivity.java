@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -101,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                         extras.putSerializable("User", (Serializable) temp);
 
                                         // go to home page
-                                        Intent goHome = new Intent(LoginActivity.this, HomepageActivity.class);
+                                        Intent goHome = new Intent(LoginActivity.this, HomeActivity.class);
                                         goHome.putExtras(extras);
                                         startActivity(goHome);
                                     }

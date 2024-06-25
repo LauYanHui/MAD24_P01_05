@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.Recipe;
+import sg.edu.np.mad.cookbuddy.views.RecipeViewHolder;
+import sg.edu.np.mad.cookbuddy.activities.RecipeDetailsActivity;
+
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> recipeList;
     private Context context;
@@ -21,25 +26,25 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         this.context = context;
     }
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_activity_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe, parent, false);
         RecipeViewHolder holder = new RecipeViewHolder(view);
         return holder;
     }
     public void onBindViewHolder(RecipeViewHolder holder, int position){
         Recipe listItem = recipeList.get(position);
-        Log.i("RecipeAdapter", "onBindViewHolder called for position: " + position + ", Recipe name: " + listItem.getName());
-
-        holder.name.setText(listItem.getName());
-        holder.cuisine.setText(listItem.getCuisine());
-        holder.mainIngredient.setText(listItem.getMainIngredient());
         Recipe recipe = recipeList.get(position);
 
-        holder.image.setImageResource(recipe.getImageResId());
+        Log.i("RecipeAdapter", "onBindViewHolder called for position: " + position + ", Recipe name: " + listItem.getName());
 
-        holder.name.setOnClickListener(new View.OnClickListener(){
+        holder.setName(listItem.getName());
+        holder.setCuisine(listItem.getCuisine());
+        holder.setMainIngredient(listItem.getMainIngredient());
+        holder.setImage(recipe.getImageResId());
+
+        holder.getName().setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                Intent intent = new Intent(v.getContext(), RecipeDetailsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Recipe", (Serializable) recipe);
                 intent.putExtras(bundle);

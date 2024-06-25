@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.models;
 
 public class Technique {
     private int imagePath; //to be used for Glide library to load images
