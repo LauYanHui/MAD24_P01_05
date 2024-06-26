@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         groceryList.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
-                activityName = new Intent(HomeActivity.this, GroceryListActivity.class);
+                activityName = new Intent(HomeActivity.this, GroceryActivity.class);
                 startActivity(activityName);
             }
         });
