@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
@@ -25,17 +26,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         this.recipeList = recipeList;
         this.context = context;
     }
+    @NonNull
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe, parent, false);
-        RecipeViewHolder holder = new RecipeViewHolder(view);
-        return holder;
+        return new RecipeViewHolder(view);
     }
     public void onBindViewHolder(RecipeViewHolder holder, int position){
         Recipe listItem = recipeList.get(position);
         Recipe recipe = recipeList.get(position);
-
-        Log.i("RecipeAdapter", "onBindViewHolder called for position: " + position + ", Recipe name: " + listItem.getName());
-
         holder.setName(listItem.getName());
         holder.setCuisine(listItem.getCuisine());
         holder.setMainIngredient(listItem.getMainIngredient());
