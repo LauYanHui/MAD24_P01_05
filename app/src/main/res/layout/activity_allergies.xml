@@ -9,7 +9,8 @@
         android:id="@+id/ivBanner"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/img_banner_allergies" />
+        android:background="@drawable/img_banner_allergies"
+        android:contentDescription="Banner with a variety of food"/>
 
     <TextView
         android:layout_width="match_parent"
