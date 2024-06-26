@@ -14,12 +14,12 @@
 
         <ImageView
             android:id="@+id/backIcon"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back_32"
-            />
+            android:contentDescription="back button"/>
 
         <EditText
             android:id="@+id/editTextGrocery"
@@ -28,7 +28,8 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="15dp"
             android:inputType="text"
-            android:hint="Enter grocery item" />
+            android:hint="Enter grocery item"
+            android:importantForAutofill="no"/>
 
         <ImageView
             android:id="@+id/buttonAdd"
@@ -36,7 +37,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_add_24"
-            android:contentDescription="Add" />
+            android:contentDescription="Add button" />
 
     </LinearLayout>
 
