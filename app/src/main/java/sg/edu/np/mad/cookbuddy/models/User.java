@@ -7,12 +7,14 @@ import java.util.List;
 public class User implements Serializable {
     private String username;
     private String password;
-    private ArrayList<String> allergies;
-    public User(String username, String password, ArrayList<String> allergies) {
+    private List<String> allergies;
+
+    public User(String username, String password, List<String> allergies) {
         this.username = username;
         this.password = password;
-        this.allergies = new ArrayList<String>();
+        this.allergies = allergies;
     }
+
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
     public List<String> getAllergies() { return this.allergies; }

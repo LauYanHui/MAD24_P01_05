@@ -85,18 +85,18 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
-                                    String username = snapshot.child("username").getValue(String.class);
-                                    String password = snapshot.child("password").getValue(String.class);
                                     ArrayList<String> allergies = new ArrayList<>();
 
-                                    for (DataSnapshot childSnapShot : snapshot.child("allergies").getChildren()) {
-                                        String allergy = childSnapShot.getValue(String.class);
-                                        allergies.add(allergy);
+                                    String username = snapshot.child("username").getValue(String.class);
+                                    String password = snapshot.child("password").getValue(String.class);
+
+                                    for (DataSnapshot allergy : snapshot.child("allergies").getChildren()) {
+                                        allergies.add(allergy.getValue(String.class));
                                     }
 
                                     User temp = new User(username, password, allergies);
 
-                                    // account with this username exists
+                                    // account with this username exists, check password
                                     if (password.equals(temp.getPassword())) {
 
                                         // pass user info to next activity
