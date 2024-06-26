@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.GroceryListActivity"
+            android:name=".activities.GroceryActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RegisterActivity"
