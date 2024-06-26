@@ -18,7 +18,7 @@
             android:layout_height="38dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/backicon"
+            android:background="@drawable/ic_back_32"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_max="100dp" />

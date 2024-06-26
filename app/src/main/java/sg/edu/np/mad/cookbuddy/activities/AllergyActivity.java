@@ -56,6 +56,7 @@ public class AllergyActivity extends AppCompatActivity {
         String username = intent.getSerializableExtra("username", String.class);
         String password = intent.getSerializableExtra("password", String.class);
 
+        allergies = new ArrayList<String>();
         allergies.add("Gluten");
         allergies.add("Eggs");
         allergies.add("Milk/Dairy");

@@ -93,7 +93,6 @@ public class RecipeActivity extends AppCompatActivity {
 
                     String imageName = (String) recipeData.get("Image");
                     int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
-
                     boolean favourite = false;
                     // !- change false to isFavorite
                     Recipe recipe = new Recipe(id, name, cuisine, mainIngredient, ingredients, instructions, allergies, nutrients, imageResId, false);

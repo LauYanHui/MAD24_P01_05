@@ -41,7 +41,7 @@ public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.
 
         public InstructionsViewHolder(@NonNull View itemView) {
             super(itemView);
-            instructionText = itemView.findViewById(R.id.instructionText);
+            instructionText = itemView.findViewById(R.id.tvInstructions);
         }
     }
 }

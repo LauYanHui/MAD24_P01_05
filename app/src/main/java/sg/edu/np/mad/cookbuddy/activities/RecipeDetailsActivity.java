@@ -72,7 +72,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         StringBuilder nutritionInfo = new StringBuilder();
         for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
+            String value = String.valueOf(entry.getValue());
             nutritionInfo.append(key).append(": ").append(value).append("\n");
         }
         String nutritionText = nutritionInfo.toString();

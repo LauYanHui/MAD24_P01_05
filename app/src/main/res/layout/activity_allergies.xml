@@ -4,14 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ-->
     <ImageView
         android:id="@+id/ivBanner"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/img_banner_allergies"
-
-        />
-<!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ-->
+        android:background="@drawable/img_banner_allergies" />
 
     <TextView
         android:layout_width="match_parent"
@@ -19,8 +17,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:text="Tick your allergies (where applicable):"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <ListView
         android:layout_width="match_parent"
@@ -30,31 +27,31 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:layout_gravity="center"/>
+            android:layout_marginEnd="10dp"/>
 
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
-            android:layout_gravity="center"/>
-    </LinearLayout>>
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textViewInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:marginTop="15dp"
-        android:textSize="12dp"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
         android:text="Information collected here will be kept strictly confidential"
         android:textAlignment="center"
-        android:textStyle="italic"
-        />
+        android:textStyle="italic" />
 </LinearLayout>

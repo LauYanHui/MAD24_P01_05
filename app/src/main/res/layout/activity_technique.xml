@@ -23,7 +23,7 @@
             android:id="@+id/backIconIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/backicon"
+            android:src="@drawable/ic_back_32"
             android:layout_gravity="center"/>
         <!-- TextView next to backicon-->
         <TextView
