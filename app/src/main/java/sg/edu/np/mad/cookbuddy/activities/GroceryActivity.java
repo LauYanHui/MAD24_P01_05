@@ -17,7 +17,7 @@ import sg.edu.np.mad.cookbuddy.adapters.GroceryAdapter;
 import sg.edu.np.mad.cookbuddy.models.GroceryItem;
 import sg.edu.np.mad.cookbuddy.R;
 
-public class GroceryListActivity extends AppCompatActivity {
+public class GroceryActivity extends AppCompatActivity {
 
     private ListView list;
     private GroceryAdapter adapter;
@@ -66,7 +66,7 @@ public class GroceryListActivity extends AppCompatActivity {
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GroceryListActivity.this, HomeActivity.class);
+                Intent intent = new Intent(GroceryActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
