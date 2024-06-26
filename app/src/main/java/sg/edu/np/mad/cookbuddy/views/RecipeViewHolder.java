@@ -16,28 +16,24 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
     public RecipeViewHolder(View itemView) {
         super(itemView);
-        name = itemView.findViewById(R.id.recipeName);
+        name = itemView.findViewById(R.id.tvRecipeName);
         mainIngredient = itemView.findViewById(R.id.mainIngredient);
-        cuisine = itemView.findViewById(R.id.cuisine);
+        cuisine = itemView.findViewById(R.id.tvCuisine);
         image = itemView.findViewById(R.id.imageView);
     }
 
     public TextView getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name.setText(name);
     }
-
     public void setMainIngredient(String mainIngredient) {
         this.mainIngredient.setText(mainIngredient);
     }
-
     public void setCuisine(String cuisine) {
         this.cuisine.setText(cuisine);
     }
-
     public void setImage(int imgId) {
         this.image.setImageResource(imgId);
     }

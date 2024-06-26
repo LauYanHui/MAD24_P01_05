@@ -19,7 +19,7 @@
             android:src="@android:drawable/sym_def_app_icon"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:contentDescription="Image" />
+            android:contentDescription="Image"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,18 +28,13 @@
             android:orientation="vertical"
             android:paddingBottom="0dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
             <TextView
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:id="@+id/recipeName"
+                android:id="@+id/tvRecipeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="test"
+                android:text="Gar"
                 android:textSize="25sp" />
 
             <LinearLayout
@@ -48,7 +43,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/test1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -63,17 +57,16 @@
 
                     <TextView
                         android:textStyle="bold"
-                        android:id="@+id/cuisine"
+                        android:id="@+id/tvCuisine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="0dp"
                         android:textSize="20sp"
-                        android:text="test" />
+                        android:text="French"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/test2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -84,16 +77,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
-                        android:text="Main Ingredient: " />
+                        android:text="Main Ingredient: "/>
 
                     <TextView
-                        android:textStyle="bold"
-                        android:id="@+id/mainIngredient"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/mainIngredient"
                         android:textSize="20sp"
+                        android:textStyle="bold"
                         android:text="test"
-                        android:layout_marginBottom="20dp" />
+                        android:layout_marginBottom="20dp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

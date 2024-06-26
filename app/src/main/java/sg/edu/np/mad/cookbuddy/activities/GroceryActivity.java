@@ -32,9 +32,9 @@ public class GroceryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grocery);
 
         list = findViewById(R.id.listView);
-        textBox = findViewById(R.id.editTextGrocery);
-        addIcon = findViewById(R.id.buttonAdd);
-        backIcon = findViewById(R.id.backIcon);
+        textBox = findViewById(R.id.etGrocery);
+        addIcon = findViewById(R.id.ivAdd);
+        backIcon = findViewById(R.id.ivBack);
 
         // replace with data from firebase
         groceryList = new ArrayList<>();
@@ -51,10 +51,12 @@ public class GroceryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = String.valueOf(textBox.getText());
+
                 if (name.isEmpty()) {
                     return;
                 }
                 GroceryItem newItem = new GroceryItem(name, false);
+
                 // replace with firebase
                 groceryList.add(newItem);
                 adapter.notifyDataSetChanged();

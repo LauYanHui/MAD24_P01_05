@@ -33,6 +33,7 @@ public class TechniqueActivity extends AppCompatActivity {
             return insets;
         });
 
+        // STORE IN FIREBASE
         //create array list and initialize the techniques available on the app
         ArrayList<Technique> techniqueList = new ArrayList<>();
         Technique braising = new Technique(R.drawable.img_braising,"Braising","Tenderizes meat","Braising is a combination-cooking method" +
@@ -76,7 +77,7 @@ public class TechniqueActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(techniqueAdapter);
 
-        ImageView backIcon = findViewById(R.id.backIconIV);
+        ImageView backIcon = findViewById(R.id.ivBack);
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

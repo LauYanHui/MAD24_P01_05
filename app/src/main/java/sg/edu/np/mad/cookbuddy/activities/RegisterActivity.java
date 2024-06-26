@@ -24,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import sg.edu.np.mad.cookbuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
-
-    Button btnRegister;
     Button btnLogin;
     Button btnNext;
     EditText etUsername;
@@ -48,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
 
         // Get widgets
-        // btnRegister = findViewById(R.id.btnRegister);
         btnNext = findViewById(R.id.btnNext);
         btnLogin = findViewById(R.id.btnLogin);
         etUsername = findViewById(R.id.etUsername);
@@ -98,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            Log.i("Firebase", "here");
                             // Go to allergy page
                             Intent goAllergy = new Intent(RegisterActivity.this, AllergyActivity.class);
                             Bundle extras = new Bundle();

@@ -2,6 +2,7 @@ package sg.edu.np.mad.cookbuddy.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -44,10 +45,10 @@ public class RecipeActivity extends AppCompatActivity {
             return insets;
         });
 
-        ImageView backIcon = findViewById(R.id.backIcon);
+        ImageView backIcon = findViewById(R.id.ivBack);
 
         // Code for Recycler View
-        RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,this);
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -58,7 +59,7 @@ public class RecipeActivity extends AppCompatActivity {
         animator.setRemoveDuration(500); // Optional customization
 
         recyclerView.setItemAnimator(animator);
-        recyclerView.setAdapter(recipeAdapter);
+
 
         // Firebase reference
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -90,7 +91,7 @@ public class RecipeActivity extends AppCompatActivity {
                         if (recipeData == null) {
                             continue;
                         }
-
+                        Log.i("here", "Test");
                         String id = (String) recipeData.get("ID");
                         String cuisine = (String) recipeData.get("Cuisine");
                         String mainIngredient = (String) recipeData.get("Main ingredient");
@@ -102,13 +103,15 @@ public class RecipeActivity extends AppCompatActivity {
 
                         // find a way to store images on firebase
                         String imageName = (String) recipeData.get("Image");
-
                         int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
 
                         // !- change false to isFavorite
                         Recipe recipe = new Recipe(id, name, cuisine, mainIngredient, ingredients, instructions, allergies, nutrients, imageResId, false);
                         recipeList.add(recipe);
                     }
+
+                    RecipeAdapter recipeAdapter = new RecipeAdapter(recipeList,getApplicationContext());
+                    recyclerView.setAdapter(recipeAdapter);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }

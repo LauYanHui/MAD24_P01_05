@@ -16,9 +16,9 @@ public class TechniqueViewHolder extends RecyclerView.ViewHolder{
     //constructor for TechniqueViewHolder
     public TechniqueViewHolder(View itemView){
         super(itemView);
-        image = itemView.findViewById(R.id.techniqueImageView);
-        title = itemView.findViewById(R.id.techniqueTitle);
-        purpose = itemView.findViewById(R.id.techniquePurpose);
+        image = itemView.findViewById(R.id.ivTechnique);
+        title = itemView.findViewById(R.id.tvTitle);
+        purpose = itemView.findViewById(R.id.tvPurpose);
     }
 
     public ImageView getImage() {

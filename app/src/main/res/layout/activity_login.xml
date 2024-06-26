@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_account" />
+        android:src="@drawable/ic_account"/>
 
     <TextView
         android:id="@+id/tvUsername"
@@ -48,8 +48,7 @@
         app:layout_constraintEnd_toStartOf="@id/etPassword"
         app:layout_constraintTop_toTopOf="@id/etPassword"
         app:layout_constraintBottom_toBottomOf="@id/etPassword"
-        app:layout_constraintHorizontal_bias="1"
-        />
+        app:layout_constraintHorizontal_bias="1"/>
 
     <EditText
         android:id="@+id/etUsername"
@@ -57,11 +56,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:paddingVertical="4dp"
-        android:paddingStart="12dp"
+        android:paddingHorizontal="12dp"
         android:ems="10"
         android:inputType="text"
         android:textSize="16sp"
         android:hint="Enter username"
+        android:autofillHints="username"
+        android:textColorHint="@color/black"
         android:background="@drawable/style_border_black_bean"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,17 +76,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:paddingVertical="4dp"
-        android:paddingStart="12dp"
+        android:paddingHorizontal="12dp"
         android:ems="10"
         android:inputType="textPassword"
         android:textSize="16sp"
         android:hint="Enter password"
+        android:autofillHints="password"
+        android:textColorHint="@color/black"
         android:background="@drawable/style_border_black_bean"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etUsername"
-        app:layout_constraintHorizontal_bias="0.65"
-        />
+        app:layout_constraintHorizontal_bias="0.65"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -97,8 +99,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword"
-        android:backgroundTint="@color/blackBean"
-        />
+        android:backgroundTint="@color/blackBean"/>
 
     <Button
         android:id="@+id/btnRegister"
@@ -108,6 +109,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="15dp"
-        android:backgroundTint="@color/spaceCadet"
-        />
+        android:backgroundTint="@color/spaceCadet"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

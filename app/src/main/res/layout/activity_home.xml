@@ -11,16 +11,12 @@
 
     <!-- Big Card on Top (half the size) -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/profile"
+        android:id="@+id/cardProfile"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/smallCardsContainer"
         app:layout_constraintHeight_percent="0.3">
 
@@ -28,13 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/img_banner_main"
-            />
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Banner"-->
-<!--            android:textSize="24sp"-->
-<!--            android:layout_gravity="center"/>-->
+            android:contentDescription="Banner of app" />
     </androidx.cardview.widget.CardView>
 
     <!-- Container for Small Cards -->
@@ -43,9 +33,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/profile"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- Small Card 1 -->
@@ -55,13 +45,12 @@
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/groceryList"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintWidth_percent="0.48">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,6 +79,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintWidth_percent="0.48">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,6 +110,7 @@
             app:layout_constraintRight_toLeftOf="@id/smallCard4"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintWidth_percent="0.48">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,6 +140,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintWidth_percent="0.48">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

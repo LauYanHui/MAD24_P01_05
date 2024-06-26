@@ -37,9 +37,9 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvPurpose = findViewById(R.id.tvPurpose);
         TextView tvDescription = findViewById(R.id.tvDescription);
-        ImageView backIconIV = findViewById(R.id.backIconIV);
+        ImageView backIconIV = findViewById(R.id.ivBack);
         VideoView videoView = findViewById(R.id.videoView);
-        videoFrameLayout = findViewById(R.id.videoFrameLayout);
+        videoFrameLayout = findViewById(R.id.frameLayout);
 
         //receive intent from TechniqueActivity and make changes to text
         Intent receivingTechnique = getIntent();
