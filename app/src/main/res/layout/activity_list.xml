@@ -14,29 +14,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/rounded_edittext"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+<!--        <ImageView-->
+<!--            android:id="@+id/backIcon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/backicon"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+<!--        &lt;!&ndash; Banner TextView &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/banner"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Recipes"-->
+<!--            android:textSize="30sp"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
         <ImageView
-            android:id="@+id/backIcon"
+            android:id="@+id/searchIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/backicon"
+            android:src="@drawable/search_icon"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="10dp"/>
 
-        <!-- Banner TextView -->
-        <TextView
-            android:id="@+id/banner"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/searchInput"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Recipes"
-            android:textSize="30sp"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="Search"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:imeOptions="actionSearch"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toEndOf="@id/searchIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

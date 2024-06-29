@@ -50,5 +50,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     public int getItemCount() {
         return recipeList.size();
     }
-
+    public void updateRecipeList(ArrayList<Recipe> newRecipeList) {
+        recipeList = newRecipeList;
+        notifyDataSetChanged();
+    }
 }
+

@@ -2,9 +2,15 @@ package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -29,6 +35,7 @@ import java.util.Map;
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     private ArrayList<Recipe> recipeList = new ArrayList<>();
+    private ArrayList<Recipe> filteredRecipeList = new ArrayList<>();
     private RecipeAdapter recipeAdapter;
 
     @Override
@@ -42,7 +49,7 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
-        ImageView backIcon = findViewById(R.id.backIcon);
+        //ImageView backIcon = findViewById(R.id.backIcon);
 
         // Initialize RecyclerView and Adapter
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -102,14 +109,51 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
+        EditText searchInput = findViewById(R.id.searchInput);
+        ImageView searchIcon = findViewById(R.id.searchIcon);
 
-        // Back icon click listener
-        backIcon.setOnClickListener(new View.OnClickListener() {
+        searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListActivity.this, HomepageActivity.class);
-                startActivity(intent);
+                String searchText = searchInput.getText().toString();
+                Log.d(TAG, "Search Icon clicked, search text: " + searchText);
+                filter(searchText);
+            }
+        });
+
+        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchText = searchInput.getText().toString();
+                    Log.d(TAG, "IME_ACTION_SEARCH triggered, search text: " + searchText);
+                    filter(searchText);
+                    return true;
+                }
+                return false;
             }
         });
     }
+
+    private void filter(String text) {
+        filteredRecipeList.clear();
+        for (Recipe recipe : recipeList) {
+            if (recipe.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredRecipeList.add(recipe);
+            }
+        }
+        recipeAdapter.updateRecipeList(filteredRecipeList); // Use the new method
+        Log.d(TAG, "Filter applied, filtered list size: " + filteredRecipeList.size());
+    }
 }
+
+        // Back icon click listener
+//        backIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ListActivity.this, HomepageActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//    }
+//}
