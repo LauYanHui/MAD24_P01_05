@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- vertical orientation-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="10dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="12dp">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/techniqueImageView"
@@ -19,15 +20,14 @@
             android:layout_height="240dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="?android:attr/listDivider" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="20dp">
+
             <TextView
                 android:id="@+id/techniqueTitle"
                 android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
+
             <TextView
                 android:id="@+id/techniquePurpose"
                 android:layout_width="match_parent"
@@ -43,12 +44,10 @@
                 android:text="Purpose"
                 android:textStyle="italic"
                 android:textSize="27sp"
-                android:paddingBottom="10dp"
-                />
+                android:paddingBottom="10dp"/>
+
         </LinearLayout>
+
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="?android:attr/listDivider" />
-</LinearLayout>
+
+</androidx.cardview.widget.CardView>
