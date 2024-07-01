@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -12,12 +13,12 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     TextView cuisine;
     ImageView image;
 
-    public RecipeViewHolder(View itemView) {
+    public RecipeViewHolder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.recipeName);
-        mainIngredient = itemView.findViewById(R.id.mainIngredient);
-        cuisine = itemView.findViewById(R.id.cuisine);
-        image = itemView.findViewById(R.id.imageView);
+        mainIngredient = itemView.findViewById(R.id.recipeMainIngredient);
+        cuisine = itemView.findViewById(R.id.recipeCuisine);
+        image = itemView.findViewById(R.id.recipeImage);
     }
 }
 

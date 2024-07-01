@@ -1,23 +1,14 @@
 package sg.edu.np.mad.cookbuddy;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,26 +27,31 @@ public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     private ArrayList<Recipe> recipeList = new ArrayList<>();
     private ArrayList<Recipe> filteredRecipeList = new ArrayList<>();
+    private ArrayList<String> cuisineList = new ArrayList<>();
     private RecipeAdapter recipeAdapter;
+    private CuisineAdapter cuisineAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_list);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        RecyclerView cuisineRecyclerView = findViewById(R.id.cuisineRecyclerView);
+        RecyclerView recipeRecyclerView = findViewById(R.id.recyclerView);
+
+        recipeAdapter = new RecipeAdapter(filteredRecipeList, this);
+        cuisineAdapter = new CuisineAdapter(cuisineList, this, new CuisineAdapter.OnCuisineClickListener() {
+            @Override
+            public void onCuisineClick(String cuisine) {
+                filterByCuisine(cuisine);
+            }
         });
 
-        //ImageView backIcon = findViewById(R.id.backIcon);
+        cuisineRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        cuisineRecyclerView.setAdapter(cuisineAdapter);
 
-        // Initialize RecyclerView and Adapter
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recipeAdapter = new RecipeAdapter(recipeList, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(recipeAdapter);
+        recipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recipeRecyclerView.setAdapter(recipeAdapter);
 
         // Firebase reference
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -68,6 +64,13 @@ public class ListActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot != null) {
+                        // Clear previous data
+                        recipeList.clear();
+                        cuisineList.clear();
+
+                        // Add "All Recipes" tag
+                        cuisineList.add("All Recipes");
+
                         for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                             try {
                                 // Parse recipe data
@@ -95,12 +98,21 @@ public class ListActivity extends AppCompatActivity {
                                 boolean favourite = false;
                                 Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
                                 recipeList.add(recipe);
-                                Log.i("ezreal", "Recipe List Size: " + recipeList.size());
+
+                                // Add cuisine to the cuisine list if not already present
+                                if (!cuisineList.contains(cuisine)) {
+                                    cuisineList.add(cuisine);
+                                }
+
+                                Log.i(TAG, "Recipe List Size: " + recipeList.size());
                             } catch (Exception e) {
                                 Log.e(TAG, "Error parsing recipe data: " + e.getMessage());
                             }
                         }
-                        recipeAdapter.notifyDataSetChanged();
+
+                        // Notify adapters of data changes
+                        cuisineAdapter.notifyDataSetChanged();
+                        filterByCuisine("All Recipes"); // Default to "All Recipes" tag
                     } else {
                         Log.e(TAG, "Data snapshot is null");
                     }
@@ -109,6 +121,8 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Search functionality
         EditText searchInput = findViewById(R.id.searchInput);
         ImageView searchIcon = findViewById(R.id.searchIcon);
 
@@ -118,21 +132,34 @@ public class ListActivity extends AppCompatActivity {
                 String searchText = searchInput.getText().toString();
                 Log.d(TAG, "Search Icon clicked, search text: " + searchText);
                 filter(searchText);
+                searchInput.setText("");
             }
         });
 
-        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String searchText = searchInput.getText().toString();
-                    Log.d(TAG, "IME_ACTION_SEARCH triggered, search text: " + searchText);
-                    filter(searchText);
-                    return true;
-                }
-                return false;
+        searchInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String searchText = searchInput.getText().toString();
+                Log.d(TAG, "IME_ACTION_SEARCH triggered, search text: " + searchText);
+                filter(searchText);
+                return true;
             }
+            return false;
         });
+    }
+
+    private void filterByCuisine(String cuisine) {
+        filteredRecipeList.clear();
+        if (cuisine.equals("All Recipes")) {
+            filteredRecipeList.addAll(recipeList);
+        } else {
+            for (Recipe recipe : recipeList) {
+                if (recipe.getCuisine().equalsIgnoreCase(cuisine)) {
+                    filteredRecipeList.add(recipe);
+                }
+            }
+        }
+        recipeAdapter.updateRecipeList(filteredRecipeList);
+        Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredRecipeList.size());
     }
 
     private void filter(String text) {
@@ -142,18 +169,7 @@ public class ListActivity extends AppCompatActivity {
                 filteredRecipeList.add(recipe);
             }
         }
-        recipeAdapter.updateRecipeList(filteredRecipeList); // Use the new method
+        recipeAdapter.updateRecipeList(filteredRecipeList);
         Log.d(TAG, "Filter applied, filtered list size: " + filteredRecipeList.size());
     }
 }
-
-        // Back icon click listener
-//        backIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ListActivity.this, HomepageActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-//}
