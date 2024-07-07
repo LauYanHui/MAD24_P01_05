@@ -55,6 +55,7 @@ public class ListActivity extends AppCompatActivity {
         cuisineRecyclerView.setAdapter(cuisineAdapter);
 
         recipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recipeRecyclerView.setNestedScrollingEnabled(true);
         recipeRecyclerView.setAdapter(recipeAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
