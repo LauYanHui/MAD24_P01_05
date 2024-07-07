@@ -4,98 +4,109 @@
     android:layout_height="wrap_content"
     android:fillViewport="true">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="0dp">
-
-        <!-- Add an ImageView here -->
-        <ImageView
-            android:id="@+id/recipeImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@android:drawable/sym_def_app_icon"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:contentDescription="Image" />
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingBottom="0dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
-            <TextView
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:id="@+id/recipeName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:textSize="25sp" />
+            <!-- Add an ImageView here -->
+            <ImageView
+                android:id="@+id/recipeImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:contentDescription="Image" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="0dp">
 
-                <LinearLayout
-                    android:id="@+id/test1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="10dp">
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:background="?android:attr/listDivider" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cuisine: "
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:textStyle="bold"
-                        android:id="@+id/recipeCuisine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="0dp"
-                        android:textSize="20sp"
-                        android:text="test" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/test2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                <TextView
+                    android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="0dp">
+                    android:id="@+id/recipeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="test"
+                    android:textSize="25sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Main Ingredient: " />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:id="@+id/recipeMainIngredient"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/test1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="test"
-                        android:layout_marginBottom="20dp" />
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cuisine: "
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/recipeCuisine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="0dp"
+                            android:textSize="20sp"
+                            android:text="test" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/test2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:text="Main Ingredient: " />
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/recipeMainIngredient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:text="test"
+                            android:layout_marginBottom="20dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <!-- Add the divider line here -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
     </LinearLayout>
 </ScrollView>

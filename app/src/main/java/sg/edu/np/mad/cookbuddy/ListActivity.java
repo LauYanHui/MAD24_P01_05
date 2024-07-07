@@ -1,9 +1,13 @@
 package sg.edu.np.mad.cookbuddy;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -53,27 +57,21 @@ public class ListActivity extends AppCompatActivity {
         recipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         recipeRecyclerView.setAdapter(recipeAdapter);
 
-        // Firebase reference
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("Recipes");
 
-        // Retrieve data from Firebase
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot != null) {
-                        // Clear previous data
                         recipeList.clear();
                         cuisineList.clear();
-
-                        // Add "All Recipes" tag
                         cuisineList.add("All Recipes");
 
                         for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                             try {
-                                // Parse recipe data
                                 Map<String, Object> recipeData = (Map<String, Object>) recipeSnapshot.getValue();
                                 String id = (String) recipeData.get("ID");
                                 String cuisine = (String) recipeData.get("Cuisine");
@@ -83,7 +81,6 @@ public class ListActivity extends AppCompatActivity {
                                 List<String> instructions = (List<String>) recipeData.get("Instructions");
                                 List<String> ingredients = (List<String>) recipeData.get("Ingredients");
 
-                                // Handling nutrition facts
                                 Map<String, String> nutritionFacts = new HashMap<>();
                                 Map<String, Object> nutritionFactsData = (Map<String, Object>) recipeData.get("Nutritious facts");
                                 if (nutritionFactsData != null) {
@@ -99,7 +96,6 @@ public class ListActivity extends AppCompatActivity {
                                 Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
                                 recipeList.add(recipe);
 
-                                // Add cuisine to the cuisine list if not already present
                                 if (!cuisineList.contains(cuisine)) {
                                     cuisineList.add(cuisine);
                                 }
@@ -110,9 +106,8 @@ public class ListActivity extends AppCompatActivity {
                             }
                         }
 
-                        // Notify adapters of data changes
                         cuisineAdapter.notifyDataSetChanged();
-                        filterByCuisine("All Recipes"); // Default to "All Recipes" tag
+                        filterByCuisine("All Recipes");
                     } else {
                         Log.e(TAG, "Data snapshot is null");
                     }
@@ -122,7 +117,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-        // Search functionality
         EditText searchInput = findViewById(R.id.searchInput);
         ImageView searchIcon = findViewById(R.id.searchIcon);
 
@@ -141,9 +135,29 @@ public class ListActivity extends AppCompatActivity {
                 String searchText = searchInput.getText().toString();
                 Log.d(TAG, "IME_ACTION_SEARCH triggered, search text: " + searchText);
                 filter(searchText);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
                 return true;
             }
             return false;
+        });
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "Text changed: " + charSequence.toString());
+                filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Do nothing
+            }
         });
     }
 
