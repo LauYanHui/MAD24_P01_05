@@ -37,7 +37,7 @@ public class TechniqueAdapter extends RecyclerView.Adapter<TechniqueViewHolder> 
         Glide.with(activity) // Glide helps with loading pictures to each technique
                 .load(listItems.getImagePath())
                 .into(holder.techniqueImageView);
-        holder.techniqueImageView.setOnClickListener(new View.OnClickListener() {
+        holder.techniqueCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //intent setup for when user clicks on a specific technique
