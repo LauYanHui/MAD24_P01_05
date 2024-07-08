@@ -40,6 +40,14 @@
                     android:src="@drawable/backicon"
                     android:layout_gravity="start|top"
                     android:layout_margin="16dp"/>
+                <ImageView
+                    android:id="@+id/favouriteIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/star"
+                    android:layout_gravity="end|top"
+
+                    android:layout_margin="16dp"/>
             </FrameLayout>
             <TextView
                 android:id="@+id/recipeName"

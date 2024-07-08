@@ -1,6 +1,8 @@
 package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,7 +23,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     String testing = "testing";
-
+    private boolean isStarFilled = false;
     private Recipe selectedRecipe;
 
     @Override
@@ -33,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ImageView favouriteIcon = findViewById(R.id.favouriteIcon);
+        favouriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isStarFilled){
+                    favouriteIcon.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.star));
+                }else{
+                    favouriteIcon.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.yellowstar));
+                }
+                isStarFilled = !isStarFilled;
+            }
+        });
+
 
         // Retrieve selected recipe from intent
         Intent intent = getIntent();
