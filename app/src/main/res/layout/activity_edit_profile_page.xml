@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfilePage">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_edit_profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_change_username_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Username/ Password:"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/et_new_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New Username"
+            android:paddingBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/et_new_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New Password"
+            android:inputType="textPassword"
+            android:paddingBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/et_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_edit_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Information:"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_food_allergies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Food Allergies:"
+            android:paddingBottom="8dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_no_allergies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I do not have any allergies."
+            android:paddingBottom="8dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_gluten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gluten"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_egg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Egg"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_nuts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nuts"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_dairy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dairy"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_tree_nuts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tree Nuts"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_fish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fish"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_soy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soy"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_sesame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sesame"/>
+
+        <CheckBox
+            android:id="@+id/cb_allergy_shellfish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shellfish"/>
+
+        <TextView
+            android:id="@+id/tv_favourite_recipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favourite Recipes:"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_favorite_recipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Dynamically add favorite recipes here -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+       </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
