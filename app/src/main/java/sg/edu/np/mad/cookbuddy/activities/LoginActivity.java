@@ -1,6 +1,8 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -78,8 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     // If no field is empty, get reference from Firebase
-                    String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
-                    DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
+                    DatabaseReference userRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL).getReference("Users/");
 
                     userRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -99,13 +100,14 @@ public class LoginActivity extends AppCompatActivity {
                                 // account with this username exists, check password
                                 if (password.equals(temp.getPassword())) {
 
-                                    // pass user info to next activity
-                                    Bundle extras = new Bundle();
-                                    extras.putSerializable("User", (Serializable) temp);
+                                    // add user info in sharedPref so other activities can edit/retrieve info from FB
+                                    SharedPreferences sharedPref = getSharedPreferences("user", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("username", temp.getUsername());
+                                    editor.apply();
 
                                     // go to home page
                                     Intent goHome = new Intent(LoginActivity.this, HomeActivity.class);
-                                    goHome.putExtras(extras);
                                     startActivity(goHome);
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();

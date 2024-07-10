@@ -1,6 +1,7 @@
 package sg.edu.np.mad.cookbuddy.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
+import sg.edu.np.mad.cookbuddy.activities.HomeActivity;
 import sg.edu.np.mad.cookbuddy.models.GroceryItem;
 import sg.edu.np.mad.cookbuddy.R;
 
@@ -58,15 +63,18 @@ public class GroceryAdapter extends BaseAdapter {
 
         final GroceryItem item = groceryList.get(position);
         holder.textView.setText(item.getName());
-        holder.checkBox.setOnCheckedChangeListener(null);
-        holder.checkBox.setChecked(item.isChecked());
-
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 item.setChecked(isChecked);
+                SharedPreferences sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+                String username = sharedPref.getString("username", null);
+                DatabaseReference groceryRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL)
+                        .getReference("Users/" + username + "/grocery/" + item.getName() + "/");
+                groceryRef.child("checked").setValue(isChecked);
             }
         });
+        holder.checkBox.setChecked(item.isChecked());
 
         return convertView;
     }

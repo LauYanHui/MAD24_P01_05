@@ -42,8 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         // Get database
-        String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
-        DatabaseReference userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users/");
+        DatabaseReference userRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL).getReference("Users/");
 
         // Get widgets
         btnNext = findViewById(R.id.btnNext);

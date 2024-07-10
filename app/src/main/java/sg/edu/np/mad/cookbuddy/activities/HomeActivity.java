@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     public static String PACKAGE_NAME;
+    public final static String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,19 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (itemId == R.id.action_recipe) {
                     newFragment = fm.findFragmentById(R.id.fragment_recipe);
+                    if (newFragment == null) {
+                        newFragment = new RecipeFragment();
+                    }
                 } else if (itemId == R.id.action_grocery) {
                     newFragment = fm.findFragmentById(R.id.fragment_grocery);
+                    if (newFragment == null) {
+                        newFragment = new GroceryFragment();
+                    }
                 } else if (itemId == R.id.action_technique) {
                     newFragment = fm.findFragmentById(R.id.fragment_technique);
+                    if (newFragment == null) {
+                        newFragment = new TechniqueFragment();
+                    }
                 }
 
                 if (newFragment != null) {

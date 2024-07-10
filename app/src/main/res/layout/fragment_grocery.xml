@@ -18,6 +18,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_delete_24"
+                android:contentDescription="@string/content_description_delete_button"/>
+
             <EditText
                 android:id="@+id/etGrocery"
                 android:layout_width="0dp"
