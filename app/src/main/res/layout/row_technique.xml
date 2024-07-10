@@ -5,48 +5,49 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="12dp">
+    app:cardElevation="12dp"
+    android:layout_marginBottom="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp">
+        android:background="@color/carribeanCurrent">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Image of technique"
+            android:contentDescription="@string/content_description_image_technique"
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="14dp">
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginVertical="12dp">
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="30sp"
+                android:text="@string/error"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:paddingTop="6dp"
-                android:layout_marginBottom="3dp"/>
+                android:textColor="@color/white"
+                android:layout_marginBottom="6dp"/>
 
             <TextView
                 android:id="@+id/tvPurpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Purpose"
+                android:text="@string/error"
                 android:textStyle="italic"
-                android:textSize="24sp"
-                android:paddingBottom="6dp"/>
+                android:textSize="20sp"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
