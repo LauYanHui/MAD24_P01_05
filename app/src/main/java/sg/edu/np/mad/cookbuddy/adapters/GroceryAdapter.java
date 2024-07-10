@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -57,8 +58,15 @@ public class GroceryAdapter extends BaseAdapter {
 
         final GroceryItem item = groceryList.get(position);
         holder.textView.setText(item.getName());
+        holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(item.isChecked());
-        holder.checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> item.setChecked(isChecked)));
+
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.setChecked(isChecked);
+            }
+        });
 
         return convertView;
     }

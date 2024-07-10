@@ -4,19 +4,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import sg.edu.np.mad.cookbuddy.R;
 
 public class TechniqueViewHolder extends RecyclerView.ViewHolder{
-    ImageView image;
-    TextView title;
-    TextView purpose;
+    public ImageView image;
+    public TextView title;
+    public TextView purpose;
+    public CardView card;
 
     //constructor for TechniqueViewHolder
     public TechniqueViewHolder(View itemView){
         super(itemView);
-        image = itemView.findViewById(R.id.ivTechnique);
+        card = itemView.findViewById(R.id.card);
+        image = itemView.findViewById(R.id.imageView);
         title = itemView.findViewById(R.id.tvTitle);
         purpose = itemView.findViewById(R.id.tvPurpose);
     }

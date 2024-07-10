@@ -84,34 +84,36 @@ public class LoginActivity extends AppCompatActivity {
                     userRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) {
-                                    ArrayList<String> allergies = new ArrayList<>();
+                            if (snapshot.exists()) {
+                                ArrayList<String> allergies = new ArrayList<>();
 
-                                    String username = snapshot.child("username").getValue(String.class);
-                                    String password = snapshot.child("password").getValue(String.class);
+                                String tempUsername = snapshot.child("username").getValue(String.class);
+                                String tempPassword = snapshot.child("password").getValue(String.class);
 
-                                    for (DataSnapshot allergy : snapshot.child("allergies").getChildren()) {
-                                        allergies.add(allergy.getValue(String.class));
-                                    }
-
-                                    User temp = new User(username, password, allergies);
-
-                                    // account with this username exists, check password
-                                    if (password.equals(temp.getPassword())) {
-
-                                        // pass user info to next activity
-                                        Bundle extras = new Bundle();
-                                        extras.putSerializable("User", (Serializable) temp);
-
-                                        // go to home page
-                                        Intent goHome = new Intent(LoginActivity.this, HomeActivity.class);
-                                        goHome.putExtras(extras);
-                                        startActivity(goHome);
-                                    }
+                                for (DataSnapshot allergy : snapshot.child("allergies").getChildren()) {
+                                    allergies.add(allergy.getValue(String.class));
                                 }
-                                else {
-                                    Toast.makeText(LoginActivity.this, "No account found", Toast.LENGTH_SHORT).show();
+
+                                User temp = new User(tempUsername, tempPassword, allergies);
+
+                                // account with this username exists, check password
+                                if (password.equals(temp.getPassword())) {
+
+                                    // pass user info to next activity
+                                    Bundle extras = new Bundle();
+                                    extras.putSerializable("User", (Serializable) temp);
+
+                                    // go to home page
+                                    Intent goHome = new Intent(LoginActivity.this, HomeActivity.class);
+                                    goHome.putExtras(extras);
+                                    startActivity(goHome);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, "No account found", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {

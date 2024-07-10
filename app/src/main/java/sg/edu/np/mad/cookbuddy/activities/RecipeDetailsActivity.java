@@ -43,16 +43,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // back to recipe button
-        ivBack = findViewById(R.id.ivBack);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityName = new Intent(RecipeDetailsActivity.this, RecipeActivity.class);
-                startActivity(activityName);
-            }
-        });
-
         // handle intent
         Intent intent = getIntent();
         Recipe recipe = intent.getSerializableExtra("Recipe", Recipe.class);

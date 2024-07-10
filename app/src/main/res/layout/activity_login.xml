@@ -99,7 +99,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword"
-        android:backgroundTint="@color/blackBean"/>
+        android:backgroundTint="@color/blackBean"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/btnRegister"
@@ -109,5 +110,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="15dp"
-        android:backgroundTint="@color/spaceCadet"/>
+        android:backgroundTint="@color/spaceCadet"
+        android:textColor="@color/white"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

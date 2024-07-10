@@ -1,74 +1,61 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import java.io.Serializable;
+import com.google.android.material.navigation.NavigationBarView;
 
 import sg.edu.np.mad.cookbuddy.R;
-import sg.edu.np.mad.cookbuddy.models.User;
+import sg.edu.np.mad.cookbuddy.databinding.ActivityHomeBinding;
+
 
 public class HomeActivity extends AppCompatActivity {
 
-    Intent activityName;
+    private ActivityHomeBinding binding;
+    public static String PACKAGE_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        changeFragment(new RecipeFragment());
 
-        Intent intent = getIntent();
-        User user = (User) intent.getSerializableExtra("User");
+        PACKAGE_NAME = getApplicationContext().getPackageName();
 
-        CardView techniquePage = findViewById(R.id.smallCard3);
-        CardView recipePage = findViewById(R.id.recipes);
-        CardView groceryList = findViewById(R.id.groceryList);
-        CardView profile = findViewById(R.id.smallCard4);
-
-        techniquePage.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                activityName = new Intent(HomeActivity.this, TechniqueActivity.class);
-                startActivity(activityName);
-            }
-        });
-
-        recipePage.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                activityName = new Intent(HomeActivity.this, RecipeActivity.class);
-                startActivity(activityName);
-            }
-        });
-        groceryList.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                activityName = new Intent(HomeActivity.this, GroceryActivity.class);
-                startActivity(activityName);
-            }
-        });
-
-        profile.setOnClickListener(new View.OnClickListener() {
+        binding.navBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                // pass user info to next activity
-                Bundle extras = new Bundle();
-                extras.putSerializable("User", (Serializable) user);
-                activityName = new Intent(HomeActivity.this, ProfileActivity.class);
-                activityName.putExtras(extras);
-                startActivity(activityName);
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment newFragment = null;
+
+                if (itemId == R.id.action_recipe) {
+                    newFragment = fm.findFragmentById(R.id.fragment_recipe);
+                } else if (itemId == R.id.action_grocery) {
+                    newFragment = fm.findFragmentById(R.id.fragment_grocery);
+                } else if (itemId == R.id.action_technique) {
+                    newFragment = fm.findFragmentById(R.id.fragment_technique);
+                }
+
+                if (newFragment != null) {
+                    changeFragment(newFragment);
+                };
+                return true;
             }
         });
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment);
+        transaction.commit();
     }
 }

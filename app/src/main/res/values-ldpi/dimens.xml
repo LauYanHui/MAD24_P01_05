@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="video_height">300dp</dimen>
+
+    <dimen name="nav_bar_height" tools:override="true">60dp</dimen>
 </resources>
