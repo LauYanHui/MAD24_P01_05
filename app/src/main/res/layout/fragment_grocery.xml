@@ -4,13 +4,14 @@
     android:id="@+id/fragment_grocery"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.GroceryFragment">
+    tools:context=".activities.GroceryFragment"
+    android:background="@color/timberWolf">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingVertical="16dp">
+        android:padding="16dp">
 
         <!-- Horizontal LinearLayout for EditText and ImageView -->
         <LinearLayout

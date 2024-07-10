@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.TechniqueFragment"
     android:paddingHorizontal="15dp"
-    android:paddingTop="20dp"
+    android:paddingVertical="20dp"
     android:background="@color/timberWolf">
 
     <androidx.constraintlayout.widget.ConstraintLayout
