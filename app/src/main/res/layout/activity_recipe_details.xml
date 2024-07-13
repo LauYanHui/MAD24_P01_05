@@ -34,7 +34,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="20dp"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_star_filled_24"
+                android:src="@drawable/selector_favourite"
                 android:contentDescription="@string/content_description_favourite_button"/>
         </RelativeLayout>
 

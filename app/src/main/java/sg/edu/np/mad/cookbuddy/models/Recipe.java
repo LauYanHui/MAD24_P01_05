@@ -8,14 +8,14 @@ public class Recipe implements Serializable {
     public String id;
 
     private int imageResId;
-    public List<String> allergies;
-    public String cuisine;
-    public List<String> ingredients;
-    public List<String> instructions;
-    public String mainIngredient;
-    public String name;
-    public Map<String, String> nutritiousFacts;
-    public boolean isFavorite;
+    private List<String> allergies;
+    private String cuisine;
+    private List<String> ingredients;
+    private List<String> instructions;
+    private String mainIngredient;
+    private String name;
+    private Map<String, String> nutritiousFacts;
+    private boolean isFavorite;
     public Recipe(String id,int imageResId, List<String> allergies, String cuisine, List<String> ingredients, List<String> instructions,
                   String mainIngredient, String name, Map<String, String> nutritiousFacts, boolean isFavorite) {
         this.id = id;
