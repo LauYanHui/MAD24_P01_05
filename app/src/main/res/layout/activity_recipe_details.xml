@@ -86,7 +86,7 @@
                 android:scaleType="centerCrop"
                 android:layout_marginVertical="40dp"
                 android:contentDescription="@string/content_description_image_recipe"
-                android:background="@drawable/style_border_black_bean"
+                android:background="@drawable/style_border_caribbean_current"
                 android:clipToOutline="true"/>
         </LinearLayout>
 

@@ -2,23 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/timberWolf">
 
-    <!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ-->
-    <ImageView
-        android:id="@+id/ivBanner"
+<!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ&ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/ivBanner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="180dp"-->
+<!--        android:background="@drawable/img_banner_allergies"-->
+<!--        android:contentDescription="Banner with a variety of food"/>-->
+
+    <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/img_banner_allergies"
-        android:contentDescription="Banner with a variety of food"/>
+        android:layout_height="wrap_content"
+        android:text="@string/label_allergy"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:background="@color/airForceBlue"
+        android:padding="30dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="Tick your allergies (where applicable):"
-        android:textStyle="bold"/>
+        android:text="@string/allergies_instruction"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="17sp"/>
 
     <ListView
         android:layout_width="match_parent"
@@ -34,28 +50,19 @@
         android:gravity="center"
         android:layout_marginTop="10dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/label_cancel"
             android:layout_marginEnd="10dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/label_submit"
             android:layout_marginStart="10dp"/>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="12sp"
-        android:text="Information collected here will be kept strictly confidential"
-        android:textAlignment="center"
-        android:textStyle="italic"/>
+    </LinearLayout>
 </LinearLayout>
