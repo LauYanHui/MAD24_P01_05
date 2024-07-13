@@ -10,9 +10,23 @@
     <string name="content_description_back_button">Back Button</string>
     <string name="content_description_add_button">Add Button</string>
     <string name="content_description_delete_button">Delete Button</string>
+    <string name="content_description_favourite_button">Favourite Button</string>
     <string name="content_description_image_technique">Image of cooking technique</string>
+    <string name="content_description_image_recipe">Image of recipe</string>
 
     <string name="hint_grocery">Enter grocery item</string>
+    <string name="hint_search">Search</string>
 
+    <string name="label_cuisine">Cuisine:&#160;</string>
+    <string name="label_main_ingredient">Main Ingredient:&#160;</string>
+    <string name="label_nutrient">Nutrients</string>
+    <string name="label_ingredient">Ingredients</string>
+    <string name="label_instruction">Instructions</string>
+    <string name="label_instruction_swipe">Swipe left to see new instructions</string>
+    <string name="label_btn_tts">Text-To-Speech</string>
+    <string name="label_btn_instructions">Instructions</string>
+    <string name="label_btn_information">Information</string>
+
+    <string name="placeholder">test</string>
     <string name="error">Unable to fetch information</string>
 </resources>

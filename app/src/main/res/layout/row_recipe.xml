@@ -18,7 +18,7 @@
             android:src="@android:drawable/sym_def_app_icon"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:contentDescription="Image"/>
+            android:contentDescription="@string/content_description_image_recipe"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
                 android:id="@+id/tvRecipeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gar"
+                android:text="@string/placeholder"
                 android:textSize="25sp" />
 
             <LinearLayout
@@ -51,8 +51,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cuisine: "
-                        android:textSize="20dp" />
+                        android:text="@string/label_cuisine"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:textStyle="bold"
@@ -62,7 +62,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="0dp"
                         android:textSize="20sp"
-                        android:text="French"/>
+                        android:text="@string/placeholder"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -76,15 +76,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
-                        android:text="Main Ingredient: "/>
+                        android:text="@string/label_main_ingredient"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/mainIngredient"
+                        android:id="@+id/tvMainIngredient"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:text="test"
+                        android:text="@string/placeholder"
                         android:layout_marginBottom="20dp"/>
                 </LinearLayout>
             </LinearLayout>

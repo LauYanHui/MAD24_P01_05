@@ -38,7 +38,7 @@
         app:itemRippleColor="@null"
         style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
         app:labelVisibilityMode="unlabeled"
-        android:background="@color/carribeanCurrent">
+        android:background="@color/caribbeanCurrent">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 

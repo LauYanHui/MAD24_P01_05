@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
@@ -27,10 +30,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvCuisine;
     private TextView tvMainIngredient;
-    private TextView tvIngredients;
-    private TextView tvNutrients;
     private ImageView ivRecipeImage;
+    private Button btnInformation;
+    private Button btnInstruction;
 
+    private String TAG = "RecipeDetailsActivity";
+    private boolean isStarFilled = false;
+    private Recipe selectedRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,48 +49,100 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // handle intent
-        Intent intent = getIntent();
-        Recipe recipe = intent.getSerializableExtra("Recipe", Recipe.class);
-        Map<String, String> nutritiousFacts = recipe.getNutrients();
-        List<String> ingredientList = recipe.getIngredients();
-        List<String> instructionList = recipe.getInstructions();
-
-        // get views
+        ImageView favouriteIcon = findViewById(R.id.btnFavourite);
         tvName = findViewById(R.id.tvRecipeName);
         tvCuisine = findViewById(R.id.tvCuisine);
         tvMainIngredient = findViewById(R.id.tvMainIngredient);
-        tvIngredients = findViewById(R.id.tvIngredients);
-        ivRecipeImage = findViewById(R.id.ivRecipeImg);
-        tvNutrients = findViewById(R.id.tvNutrients);
+        ivRecipeImage = findViewById(R.id.imageView);
+        ivBack = findViewById(R.id.btnBack);
+        btnInstruction = findViewById(R.id.btnInstruction);
+        btnInformation = findViewById(R.id.btnInfo);
+        favouriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isStarFilled){
+                    favouriteIcon.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_star_unfilled_24));
+                }else{
+                    favouriteIcon.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_star_filled_24));
+                }
+                isStarFilled = !isStarFilled;
+            }
+        });
 
-        // handle nutrient information
-        StringBuilder nutritionInfo = new StringBuilder();
-        for (Map.Entry<String, String> entry : nutritiousFacts.entrySet()) {
-            String key = entry.getKey();
-            String value = String.valueOf(entry.getValue());
-            nutritionInfo.append(key).append(": ").append(value).append("\n");
+        // Retrieve selected recipe from intent
+        Intent intent = getIntent();
+        selectedRecipe = (Recipe) intent.getSerializableExtra("Recipe");
+
+        // Set data to views
+        if (selectedRecipe != null) {
+            tvName.setText(selectedRecipe.getName());
+            tvCuisine.setText(selectedRecipe.getCuisine());
+            tvMainIngredient.setText(selectedRecipe.getMainIngredient());
+            ivRecipeImage.setImageResource(selectedRecipe.getImageResId());
         }
-        String nutritionText = nutritionInfo.toString();
+        loadInformationFragment();
+        btnInformation.setSelected(true);
 
-        // handle ingredient information
-        StringBuilder ingredientBuilder = new StringBuilder();
-        for (String ingredient : ingredientList) {
-            ingredientBuilder.append("• ").append(ingredient).append("\n");
-        }
-        String ingredientText = ingredientBuilder.toString();
+        // Back to recipe list button
+        ivBack.setOnClickListener(v -> {
+            Intent backToListIntent = new Intent(RecipeDetailsActivity.this, HomeActivity.class);
+            startActivity(backToListIntent);
+        });
 
-        // set values
-        tvName.setText(recipe.getName());
-        tvCuisine.setText(recipe.getCuisine());
-        tvMainIngredient.setText(recipe.getMainIngredient());
-        tvIngredients.setText(ingredientText);
-        tvNutrients.setText(nutritionText);
-        ivRecipeImage.setImageResource(recipe.getImageResId());
+        // Set fragment and selected button
+        btnInstruction.setOnClickListener(v -> {
+            btnInstruction.setSelected(true);
+            btnInformation.setSelected(false);
+            loadInstructionFragment();
+        });
 
-        // handle instructions
-        ViewPager2 instructionsPager = findViewById(R.id.pagerInstructions);
-        InstructionAdapter adapter = new InstructionAdapter(instructionList);
-        instructionsPager.setAdapter(adapter);
+        btnInformation.setOnClickListener(v -> {
+            btnInformation.setSelected(true);
+            btnInstruction.setSelected(false);
+            loadInformationFragment();
+        });
     }
+
+    private void loadInstructionFragment() {
+        if (selectedRecipe != null) {
+            // Prepare instruction list to pass to InstructionFragment
+            List<String> instructionList = selectedRecipe.getInstructions();
+            InstructionFragment instructionFragment = InstructionFragment.newInstance(instructionList);
+
+            // Load InstructionFragment
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, instructionFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            Log.e(TAG, "Selected recipe is null");
+        }
+    }
+
+    private void loadInformationFragment() {
+        if (selectedRecipe != null) {
+            // Prepare nutrition facts and ingredients to pass to InformationFragment
+            StringBuilder nutritionInfo = new StringBuilder();
+            for (Map.Entry<String, String> entry : selectedRecipe.getNutritiousFacts().entrySet()) {
+                nutritionInfo.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+            String nutritionText = nutritionInfo.toString();
+
+            StringBuilder ingredientBuilder = new StringBuilder();
+            for (String ingredient : selectedRecipe.getIngredients()) {
+                ingredientBuilder.append("• ").append(ingredient).append("\n");
+            }
+            String ingredientText = ingredientBuilder.toString();
+
+            // Load InformationFragment
+            InformationFragment informationFragment = InformationFragment.newInstance(nutritionText, ingredientText);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, informationFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            Log.e(TAG, "Selected recipe is null");
+        }
+    }
+
 }

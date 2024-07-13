@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FDE047</color>
+
     <color name="blackBean">#3f0d12</color>
     <color name="darkPurple">#32213a</color>
     <color name="purple">#513B56</color>
@@ -11,7 +13,7 @@
     <color name="bistre">#432818</color>
     <color name="lion">#BB9457</color>
 
-    <color name="carribeanCurrent">#407076</color>
+    <color name="caribbeanCurrent">#407076</color>
     <color name="airForceBlue">#698996</color>
     <color name="cambridgeBlue">#97B1A6</color>
     <color name="timberWolf">#C9C5BA</color>

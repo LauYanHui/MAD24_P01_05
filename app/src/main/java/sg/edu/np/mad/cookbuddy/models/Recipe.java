@@ -1,39 +1,35 @@
 package sg.edu.np.mad.cookbuddy.models;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public class Recipe implements Serializable {
-    private String id;
-    private String name;
-    private String cuisine;
-    private String mainIngredient;
-    private List<String> ingredients;
-    private List<String> instructions;
-    private List<String> allergies;
-    private Map<String, String> nutrients;
-    private int imageResId;
-    private boolean isFavorite;
+    public String id;
 
-    public Recipe(String id, String name, String cuisine, String mainIngredient, List<String> ingredients, List<String> instructions,
-        List<String> allergies, Map<String, String> nutrients, int imageResId, boolean isFavorite)
-    {
+    private int imageResId;
+    public List<String> allergies;
+    public String cuisine;
+    public List<String> ingredients;
+    public List<String> instructions;
+    public String mainIngredient;
+    public String name;
+    public Map<String, String> nutritiousFacts;
+    public boolean isFavorite;
+    public Recipe(String id,int imageResId, List<String> allergies, String cuisine, List<String> ingredients, List<String> instructions,
+                  String mainIngredient, String name, Map<String, String> nutritiousFacts, boolean isFavorite) {
         this.id = id;
-        this.name = name;
+        this.allergies = allergies;
         this.cuisine = cuisine;
-        this.mainIngredient = mainIngredient;
         this.ingredients = ingredients;
         this.instructions = instructions;
-        this.allergies = allergies;
-        this.nutrients = nutrients;
+        this.mainIngredient = mainIngredient;
+        this.name = name;
+        this.nutritiousFacts = nutritiousFacts;
         this.imageResId = imageResId;
         this.isFavorite = isFavorite;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "Recipe{" +
@@ -44,70 +40,53 @@ public class Recipe implements Serializable {
                 ", instructions=" + instructions +
                 ", mainIngredient='" + mainIngredient + '\'' +
                 ", name='" + name + '\'' +
-                ", nutritiousFacts=" + nutrients +
+                ", nutritiousFacts=" + nutritiousFacts +
                 '}';
     }
-
-    // getters
     public String getId(){
         return id;
     }
     public String getName(){
         return name;
     }
-    public String getCuisine(){
-        return cuisine;
-    }
-    public String getMainIngredient() {
-        return mainIngredient;
-    }
-    public List<String> getIngredients() {
-        return ingredients;
-    }
     public List<String> getInstructions(){
         return instructions;
     }
+    public String getCuisine(){
+        return cuisine;
+    }
+
     public List<String> getAllergies() {
         return allergies;
     }
-    public Map<String,String> getNutrients(){
-        return nutrients;
+
+    public Map<String, String> getNutritiousFacts() {
+        return nutritiousFacts;
     }
+
+    public String getMainIngredient() {
+        return mainIngredient;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+    public Map<String,String> getNutritionFacts(){
+        return nutritiousFacts;
+    }
+
     public int getImageResId() {
         return imageResId;
     }
+
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
+    }
+
     public boolean isFavorite() {
         return isFavorite;
     }
 
-    // setters
-    public void setId(String id) {
-        this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
-    }
-    public void setMainIngredient(String mainIngredient) {
-        this.mainIngredient = mainIngredient;
-    }
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
-    public void setInstructions(List<String> instructions) {
-        this.instructions = instructions;
-    }
-    public void setAllergies(List<String> allergies) {
-        this.allergies = allergies;
-    }
-    public void setNutrients(Map<String, String> nutrients) {
-        this.nutrients = nutrients;
-    }
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
-    }
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }

@@ -11,47 +11,62 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.activities.RecipeDetailsActivity;
 import sg.edu.np.mad.cookbuddy.models.Recipe;
 import sg.edu.np.mad.cookbuddy.views.RecipeViewHolder;
-import sg.edu.np.mad.cookbuddy.activities.RecipeDetailsActivity;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> recipeList;
     private Context context;
-    public RecipeAdapter(ArrayList<Recipe> recipeList, Context context){
+
+    public RecipeAdapter(ArrayList<Recipe> recipeList, Context context) {
         this.recipeList = recipeList;
         this.context = context;
     }
+
     @NonNull
-    public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe, parent, false);
         return new RecipeViewHolder(view);
     }
-    public void onBindViewHolder(RecipeViewHolder holder, int position){
-        Recipe listItem = recipeList.get(position);
-        Recipe recipe = recipeList.get(position);
-        holder.setName(listItem.getName());
-        holder.setCuisine(listItem.getCuisine());
-        holder.setMainIngredient(listItem.getMainIngredient());
-        holder.setImage(recipe.getImageResId());
 
-        holder.getName().setOnClickListener(new View.OnClickListener(){
+    @Override
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+        Recipe listItem = recipeList.get(position);
+        Log.i("RecipeAdapter", "onBindViewHolder called for position: " + position + ", Recipe name: " + listItem.getName());
+
+        holder.getName().setText(listItem.getName());
+        holder.getCuisine().setText(listItem.getCuisine());
+        holder.getMainIngredient().setText(listItem.getMainIngredient());
+        holder.getImage().setImageResource(listItem.getImageResId());
+
+        holder.getName().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
+                Log.i("RecipeAdapter", "Item clicked: " + listItem.getName());
+
                 Intent intent = new Intent(v.getContext(), RecipeDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Recipe", (Serializable) recipe);
+                bundle.putSerializable("Recipe", listItem);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
         });
     }
+
+    @Override
     public int getItemCount() {
         return recipeList.size();
     }
+
+    public void updateRecipeList(ArrayList<Recipe> newRecipeList) {
+        recipeList = newRecipeList;
+        notifyDataSetChanged();
+    }
+
 
 }
