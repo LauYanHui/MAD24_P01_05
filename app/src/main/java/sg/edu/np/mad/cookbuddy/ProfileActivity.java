@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goLogin = new Intent(ProfileActivity.this, LoginActivity.class);
+                Intent goLogin = new Intent(ProfileActivity.this, EditProfilePage.class);
                 startActivity(goLogin);
             }
         });
