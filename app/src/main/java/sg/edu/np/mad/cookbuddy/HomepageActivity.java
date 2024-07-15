@@ -2,6 +2,7 @@ package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -59,12 +60,16 @@ public class HomepageActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pass user info to next activity
-                Bundle extras = new Bundle();
-                extras.putSerializable("User", (Serializable) user);
-                activityName = new Intent(HomepageActivity.this, ProfileActivity.class);
-                activityName.putExtras(extras);
-                startActivity(activityName);
+                if (user != null) {
+                    Log.d("HomepageActivity", "User: " + user.toString());
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("User", user);
+                    activityName = new Intent(HomepageActivity.this, ProfileActivity.class);
+                    activityName.putExtras(extras);
+                    startActivity(activityName);
+                } else {
+                    Log.d("HomepageActivity", "User is null");
+                }
             }
         });
     }

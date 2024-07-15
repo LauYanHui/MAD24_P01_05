@@ -2,6 +2,7 @@ package sg.edu.np.mad.cookbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,9 +31,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra("User");
-
-        // Check if user is null
-        if (user == null) {
+        if (user != null) {
+            Log.d("ProfileActivity", "User: " + user.toString());
+        } else {
+            Log.d("ProfileActivity", "User is null");
             Toast.makeText(this, "User data not available", Toast.LENGTH_SHORT).show();
             finish(); // Close the activity if user data is not available
             return;
