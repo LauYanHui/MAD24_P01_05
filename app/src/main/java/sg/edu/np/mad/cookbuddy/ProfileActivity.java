@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,14 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra("User");
 
+        // Check if user is null
+        if (user == null) {
+            Toast.makeText(this, "User data not available", Toast.LENGTH_SHORT).show();
+            finish(); // Close the activity if user data is not available
+            return;
+        }
+
+        // Your existing code for setting up the views
         Button ivBack = findViewById(R.id.btn_back);
         Button btnEditProfile = findViewById(R.id.btn_edit_profile);
         TextView tvUsername = findViewById(R.id.username);
@@ -40,7 +49,6 @@ public class ProfileActivity extends AppCompatActivity {
         tvAllergiesList.setText(formatList(user.getAllergies()));
         tvFavoritesList.setText(formatList(user.getFavorites()));
 
-
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //Back Button
+        // Back Button
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

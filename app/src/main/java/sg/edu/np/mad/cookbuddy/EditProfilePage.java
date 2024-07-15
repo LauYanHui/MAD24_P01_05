@@ -109,7 +109,9 @@ public class EditProfilePage extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(EditProfilePage.this, ProfileActivity.class);
+                intent.putExtra("User", user); // Ensure you are passing the user object
+                startActivity(intent);
             }
         });
     }
