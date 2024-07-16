@@ -36,20 +36,20 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-    implementation("com.google.firebase:firebase-analytics")
     implementation(libs.constraintlayout)
+    implementation(libs.cardview)
+    implementation (libs.viewpager2)
+    implementation (libs.glide)
+    implementation(libs.recyclerview.animators)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.firebase.ui.auth)
+    implementation("com.google.firebase:firebase-analytics")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
-    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 }
