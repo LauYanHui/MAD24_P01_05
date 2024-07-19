@@ -25,11 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +52,9 @@ public class RecipeFragment extends Fragment {
     private ArrayList<Recipe> filteredRecipeList = new ArrayList<>();
     private ArrayList<String> cuisineList = new ArrayList<>();
     private RecipeAdapter recipeAdapter;
-    private CuisineAdapter cuisineAdapter;;
+    private CuisineAdapter cuisineAdapter;
+
+    private StorageReference storageReference;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -91,6 +96,9 @@ public class RecipeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("Recipes");
 
+        //FirebaseStorage storage = FirebaseStorage.getInstance("https://console.firebase.google.com/project/mad-assignment-8c5d2/storage/mad-assignment-8c5d2.appspot.com/files");
+        //storageReference = storage.getReference();
+
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -121,10 +129,11 @@ public class RecipeFragment extends Fragment {
                                 }
 
                                 String imageName = (String) recipeData.get("Image");
-                                int imageResId = getResources().getIdentifier(imageName, "drawable", HomeActivity.PACKAGE_NAME);
+                                Log.i("Ezreal",imageName);
+                                //int imageResId = getResources().getIdentifier(imageName, "drawable", HomeActivity.PACKAGE_NAME);
 
                                 boolean favourite = false;
-                                Recipe recipe = new Recipe(id, imageResId, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
+                                Recipe recipe = new Recipe(id, imageName, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
                                 recipeList.add(recipe);
 
                                 if (!cuisineList.contains(cuisine)) {
@@ -217,5 +226,13 @@ public class RecipeFragment extends Fragment {
         }
         recipeAdapter.updateRecipeList(filteredRecipeList);
         Log.d(TAG, "Filter applied, filtered list size: " + filteredRecipeList.size());
+    }
+    private void loadImage(String imageName, ImageView imageView) {
+        StorageReference imageRef = storageReference.child("Recipe Images/" + imageName);
+        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(this).load(uri).into(imageView);
+        }).addOnFailureListener(exception -> {
+            Log.e(TAG, "Error getting image URL: " + exception.getMessage());
+        });
     }
 }

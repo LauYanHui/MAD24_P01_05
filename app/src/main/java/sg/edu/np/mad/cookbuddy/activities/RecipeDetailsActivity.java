@@ -1,6 +1,5 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,19 +19,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sg.edu.np.mad.cookbuddy.adapters.InstructionAdapter;
 import sg.edu.np.mad.cookbuddy.R;
 import sg.edu.np.mad.cookbuddy.models.Recipe;
 
@@ -46,8 +45,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private Button btnInformation;
     private Button btnInstruction;
     private Recipe selectedRecipe;
-    private String TAG = "RecipeDetailsActivity";
-
+    private static final String TAG = "RecipeDetailsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+
         tvName = findViewById(R.id.tvRecipeName);
         tvCuisine = findViewById(R.id.tvCuisine);
         tvMainIngredient = findViewById(R.id.tvMainIngredient);
@@ -71,7 +72,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         // Retrieve selected recipe from intent
         Intent intent = getIntent();
-        selectedRecipe = intent.getSerializableExtra("Recipe", Recipe.class);
+        selectedRecipe = (Recipe) intent.getSerializableExtra("Recipe");
 
         // Set data to views
         if (selectedRecipe == null) {
@@ -82,7 +83,23 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         tvName.setText(selectedRecipe.getName());
         tvCuisine.setText(selectedRecipe.getCuisine());
         tvMainIngredient.setText(selectedRecipe.getMainIngredient());
-        ivRecipeImage.setImageResource(selectedRecipe.getImageResId());
+
+        // Load image from Firebase Storage
+        if (selectedRecipe.getImageName() != null) {
+            String imagePath = "Recipe Images/" + selectedRecipe.getImageName();
+            StorageReference imageRef = storageReference.child(imagePath);
+
+            Log.d(TAG, "Loading image from path: " + imagePath);
+
+            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Log.d(TAG, "Image URL: " + uri.toString());
+                Glide.with(this).load(uri).into(ivRecipeImage);
+            }).addOnFailureListener(exception -> {
+                Log.e(TAG, "Error getting image URL: " + exception.getMessage());
+            });
+        } else {
+            Log.e(TAG, "Image name is null");
+        }
 
         // get user info
         SharedPreferences sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -92,13 +109,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         DatabaseReference favouriteRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL)
                 .getReference("Users/" + username + "/favourites/");
 
-
-
         // set favourite icon original state
         favouriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 // set favourite icon
                 if (snapshot.hasChild(selectedRecipe.getId())) {
                     ivFavourite.setSelected(true);
@@ -190,5 +204,4 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Log.e(TAG, "Selected recipe is null");
         }
     }
-
 }
