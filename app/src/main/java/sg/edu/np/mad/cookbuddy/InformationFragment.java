@@ -45,10 +45,10 @@ public class InformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_information, container, false);
 
-        TextView nutritionTextView = rootView.findViewById(R.id.nutritiousFact);
+        TextView nutritionTextView = rootView.findViewById(R.id.tvNutrients);
         nutritionTextView.setText(nutritionText);
 
-        TextView ingredientTextView = rootView.findViewById(R.id.ingredient);
+        TextView ingredientTextView = rootView.findViewById(R.id.tvIngredients);
         ingredientTextView.setText(ingredientText);
 
         return rootView;

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.List;
 
+import sg.edu.np.mad.cookbuddy.adapters.InstructionsPagerAdapter;
+
 public class InstructionFragment extends Fragment implements OnInitListener {
     private static final String ARG_INSTRUCTION_LIST = "instructionList";
     private static final String TAG = "InstructionFragment";

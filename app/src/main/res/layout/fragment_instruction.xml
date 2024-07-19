@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".InstructionFragment">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/cambridgeBlue"
+    android:paddingTop="10dp"
+    android:paddingBottom="50dp"
+    tools:context=".activities.InstructionFragment">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Instructions"
-        android:layout_gravity="center_horizontal"
+        android:text="@string/label_instruction"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#FAC898"
-        app:cardCornerRadius="11dp"
-        android:background="#ADD8E6">
+        app:cardBackgroundColor="@color/timberWolf"
+        app:cardCornerRadius="11dp">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/instructionsPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="200dp" />
     </androidx.cardview.widget.CardView>
-
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="24dp"
         android:textSize="15sp"
-        android:layout_gravity="center_horizontal"
-        android:text="Swipe left to see new instructions"/>
-    </LinearLayout>
-    <Button
+        android:text="@string/label_instruction_swipe"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:layout_gravity="center_horizontal" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/speakButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speak Instruction"
         android:layout_gravity="center"
-        android:background="@drawable/rounded_edittext"
-        />
-</FrameLayout>
+        android:paddingHorizontal="16dp"
+        android:text="@string/label_btn_tts"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/style_rounded_et"
+        android:backgroundTint="@color/caribbeanCurrent"/>
+</LinearLayout>

@@ -2,6 +2,8 @@ package sg.edu.np.mad.cookbuddy;
 
 import java.util.List;
 
+import sg.edu.np.mad.cookbuddy.models.Recipe;
+
 public class Cuisine {
     private String name;
     private List<Recipe> recipeList;
