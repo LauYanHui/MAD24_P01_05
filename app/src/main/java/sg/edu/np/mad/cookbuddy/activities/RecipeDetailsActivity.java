@@ -167,7 +167,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         if (selectedRecipe != null) {
             // Prepare instruction list to pass to InstructionFragment
             List<String> instructionList = selectedRecipe.getInstructions();
-            InstructionFragment instructionFragment = InstructionFragment.newInstance(instructionList);
+            InstructionFragment instructionFragment = InstructionFragment.newInstance(instructionList,selectedRecipe);
 
             // Load InstructionFragment
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
