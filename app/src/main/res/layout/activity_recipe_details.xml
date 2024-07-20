@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/main"
+    tools:context=".activities.RecipeDetailsActivity"
+    android:background="@color/cambridgeBlue">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/caribbeanCurrent">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_back_32"
+                android:contentDescription="@string/content_description_back_button"/>
+
+            <ImageView
+                android:id="@+id/btnFavourite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/selector_favourite"
+                android:contentDescription="@string/content_description_favourite_button"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="10dp"
+            android:background="@color/timberWolf">
+
+            <TextView
+                android:id="@+id/tvRecipeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/placeholder"/>
+
+            <TextView
+                android:id="@+id/tvCuisine"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/placeholder"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/style_recipe_tag"/>
+
+            <TextView
+                android:id="@+id/tvMainIngredient"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/placeholder"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@drawable/style_recipe_tag" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                android:layout_marginVertical="40dp"
+                android:contentDescription="@string/content_description_image_recipe"
+                android:background="@drawable/style_border_caribbean_current"
+                android:clipToOutline="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnInfo"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/selector_text_color"
+                android:textSize="16sp"
+                android:text="@string/label_btn_information"
+                style="@style/BorderlessButton"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/airForceBlue" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnInstruction"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/selector_text_color"
+                android:textSize="16sp"
+                android:text="@string/label_btn_instructions"
+                style="@style/BorderlessButton" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/airForceBlue"
+            />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
