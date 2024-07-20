@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:buttonBarButtonStyle">@style/BorderlessButton</item>
@@ -7,7 +7,7 @@
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 
     <style name="BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:background">@drawable/selector_button</item>
+        <item name="android:background">@drawable/selector_recipe_details_btn</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

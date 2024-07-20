@@ -44,10 +44,14 @@ dependencies {
     implementation (libs.viewpager2)
     implementation (libs.glide)
     implementation(libs.recyclerview.animators)
+    implementation("com.airbnb.android:lottie:3.4.0")
+
+    // don't specify version for firebase library dependencies if using bom
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.ui.auth)
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-analytics")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

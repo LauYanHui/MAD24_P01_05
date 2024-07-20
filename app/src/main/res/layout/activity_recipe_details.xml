@@ -86,7 +86,7 @@
                 android:scaleType="centerCrop"
                 android:layout_marginVertical="40dp"
                 android:contentDescription="@string/content_description_image_recipe"
-                android:background="@drawable/style_border_caribbean_current"
+                android:background="@drawable/style_primary_rounded_hollow"
                 android:clipToOutline="true"/>
         </LinearLayout>
 
@@ -100,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:textColor="@drawable/selector_text_color"
+                android:textColor="@drawable/selector_recipe_details_btn_text"
                 android:textSize="16sp"
                 android:text="@string/label_btn_information"
                 style="@style/BorderlessButton"/>
@@ -115,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:textColor="@drawable/selector_text_color"
+                android:textColor="@drawable/selector_recipe_details_btn_text"
                 android:textSize="16sp"
                 android:text="@string/label_btn_instructions"
                 style="@style/BorderlessButton" />

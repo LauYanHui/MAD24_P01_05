@@ -18,4 +18,7 @@
     <color name="cambridgeBlue">#97B1A6</color>
     <color name="timberWolf">#C9C5BA</color>
     <color name="teaRose">#EBBAB9</color>
+
+    <color name="zinc_600">#52525B</color>
+    <color name="zinc_400">#A1A1AA</color>
 </resources>
