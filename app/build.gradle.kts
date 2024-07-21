@@ -55,4 +55,7 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
 }

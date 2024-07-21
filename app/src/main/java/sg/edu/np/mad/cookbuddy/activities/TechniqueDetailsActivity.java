@@ -3,6 +3,7 @@ package sg.edu.np.mad.cookbuddy.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 
 import org.w3c.dom.Text;
 
@@ -29,7 +33,9 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvPurpose;
     TextView tvDescription;
-    VideoView videoView;
+    PlayerView videoView;
+
+    ExoPlayer player;
     RelativeLayout videoFrame;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +62,36 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
         tvDescription.setText(receivingTechnique.getStringExtra("description"));
         String videoPath = receivingTechnique.getStringExtra("videoPath"); //for code below
 
-        // setup videoView
-        videoView.setVideoPath(videoPath);
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
 
-        //play video when everything is prepared
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                videoView.start();
-            }
-        });
+        player = new ExoPlayer.Builder(this).build();
+        videoView.setPlayer(player);
+        // setup videoView
+        Uri videoUri = Uri.parse(videoPath);
+        MediaItem mediaItem = MediaItem.fromUri(videoUri);
+        player.setMediaItem(mediaItem);
+
+        player.prepare();
+        player.setPlayWhenReady(true);
     }
 
     //on landscape, videoView will become fullScreen and resets when user is back to portrait.
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) videoFrame.getLayoutParams();
-        ViewGroup.LayoutParams viewParams = videoView.getLayoutParams();
+        ViewGroup.LayoutParams videoViewParams = videoView.getLayoutParams();
+        LinearLayout.LayoutParams videoFrameParams = (LinearLayout.LayoutParams) videoFrame.getLayoutParams();
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            viewParams.height = ViewGroup.LayoutParams.MATCH_PARENT; // fullscreen
-            layoutParams.setMargins(0,0,0,0); // remove margin in landscape
-            videoFrame.setGravity(Gravity.CENTER); // center video in frame
+            // Make video fullscreen
+            videoViewParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            videoView.setLayoutParams(videoViewParams);
+            videoFrameParams.setMargins(0,0,0,0); // remove margin in landscape
+            videoFrameParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            videoFrameParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            videoFrameParams.gravity = Gravity.CENTER;
+            videoFrame.setLayoutParams(videoFrameParams);
 
-            // hide other widgets
+            // Hide other widgets
             tvTitle.setVisibility(View.GONE);
             tvPurpose.setVisibility(View.GONE);
             tvDescription.setVisibility(View.GONE);
@@ -91,15 +99,21 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // Set FrameLayout to original size
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT; // undo fullscreen
-            layoutParams.setMargins(0,20,0,0); // add margin for portrait
+            // Restore original size
+            videoViewParams.height = getResources().getDimensionPixelSize(R.dimen.video_height);
+            videoView.setLayoutParams(videoViewParams);
+            videoFrameParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            videoFrameParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            videoFrameParams.gravity = Gravity.NO_GRAVITY;
+            videoFrame.setLayoutParams(videoFrameParams);
+
+            videoFrameParams.setMargins(0,20,0,0); // add margin for portrait
+            // Show other widgets
             tvTitle.setVisibility(View.VISIBLE);
             tvPurpose.setVisibility(View.VISIBLE);
             tvDescription.setVisibility(View.VISIBLE);
+
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
-        videoFrame.setLayoutParams(layoutParams);
     }
 }
