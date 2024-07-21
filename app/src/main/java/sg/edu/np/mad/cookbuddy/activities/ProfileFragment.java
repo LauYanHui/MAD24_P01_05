@@ -28,7 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sg.edu.np.mad.cookbuddy.R;
 import sg.edu.np.mad.cookbuddy.models.User;
@@ -226,30 +228,88 @@ public class ProfileFragment extends Fragment {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String newUsername = etNewUsername.getText().toString().trim();
+            String newPassword = etNewPassword.getText().toString().trim();
+            String confirmPassword = etConfirmPassword.getText().toString().trim();
+
+            if (TextUtils.isEmpty(newUsername)) {
+                etNewUsername.setError("Username cannot be empty");
+                return;
+            }
+
+            if (!TextUtils.isEmpty(newPassword) && !newPassword.equals(confirmPassword)) {
+                etConfirmPassword.setError("Passwords do not match");
+                return;
+            }
+
+            // Check if the new username already exists
+            userRef.child(newUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        // New username already exists
+                        etNewUsername.setError("Username is already taken");
+                    } else {
+                        // Proceed with updating username and password
+                        updateUserDetails(newUsername, newPassword);
+                        dialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), "Failed to check username availability.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
+    private void updateUserDetails(String newUsername, String newPassword) {
+        DatabaseReference oldUserRef = userRef.child(currentUser.getUsername());
+        DatabaseReference newUserRef = userRef.child(newUsername);
+
+        // Prepare updates
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("username", newUsername);
+        if (!TextUtils.isEmpty(newPassword)) {
+            updates.put("password", newPassword);
+        }
+
+        // Copy existing data to new username
+        oldUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                String newUsername = etNewUsername.getText().toString().trim();
-                String newPassword = etNewPassword.getText().toString().trim();
-                String confirmPassword = etConfirmPassword.getText().toString().trim();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Map<String, Object> userData = (Map<String, Object>) snapshot.getValue();
+                    userData.put("username", newUsername); // Ensure the username is updated
 
-                if (TextUtils.isEmpty(newUsername)) {
-                    etNewUsername.setError("Username cannot be empty");
-                    return;
+                    // Save data under new username
+                    newUserRef.setValue(userData).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Remove old user data
+                            oldUserRef.removeValue().addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    // Update local user object and refresh data
+                                    currentUser.setUsername(newUsername);
+                                    fetchUserData(); // Refresh the data
+                                    Toast.makeText(getContext(), "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Failed to remove old user data.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "Failed to save new user data.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Old user data not found.", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                if (!TextUtils.isEmpty(newPassword) && !newPassword.equals(confirmPassword)) {
-                    etConfirmPassword.setError("Passwords do not match");
-                    return;
-                }
-
-                userRef.child(currentUser.getUsername()).child("username").setValue(newUsername);
-                if (!TextUtils.isEmpty(newPassword)) {
-                    userRef.child(currentUser.getUsername()).child("password").setValue(newPassword);
-                }
-                currentUser.setUsername(newUsername);
-                fetchUserData(); // Refresh the data
-                dialog.dismiss();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to read old user data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
