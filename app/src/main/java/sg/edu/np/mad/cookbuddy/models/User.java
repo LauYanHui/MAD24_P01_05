@@ -1,4 +1,4 @@
-package sg.edu.np.mad.cookbuddy;
+package sg.edu.np.mad.cookbuddy.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ public class User implements Serializable {
     public User(String username, String password, ArrayList<String> allergies) {
         this.username = username;
         this.password = password;
-        this.allergies = new ArrayList<String>();
+        this.allergies = allergies;
         this.bookmarks = new ArrayList<String>();
         this.favorites = new ArrayList<String>();
     }
     public String getUsername() { return this.username; }
     public String getPassword() { return this.password; }
-    public List<String> getAllergies() { return this.allergies; }
+    public List<String> getAllergies() { return allergies; }
     public List<String> getFavorites() { return favorites; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
