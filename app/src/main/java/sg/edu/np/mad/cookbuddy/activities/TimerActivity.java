@@ -1,31 +1,40 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
+import android.Manifest;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.helpers.AlarmReceiver;
 import sg.edu.np.mad.cookbuddy.helpers.NotificationHelper;
 import sg.edu.np.mad.cookbuddy.models.Recipe;
 
 public class TimerActivity extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "timer_channel";
+    private static final int VIBRATE_PERMISSION_REQUEST_CODE = 1;
+    private static final int SCHEDULE_EXACT_ALARM_REQUEST_CODE = 2;
     private TextView timerTextView;
     private NumberPicker minutePicker, secondPicker;
-    private Button startButton, pauseButton, resumeButton, resetButton;
+    private Button startButton, pauseButton, resumeButton, resetButton, stopAlarm;
 
     private Handler handler;
     private Runnable runnable;
@@ -38,7 +47,6 @@ public class TimerActivity extends AppCompatActivity {
     private ImageView backButton;
     private Recipe recipe;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,23 @@ public class TimerActivity extends AppCompatActivity {
         NotificationHelper.createNotificationChannel(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Check for Vibrate permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.VIBRATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.VIBRATE},
+                    VIBRATE_PERMISSION_REQUEST_CODE);
+        }
+
+        // Check for SCHEDULE_EXACT_ALARM permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM},
+                    SCHEDULE_EXACT_ALARM_REQUEST_CODE);
+        }
+
         backButton = findViewById(R.id.btnBack);
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
@@ -54,9 +79,9 @@ public class TimerActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),RecipeDetailsActivity.class);
+                Intent intent = new Intent(v.getContext(), RecipeDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Recipe",recipe);
+                bundle.putSerializable("Recipe", recipe);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -69,6 +94,7 @@ public class TimerActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resumeButton = findViewById(R.id.resumeButton);
         resetButton = findViewById(R.id.resetButton);
+        stopAlarm = findViewById(R.id.stopAlarm);
 
         handler = new Handler();
 
@@ -95,6 +121,7 @@ public class TimerActivity extends AppCompatActivity {
                 }
             }
         });
+        stopAlarm.setOnClickListener(v -> stopAlarm());
 
         pauseButton.setOnClickListener(v -> pauseTimer());
 
@@ -110,6 +137,7 @@ public class TimerActivity extends AppCompatActivity {
     private void startTimer() {
         isRunning = true;
         isPaused = false;
+        pauseButton.setEnabled(true); // Enable stop button when timer starts
 
         runnable = new Runnable() {
             @Override
@@ -119,6 +147,9 @@ public class TimerActivity extends AppCompatActivity {
                         // Timer finished
                         isRunning = false;
                         showNotification();
+                        if (canScheduleExactAlarms()) {
+                            setAlarm(); // Set the alarm
+                        }
                         return;
                     }
                     minutes--;
@@ -155,26 +186,74 @@ public class TimerActivity extends AppCompatActivity {
     private void resetTimer() {
         isRunning = false;
         isPaused = false;
+        handler.removeCallbacks(runnable);
         minutes = minutePicker.getValue();
         seconds = secondPicker.getValue();
         updateTimerText();
-        handler.removeCallbacks(runnable);
+        pauseButton.setEnabled(false);
     }
 
     private void updateTimerText() {
-        String minutesText = String.format("%02d", minutes);
-        String secondsText = String.format("%02d", seconds);
-        timerTextView.setText(minutesText + ":" + secondsText);
+        String time = String.format("%02d:%02d", minutes, seconds);
+        timerTextView.setText(time);
     }
+
     private void showNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.notification) // Replace with your notification icon
+                .setSmallIcon(R.drawable.notification)
                 .setContentTitle("Timer Finished")
-                .setContentText("Your timer has completed.")
+                .setContentText("Your timer has finished.")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, builder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
+    }
+
+    private void setAlarm() {
+        long triggerTime = System.currentTimeMillis() + 1000; // Trigger immediately
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+    }
+
+    private boolean canScheduleExactAlarms() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        return alarmManager.canScheduleExactAlarms();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == VIBRATE_PERMISSION_REQUEST_CODE) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, "Vibrate permission denied. Timer may not vibrate.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == SCHEDULE_EXACT_ALARM_REQUEST_CODE) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, "Exact alarm permission denied. Alarms may not be set correctly.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void stopAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+
+        // Stop any ongoing notification
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(1);
+
+        Toast.makeText(this, "Alarm stopped.", Toast.LENGTH_SHORT).show();
+
+        // Optionally, update button state
+        stopAlarm.setEnabled(false);
     }
 }

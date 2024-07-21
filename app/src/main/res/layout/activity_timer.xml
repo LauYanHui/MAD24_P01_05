@@ -116,7 +116,21 @@
             android:background="@drawable/style_rounded_et"
             android:backgroundTint="@color/caribbeanCurrent"
             android:text="Reset" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stopAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+            android:background="@drawable/style_rounded_et"
+            android:backgroundTint="@color/caribbeanCurrent"
+            android:text="Stop Alarm"
+            android:enabled="true"
+            />
 
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--
+    android:layout_column=""
+    android:layout_row=""-->
