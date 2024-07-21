@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,13 +38,12 @@ import sg.edu.np.mad.cookbuddy.R;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
-
     private EditText etEmail;
     private EditText etPassword;
+    private EditText etFiltered;
     private Button btnRegister;
     private TextView tvLogin;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
     private PasswordStrengthMeter meter;
     private boolean validEmail;
@@ -57,38 +57,14 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        etFiltered = findViewById(R.id.etFiltered);
         btnRegister = findViewById(R.id.btnRegister);
         tvLogin = findViewById(R.id.tvLogin);
         meter = findViewById(R.id.passwordMeter);
 
         validEmail = false;
         validPw = false;
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser(); // get cached user
 
-                if (user != null) {
-
-                    // get latest user info
-                    user.reload().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            // if user is signed in, redirect to other activities
-                            if (user != null) {
-                                if (!user.isEmailVerified()) {
-                                    startActivity(new Intent(RegisterActivity.this, VerifyEmailActivity.class));
-                                } else if (user.getDisplayName() == null) {
-                                    startActivity(new Intent(RegisterActivity.this, UsernameActivity.class));
-                                } else {
-                                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        };
 
         // Allow user to navigate to login activity
         SpannableString ss = getLoginLink();
@@ -110,11 +86,43 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                validEmail = isValidEmail(s);
-                btnRegister.setEnabled(validEmail && validPw);
-                if (!validEmail) {
-                    etEmail.setError("Invalid email");
+                String result = s.toString().replaceAll(" ", "");
+                if (!s.toString().equals(result)) {
+                    etEmail.setText(result);
+                    etEmail.setSelection(result.length());
+                } else {
+                    validEmail = isValidEmail(s);
+                    btnRegister.setEnabled(validEmail && validPw);
+                    if (!validEmail) {
+                        etEmail.setError("Invalid email");
+                    }
                 }
+
+            }
+        });
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String result = s.toString().replaceAll(" ", "");
+
+                // prevent infinite loop
+                if (!s.toString().equals(result)) {
+                    etPassword.setText(result);
+                    etPassword.setSelection(result.length());
+                }
+
+                etFiltered.setText(result);
             }
         });
 
@@ -128,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
             createUser(email, password);
         });
 
-        meter.setEditText(etPassword);
+        meter.setEditText(etFiltered);
         meter.setPasswordStrengthCalculator(new PasswordStrengthCalculator() {
             @Override
             public int calculatePasswordSecurityLevel(String s) {
@@ -203,17 +211,11 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mAuthListener != null) {
-            mAuth.addAuthStateListener(mAuthListener);
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     @NonNull
@@ -222,7 +224,9 @@ public class RegisterActivity extends AppCompatActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
             }
 
             @Override
@@ -257,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void sendVerificationEmail() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
         // pray there is a user because that's how it should theoretically work
         // if there isn't, i'm screwed

@@ -62,6 +62,12 @@
                 android:layout_marginTop="20dp"
                 android:inputType="textPassword"/>
 
+            <EditText
+                android:id="@+id/etFiltered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
             <nu.aaro.gustav.passwordstrengthmeter.PasswordStrengthMeter
                 android:id="@+id/passwordMeter"
                 android:layout_width="match_parent"

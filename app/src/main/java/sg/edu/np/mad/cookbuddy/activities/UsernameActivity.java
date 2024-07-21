@@ -54,10 +54,15 @@ public class UsernameActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int length = String.valueOf(s).trim().length();
+                String result = s.toString().replaceAll(" ", "");
+                if (!s.toString().equals(result)) {
+                    et.setText(result);
+                    et.setSelection(result.length());
+                } else {
 
-                // enable button if username is appropriately long
-                btnNext.setEnabled(length >= 8 && length <= 30);
+                    // enable button if username is appropriately long
+                    btnNext.setEnabled(s.length() >= 8 && s.length() <= 30);
+                }
             }
         });
 
