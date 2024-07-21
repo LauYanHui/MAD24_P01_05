@@ -54,4 +54,7 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation ("com.google.android.material:material:1.9.0")
+
+
 }

@@ -3,6 +3,7 @@ package sg.edu.np.mad.cookbuddy.helpers;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
@@ -23,8 +24,16 @@ public class NotificationHelper {
             );
             channel.setDescription("Channel for timer notifications");
 
+            // Optionally, you can set sound and vibration here if needed
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setLightColor(Color.RED);
+            channel.setVibrationPattern(new long[]{1000, 1000});
+
             NotificationManager manager = context.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
         }
     }
     public static void showNotification(Context context, String title, String content) {
@@ -33,7 +42,7 @@ public class NotificationHelper {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
+                .setAutoCancel(false);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {

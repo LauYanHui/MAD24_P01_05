@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +47,7 @@ public class TimerActivity extends AppCompatActivity {
     private int remainingSeconds;
     private ImageView backButton;
     private Recipe recipe;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,8 @@ public class TimerActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resumeButton = findViewById(R.id.resumeButton);
         resetButton = findViewById(R.id.resetButton);
-        stopAlarm = findViewById(R.id.stopAlarm);
+        stopAlarm = findViewById(R.id.stopButton);
+        progressBar = findViewById(R.id.progressBar);
 
         handler = new Handler();
 
@@ -147,9 +150,11 @@ public class TimerActivity extends AppCompatActivity {
                         // Timer finished
                         isRunning = false;
                         showNotification();
+                        //stopAlarm.setEnabled(true);
                         if (canScheduleExactAlarms()) {
                             setAlarm(); // Set the alarm
                         }
+                        stopAlarm.setEnabled(true);
                         return;
                     }
                     minutes--;
@@ -158,7 +163,8 @@ public class TimerActivity extends AppCompatActivity {
                     seconds--;
                 }
 
-                updateTimerText();
+                //updateTimerText();
+                updateTimer();
                 handler.postDelayed(this, 1000);
             }
         };
@@ -189,7 +195,7 @@ public class TimerActivity extends AppCompatActivity {
         handler.removeCallbacks(runnable);
         minutes = minutePicker.getValue();
         seconds = secondPicker.getValue();
-        updateTimerText();
+        updateTimer();
         pauseButton.setEnabled(false);
     }
 
@@ -207,6 +213,7 @@ public class TimerActivity extends AppCompatActivity {
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationHelper.showNotification(this, "Timer Finished", "Your timer has finished.");
         notificationManager.notify(1, builder.build());
     }
 
@@ -255,5 +262,16 @@ public class TimerActivity extends AppCompatActivity {
 
         // Optionally, update button state
         stopAlarm.setEnabled(false);
+    }
+    private void updateTimer() {
+        String time = String.format("%02d:%02d", minutes, seconds);
+        timerTextView.setText(time);
+
+        // Calculate the total and remaining time in seconds
+        int totalSeconds = (minutePicker.getValue() * 60) + secondPicker.getValue();
+        int elapsedSeconds = (minutes * 60) + seconds;
+        int progress = (int) (((totalSeconds - elapsedSeconds) / (float) totalSeconds) * 100);
+
+        progressBar.setProgress(progress);
     }
 }
