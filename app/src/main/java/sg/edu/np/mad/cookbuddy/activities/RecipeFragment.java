@@ -3,7 +3,6 @@ package sg.edu.np.mad.cookbuddy.activities;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,39 +22,36 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.adapters.ChildRecipeAdapter;
 import sg.edu.np.mad.cookbuddy.adapters.CuisineAdapter;
+import sg.edu.np.mad.cookbuddy.adapters.MainIngredientAdapter;
 import sg.edu.np.mad.cookbuddy.adapters.RecipeAdapter;
 import sg.edu.np.mad.cookbuddy.models.Recipe;
 
 public class RecipeFragment extends Fragment {
 
-    private static final String TAG = "ListActivity";
+    private static final String TAG = "RecipeFragment";
     private ArrayList<Recipe> recipeList = new ArrayList<>();
-    private ArrayList<Recipe> filteredRecipeList = new ArrayList<>();
+    private ArrayList<String> mainIngredientList = new ArrayList<>();
     private ArrayList<String> cuisineList = new ArrayList<>();
+    private Map<String, List<Recipe>> recipeMap = new HashMap<>();
     private RecipeAdapter recipeAdapter;
+    private MainIngredientAdapter mainIngredientAdapter;
     private CuisineAdapter cuisineAdapter;
-
-    private StorageReference storageReference;
+    private Button test1,test2;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -80,10 +76,33 @@ public class RecipeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
+        RecyclerView mainIngredientRecyclerView = view.findViewById(R.id.mainIngredientRecyclerView);
         RecyclerView cuisineRecyclerView = view.findViewById(R.id.cuisineRecyclerView);
         RecyclerView recipeRecyclerView = view.findViewById(R.id.recyclerView);
 
-        recipeAdapter = new RecipeAdapter(filteredRecipeList, getContext());
+        test1 = view.findViewById(R.id.test);
+        test2 = view.findViewById(R.id.test1);
+        test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIngredientRecyclerView.setVisibility(View.GONE);
+                recipeRecyclerView.setVisibility(View.VISIBLE);
+                cuisineRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+        test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIngredientRecyclerView.setVisibility(View.VISIBLE);
+                recipeRecyclerView.setVisibility(View.GONE);
+                cuisineRecyclerView.setVisibility(View.GONE);
+            }
+        });
+        mainIngredientAdapter = new MainIngredientAdapter(getContext(), mainIngredientList, recipeMap);
+        mainIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mainIngredientRecyclerView.setAdapter(mainIngredientAdapter);
+
+        recipeAdapter = new RecipeAdapter(new ArrayList<>(), getContext());
         cuisineAdapter = new CuisineAdapter(cuisineList, getContext(), new CuisineAdapter.OnCuisineClickListener() {
             @Override
             public void onCuisineClick(String cuisine) {
@@ -101,9 +120,6 @@ public class RecipeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("Recipes");
 
-        //FirebaseStorage storage = FirebaseStorage.getInstance("https://console.firebase.google.com/project/mad-assignment-8c5d2/storage/mad-assignment-8c5d2.appspot.com/files");
-        //storageReference = storage.getReference();
-
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -111,8 +127,10 @@ public class RecipeFragment extends Fragment {
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot != null) {
                         recipeList.clear();
+                        mainIngredientList.clear();
                         cuisineList.clear();
                         cuisineList.add("All Recipes");
+                        recipeMap.clear();
 
                         for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                             try {
@@ -134,12 +152,18 @@ public class RecipeFragment extends Fragment {
                                 }
 
                                 String imageName = (String) recipeData.get("Image");
-                                Log.i("Ezreal",imageName);
-                                //int imageResId = getResources().getIdentifier(imageName, "drawable", HomeActivity.PACKAGE_NAME);
-
                                 boolean favourite = false;
                                 Recipe recipe = new Recipe(id, imageName, allergies, cuisine, ingredients, instructions, mainIngredient, name, nutritionFacts, favourite);
                                 recipeList.add(recipe);
+
+                                if (!mainIngredientList.contains(mainIngredient)) {
+                                    mainIngredientList.add(mainIngredient);
+                                }
+
+                                if (!recipeMap.containsKey(mainIngredient)) {
+                                    recipeMap.put(mainIngredient, new ArrayList<>());
+                                }
+                                recipeMap.get(mainIngredient).add(recipe);
 
                                 if (!cuisineList.contains(cuisine)) {
                                     cuisineList.add(cuisine);
@@ -152,6 +176,7 @@ public class RecipeFragment extends Fragment {
                         }
 
                         cuisineAdapter.notifyDataSetChanged();
+                        mainIngredientAdapter.notifyDataSetChanged();
                         filterByCuisine("All Recipes");
                     } else {
                         Log.e(TAG, "Data snapshot is null");
@@ -208,36 +233,28 @@ public class RecipeFragment extends Fragment {
     }
 
     private void filterByCuisine(String cuisine) {
-        filteredRecipeList.clear();
+        ArrayList<Recipe> filteredList = new ArrayList<>();
         if (cuisine.equals("All Recipes")) {
-            filteredRecipeList.addAll(recipeList);
+            filteredList.addAll(recipeList);
         } else {
             for (Recipe recipe : recipeList) {
                 if (recipe.getCuisine().equalsIgnoreCase(cuisine)) {
-                    filteredRecipeList.add(recipe);
+                    filteredList.add(recipe);
                 }
             }
         }
-        recipeAdapter.updateRecipeList(filteredRecipeList);
-        Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredRecipeList.size());
+        recipeAdapter.updateRecipeList(filteredList);
+        Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredList.size());
     }
 
     private void filter(String text) {
-        filteredRecipeList.clear();
+        ArrayList<Recipe> filteredList = new ArrayList<>();
         for (Recipe recipe : recipeList) {
             if (recipe.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredRecipeList.add(recipe);
+                filteredList.add(recipe);
             }
         }
-        recipeAdapter.updateRecipeList(filteredRecipeList);
-        Log.d(TAG, "Filter applied, filtered list size: " + filteredRecipeList.size());
-    }
-    private void loadImage(String imageName, ImageView imageView) {
-        StorageReference imageRef = storageReference.child("Recipe Images/" + imageName);
-        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Glide.with(this).load(uri).into(imageView);
-        }).addOnFailureListener(exception -> {
-            Log.e(TAG, "Error getting image URL: " + exception.getMessage());
-        });
+        recipeAdapter.updateRecipeList(filteredList);
+        Log.d(TAG, "Filter applied, filtered list size: " + filteredList.size());
     }
 }

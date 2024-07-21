@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_recipe"
     android:layout_width="match_parent"
@@ -9,7 +10,6 @@
     android:background="@color/timberWolf">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,14 +63,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="invisible"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:layout_constraintTop_toBottomOf="@id/banner_container"
                 app:layout_constraintStart_toStartOf="parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="switch1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/test1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="switch2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -80,8 +99,25 @@
             android:nestedScrollingEnabled="false"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
+            android:visibility="invisible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintTop_toBottomOf="@id/cuisineRecyclerView"
             app:layout_constraintStart_toStartOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainIngredientRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:nestedScrollingEnabled="false"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:visibility="visible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@id/cuisineRecyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </FrameLayout>
