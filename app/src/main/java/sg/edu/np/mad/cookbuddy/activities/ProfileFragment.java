@@ -1,6 +1,8 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import sg.edu.np.mad.cookbuddy.models.User;
 public class ProfileFragment extends Fragment {
 
     private DatabaseReference userRef;
+    private TextView tvUsername;
     private User currentUser;
     private LinearLayout bookmarkedTechniquesLayout;
     private LinearLayout favoriteRecipesLayout;
@@ -59,10 +62,13 @@ public class ProfileFragment extends Fragment {
         // Initialize UI elements
         Button btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         Button btnEditAllergies = view.findViewById(R.id.btn_edit_allergies);
-        TextView tvUsername = view.findViewById(R.id.username);
+        tvUsername = view.findViewById(R.id.username);
         bookmarkedTechniquesLayout = view.findViewById(R.id.bookmarked_techniques_container);
         favoriteRecipesLayout = view.findViewById(R.id.favorite_recipes_container);
         allergiesLayout = view.findViewById(R.id.allergies_container);
+
+        Button btnLogout = view.findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(v -> logOut());
 
         // Get user data from arguments
         Bundle args = getArguments();
@@ -283,6 +289,7 @@ public class ProfileFragment extends Fragment {
                 if (snapshot.exists()) {
                     Map<String, Object> userData = (Map<String, Object>) snapshot.getValue();
                     userData.put("username", newUsername); // Ensure the username is updated
+                    userData.put("password", newPassword);
 
                     // Save data under new username
                     newUserRef.setValue(userData).addOnCompleteListener(task -> {
@@ -292,6 +299,7 @@ public class ProfileFragment extends Fragment {
                                 if (task1.isSuccessful()) {
                                     // Update local user object and refresh data
                                     currentUser.setUsername(newUsername);
+                                    updateUsernameTextView(newUsername);
                                     fetchUserData(); // Refresh the data
                                     Toast.makeText(getContext(), "Profile updated successfully.", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -312,6 +320,24 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Failed to read old user data.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void updateUsernameTextView(String newUsername) {
+        if (tvUsername != null) {
+            tvUsername.setText(newUsername);
+        }
+    }
+    private void logOut() {
+        // Clear shared preferences or any stored user data
+        SharedPreferences sharedPref = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.apply();
+
+        // Redirect to LoginActivity
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        getActivity().finish(); // Optionally finish the current activity to prevent returning to it
     }
 
     private void showEditAllergiesDialog() {
