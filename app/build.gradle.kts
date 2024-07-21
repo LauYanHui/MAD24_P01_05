@@ -51,6 +51,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("nu.aaro.gustav:passwordstrengthmeter:0.4")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

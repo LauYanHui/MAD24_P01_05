@@ -3,10 +3,12 @@ package sg.edu.np.mad.cookbuddy.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -25,6 +27,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Pattern;
+
+
+import nu.aaro.gustav.passwordstrengthmeter.PasswordStrengthCalculator;
+import nu.aaro.gustav.passwordstrengthmeter.PasswordStrengthMeter;
 import sg.edu.np.mad.cookbuddy.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,12 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText etEmail;
     private EditText etPassword;
-    private EditText etConfirmPassword;
     private Button btnRegister;
     private TextView tvLogin;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
+    private PasswordStrengthMeter meter;
+    private boolean validEmail;
+    private boolean validPw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnRegister = findViewById(R.id.btnRegister);
+        tvLogin = findViewById(R.id.tvLogin);
+        meter = findViewById(R.id.passwordMeter);
+
+        validEmail = false;
+        validPw = false;
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -73,32 +90,112 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        btnRegister = findViewById(R.id.btnRegister);
-        tvLogin = findViewById(R.id.tvLogin);
-
         // Allow user to navigate to login activity
         SpannableString ss = getLoginLink();
         tvLogin.setText(ss);
         tvLogin.setMovementMethod(LinkMovementMethod.getInstance());
         tvLogin.setHighlightColor(Color.TRANSPARENT);
 
+        // Perform simple check on email
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                validEmail = isValidEmail(s);
+                btnRegister.setEnabled(validEmail && validPw);
+                if (!validEmail) {
+                    etEmail.setError("Invalid email");
+                }
+            }
+        });
+
+        // Disable button until email and password is accepted
+        btnRegister.setEnabled(false);
+
         // Check value entered before attempting to create a new user
         btnRegister.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
-            String confirmPassword = etConfirmPassword.getText().toString().trim();
+            createUser(email, password);
+        });
 
-            if (!isValidEmail(email)) {
-                etEmail.setError("Invalid email");
-            } else if (password.isEmpty()) {
-                etPassword.setError("Password cannot be empty");
-            } else if (!confirmPassword.equals(password)) {
-                etConfirmPassword.setError("Confirm password must match password");
-            } else {
-                createUser(email, password);
+        meter.setEditText(etPassword);
+        meter.setPasswordStrengthCalculator(new PasswordStrengthCalculator() {
+            @Override
+            public int calculatePasswordSecurityLevel(String s) {
+                double score = 3;
+
+                // show meter only when user starts typing
+                meter.setVisibility(View.VISIBLE);
+
+                // if length less than minimum length,
+                // don't conduct any other checks
+                if (s.isEmpty()) {
+                    return 0; // too short
+                }
+
+                if (s.length() < 5) {
+                    return 1;
+                }
+
+                if (s.length() < getMinimumLength()) {
+                    return 2;
+                }
+
+                // reward longer passwords
+                if (s.length() >= 12) {
+                    score += 0.5;
+                }
+
+                // check for number
+                if (Pattern.compile("\\d").matcher(s).find()) {
+                    score += 0.5;
+                }
+
+                // check for at least 1 upper and lowercase
+                if (Pattern.compile("[a-z]").matcher(s).find() &&
+                        Pattern.compile("[A-Z]").matcher(s).find()) {
+                    score += 0.5;
+                }
+
+                // check for symbols/special chars
+                if (Pattern.compile("[~`!@#$%^&*()_\\-+={\\[}\\]|\\\\:;\"'<,>.?/]")
+                        .matcher(s).find()) {
+                    score += 0.5;
+                }
+
+                Log.d(TAG, "Score: " + score);
+                return (int) Math.floor(score);
+            }
+
+            @Override
+            public int getMinimumLength() {
+                return 8;
+            }
+
+            @Override
+            public boolean passwordAccepted(int i) {
+                // This is a temporary workaround since there
+                // is no 'onPasswordRejected' method in the calculator interface.
+                // Ideally, the flag and state of the button should be changed in
+                // those methods.
+                validPw = i > 3;
+                btnRegister.setEnabled(validPw && validEmail);
+                return i > 3;
+            }
+
+            @Override
+            public void onPasswordAccepted(String s) {
+
             }
         });
     }
@@ -146,19 +243,20 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(RegisterActivity.this, task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "createUser:success");
-                        verifyEmail();
+                        sendVerificationEmail();
                     } else {
                         Log.w(TAG, "createUser:failure");
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     public static boolean isValidEmail(CharSequence email) {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
-    private void verifyEmail() {
+    private void sendVerificationEmail() {
         FirebaseUser user = mAuth.getCurrentUser();
 
         // pray there is a user because that's how it should theoretically work
@@ -170,10 +268,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         user.sendEmailVerification().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d(TAG, "verifyEmail:success");
+                Log.d(TAG, "sendVerificationEmail:success");
                 startActivity(new Intent(RegisterActivity.this, VerifyEmailActivity.class));
             } else {
-                Log.d(TAG, "verifyEmail:failure");
+                Log.d(TAG, "sendVerificationEmail:failure");
                 Toast.makeText(getApplicationContext(), "Failed to send verification email", Toast.LENGTH_SHORT).show();
             }
         });

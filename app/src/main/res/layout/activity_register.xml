@@ -62,32 +62,26 @@
                 android:layout_marginTop="20dp"
                 android:inputType="textPassword"/>
 
-            <EditText
-                android:id="@+id/etConfirmPassword"
+            <nu.aaro.gustav.passwordstrengthmeter.PasswordStrengthMeter
+                android:id="@+id/passwordMeter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_confirm_password"
-                android:textColorHint="@color/zinc_600"
-                android:autofillHints="password"
-                android:textColor="@color/black"
-                android:background="@drawable/style_primary_rounded_hollow"
-                android:drawableStart="@drawable/ic_lock_24"
-                android:drawablePadding="8dp"
-                android:padding="16dp"
+                app:labelTextSize="18sp"
                 android:layout_marginTop="20dp"
-                android:inputType="textPassword"/>
+                android:layout_marginHorizontal="5dp"
+                android:visibility="gone"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_register"
-                android:textColor="@color/white"
+                android:textColor="@drawable/selector_register_next_text"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:background="@drawable/style_primary_rounded_hollow"
+                android:background="@drawable/selector_register_next"
                 android:backgroundTint="@color/caribbeanCurrent"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="30dp"/>
 
             <TextView
                 android:id="@+id/tvLogin"
