@@ -5,7 +5,6 @@
     android:id="@+id/fragment_recipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".activities.RecipeFragment"
     android:background="@color/timberWolf">
 
@@ -25,8 +24,8 @@
                 android:id="@+id/banner_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/style_rounded_et"
                 app:layout_scrollFlags="scroll|enterAlways">
@@ -35,27 +34,37 @@
                     android:id="@+id/searchIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_search_24"
                     android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_search_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/searchInput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_search"
-                    android:inputType="text"
-                    android:gravity="center_vertical"
                     android:layout_marginStart="10dp"
-                    android:imeOptions="actionSearch"
                     android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/camera_icon"
                     app:layout_constraintStart_toEndOf="@id/searchIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/camera_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/camera_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -69,27 +78,31 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:layout_constraintTop_toBottomOf="@id/banner_container"
                 app:layout_constraintStart_toStartOf="parent" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="switch1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-            <Button
-                android:id="@+id/test1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="switch2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="switch1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/test1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="switch2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -103,6 +116,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintTop_toBottomOf="@id/cuisineRecyclerView"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainIngredientRecyclerView"
             android:layout_width="match_parent"
@@ -115,8 +129,7 @@
             android:visibility="visible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintTop_toBottomOf="@id/cuisineRecyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
