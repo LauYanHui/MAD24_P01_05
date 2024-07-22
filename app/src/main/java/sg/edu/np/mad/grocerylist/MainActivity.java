@@ -35,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
         items.add(new GroceryItem("Apple"));
         items.add(new GroceryItem("Banana"));
         items.add(new GroceryItem("Orange"));
-        items.add(new GroceryItem("Strawberry"));
-        items.add(new GroceryItem("Kiwi"));
-        items.add(new GroceryItem("Mango"));
 
         adapter = new GroceryAdapter(items);
         recyclerView.setAdapter(adapter);
@@ -53,22 +50,25 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     addItem(text);
                     input.setText("");
-                    makeToast("Added: " + text);
+                    makeToast(text + " added");
                 }
             }
         });
 
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        adapter.setOnItemClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(int position) {
+                items.get(position).setChecked(!items.get(position).isChecked());
+                adapter.notifyItemChanged(position);
+            }
+            @Override
+            public void onEditClick(int position) {
                 showEditDialog(position);
             }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
+            public void onItemLongClick(int position) {
                 showDeleteDialog(position);
             }
-        }));
+        });
     }
 
     private void showEditDialog(final int position) {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void showDeleteDialog(final int position) {
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Delete Item")
-                .setMessage("Are you sure you want to delete this item?")
+                .setMessage("Do you want to delete this item?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     items.remove(position);
                     adapter.notifyItemRemoved(position);
