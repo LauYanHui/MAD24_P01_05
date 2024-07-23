@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "potent-retina-430107-n7",
+  "private_key_id": "ec3b9852291702415ab5795b6309e33f5ad0e576",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqSqq+gaqFpQTJ\nA+9UemadUEU8aTHxJz28OmWCooJ8cW9txQyTGF71Dmirj8TRqMQa3/diiGegfZ7N\n2oJ7QAJTOB6unw/sbZkGE22myFVmooRXXfRyuEpXxtwGsUzeKhihA1a8lwyeUtdo\nQjsNlp0WkJLLdl1oJ2M6AtrcExxdMldQ26/hINsFeX8n1C7WC0Nx6nRufbfueEIj\n7J3oKERwX0tD6By/mPEwv182l546Qt9eeDVRrXk1YBjMhoevRiT4bp65CaXZMhNf\nHUNGSZ8qrYhySvjh0UPhpuULk2NRHz69cSI79gBgNVPy8UQISwh+bV97bqBbhmjP\nE3iNtHLtAgMBAAECggEAOfzABKwp0WV+aibdXfJqM+JsGSSnHXuj0Y8/FstYzKBh\n9cqWPBad6yuTZ+xGdLBXyuD+H/7b7rIoG+fu66JByG3BQOwoI3W0mHWQLq1kK1Vm\n5Es5nMD1i8tLDDpetv41scptxD1ZTiZedIGtEzT43ACyA/eT2g4jg1MKjMszKuaU\ngzsOh0X4YpxRBET+4DvEaX8C73nxODOLbqv78tA2rMVSxxvWh1tw5RlcAoTPEQ9L\nqCHyFZSEY+HEZQf1p1RtLE0jZW0CjSgBzhhGCTgR9ovjltBW0pKJI24vgLshVdUD\n7pxAJlZ53LTAsETJn+pVNtEN0xA/cK4HCX153OCl/wKBgQDvKiUI+vx3FnUyv2Rd\n7AYex1pHCrk7nZ7MHlfyR4Uy02xigoGnenovyLA2ZrUuv7LYewxxqK2jZTTjwz67\n5nFEkkE8SkH0bShln1J610CLw+dGrltHhB6HUjPrQXojD6wPInMSSiKLc1/eqTni\nfmYKfiyY5XMrebGVwtBd8kOl3wKBgQC2R2Z24E8aIE0SNoB+ZHmU0YbFh0XPqL1i\nJqXXdL7tVFXZUNqI8OvARTZN2UDAdNcJp14KxsE8ikQzNXm2H5C8n4fGvjnQ3PAg\ncysfmUcE1lcwnQg3jBWK32aNlNGJhgQMdLF7f7O2mK8+HFAlXoKqB3Q2KRKVLjat\nmXrVVteIswKBgA5cKnMaltQTrh/I7B7TkB6C+8GuPCb/NMyuubsbXj0KAsT7bwt+\nSB3cX/A0RIa1Dej/omSkqyBXcFCIpZikooJqga48Cy/A6h8H7OzhRcfekGFnEKX/\nodGgNuvWN54pT7xs5hngB6j12XjGEmquCjRxFP5tMHgYy3fhhZ9Ob49jAoGAYQGy\nuEU8E81o9u5mh911DwxLS0hokNFeqKOk0vtguPGPFq5+/y4oaRTsh5W9bi9AWfTm\niZmpMUzsasxkz9YQszG7krueDVfnu31PT+vE7gAcOtT3kIhO1q955pNyyFu4P+DC\nq9UUkXLEoKt0w85+f3qkEEbfiuEjXFQ4GN20qx0CgYEAq+0cRCd7/Ly4WWGe/AFI\n+EJJ9+AKkQb8HRR4ER+gSq4jM3qc2WecNQKpESXY/WToVMie4HZtYjYk/5RGID+o\nDKKELSPTgjfkJ0tVuHRZOp8E9hJTOVMKv2m2s4DWL9adS5RacEtXfCLHg/liX8id\nFNdKFpeNoseLtCljStQzOC8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "vertex-ai-service-account@potent-retina-430107-n7.iam.gserviceaccount.com",
+  "client_id": "113289404287510066752",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vertex-ai-service-account%40potent-retina-430107-n7.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
