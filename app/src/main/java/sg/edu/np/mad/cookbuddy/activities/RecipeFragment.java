@@ -4,12 +4,6 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,9 +13,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 import sg.edu.np.mad.cookbuddy.R;
-import sg.edu.np.mad.cookbuddy.adapters.ChildRecipeAdapter;
 import sg.edu.np.mad.cookbuddy.adapters.CuisineAdapter;
 import sg.edu.np.mad.cookbuddy.adapters.MainIngredientAdapter;
 import sg.edu.np.mad.cookbuddy.adapters.RecipeAdapter;
@@ -51,7 +50,6 @@ public class RecipeFragment extends Fragment {
     private RecipeAdapter recipeAdapter;
     private MainIngredientAdapter mainIngredientAdapter;
     private CuisineAdapter cuisineAdapter;
-    private Button test1,test2;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -79,25 +77,8 @@ public class RecipeFragment extends Fragment {
         RecyclerView mainIngredientRecyclerView = view.findViewById(R.id.mainIngredientRecyclerView);
         RecyclerView cuisineRecyclerView = view.findViewById(R.id.cuisineRecyclerView);
         RecyclerView recipeRecyclerView = view.findViewById(R.id.recyclerView);
+        NestedScrollView nestedScrollView = view.findViewById(R.id.nestedScrollView);
 
-        test1 = view.findViewById(R.id.test);
-        test2 = view.findViewById(R.id.test1);
-        test1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainIngredientRecyclerView.setVisibility(View.GONE);
-                recipeRecyclerView.setVisibility(View.VISIBLE);
-                cuisineRecyclerView.setVisibility(View.VISIBLE);
-            }
-        });
-        test2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainIngredientRecyclerView.setVisibility(View.VISIBLE);
-                recipeRecyclerView.setVisibility(View.GONE);
-                cuisineRecyclerView.setVisibility(View.GONE);
-            }
-        });
         mainIngredientAdapter = new MainIngredientAdapter(getContext(), mainIngredientList, recipeMap);
         mainIngredientRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mainIngredientRecyclerView.setAdapter(mainIngredientAdapter);
@@ -110,12 +91,22 @@ public class RecipeFragment extends Fragment {
             }
         });
 
-        cuisineRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager cuisineLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        cuisineRecyclerView.setLayoutManager(cuisineLayoutManager);
         cuisineRecyclerView.setAdapter(cuisineAdapter);
 
-        recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Add snapping to the cuisine RecyclerView
+        LinearSnapHelper snapHelperCuisine = new LinearSnapHelper();
+        snapHelperCuisine.attachToRecyclerView(cuisineRecyclerView);
+
+        LinearLayoutManager recipeLayoutManager = new LinearLayoutManager(getContext());
+        recipeRecyclerView.setLayoutManager(recipeLayoutManager);
         recipeRecyclerView.setNestedScrollingEnabled(true);
         recipeRecyclerView.setAdapter(recipeAdapter);
+
+        // Add snapping to the recipe RecyclerView
+        LinearSnapHelper snapHelperRecipe = new LinearSnapHelper();
+        snapHelperRecipe.attachToRecyclerView(recipeRecyclerView);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("Recipes");
@@ -229,6 +220,27 @@ public class RecipeFragment extends Fragment {
                 // Do nothing
             }
         });
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                // Implement snapping logic here
+                int threshold = 50; // Adjust threshold as needed
+
+                if (scrollY > oldScrollY) {
+                    // Scrolling down
+                    if (Math.abs(scrollY - recipeRecyclerView.getBottom()) < threshold) {
+                        nestedScrollView.smoothScrollTo(0, recipeRecyclerView.getBottom());
+                    }
+                } else if (scrollY < oldScrollY) {
+                    // Scrolling up
+                    if (Math.abs(scrollY - mainIngredientRecyclerView.getTop()) < threshold) {
+                        nestedScrollView.smoothScrollTo(0, mainIngredientRecyclerView.getTop());
+                    }
+                }
+            }
+        });
+
         return view;
     }
 

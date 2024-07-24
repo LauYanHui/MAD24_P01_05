@@ -55,6 +55,6 @@ dependencies {
     annotationProcessor (libs.glide.compiler)
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
     implementation ("com.google.android.material:material:1.9.0")
-
-
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("com.github.rubensousa:gravitysnaphelper:2.2.2")
 }
