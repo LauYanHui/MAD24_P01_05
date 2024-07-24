@@ -281,6 +281,27 @@ public class RecipeFragment extends Fragment {
         recipeAdapter.updateRecipeList(filteredRecipeList);
         Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredRecipeList.size());
     }
+    private void filterByIngredients(List<String> detectedIngredients) {
+        filteredRecipeList.clear();
+        for (Recipe recipe : recipeList) {
+            boolean ingredientMatched = false;
+            for (String ingredient : detectedIngredients) {
+                for (String recipeIngredient : recipe.getIngredients()) {
+                    // Normalize both detected ingredient and recipe ingredient for comparison
+                    if (recipeIngredient.toLowerCase().contains(ingredient.toLowerCase())) {
+                        filteredRecipeList.add(recipe);
+                        ingredientMatched = true;
+                        break; // Break to avoid adding the same recipe multiple times
+                    }
+                }
+                if (ingredientMatched) {
+                    break;
+                }
+            }
+        }
+        recipeAdapter.updateRecipeList(filteredRecipeList);
+        Log.d(TAG, "Filtered by ingredients: " + detectedIngredients + ", filtered list size: " + filteredRecipeList.size());
+    }
 
     private void filter(String text) {
         filteredRecipeList.clear();
@@ -367,6 +388,7 @@ public class RecipeFragment extends Fragment {
             for (String item : detectedItems) {
                 Log.i(TAG, "Detected food item: " + item);
             }
+            filterByIngredients(detectedItems); // Call the new filter method
         }
     }
 
