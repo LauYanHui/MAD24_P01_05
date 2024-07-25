@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -50,6 +51,7 @@ public class RecipeFragment extends Fragment {
     private RecipeAdapter recipeAdapter;
     private MainIngredientAdapter mainIngredientAdapter;
     private CuisineAdapter cuisineAdapter;
+    private ConstraintLayout constraintLayout;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -180,7 +182,19 @@ public class RecipeFragment extends Fragment {
 
         EditText searchInput = view.findViewById(R.id.searchInput);
         ImageView searchIcon = view.findViewById(R.id.searchIcon);
-
+        constraintLayout = view.findViewById(R.id.banner_container);
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cuisineRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+//        searchInput.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mainIngredientRecyclerView.setVisibility(View.GONE);
+//            }
+//        });
         searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +202,7 @@ public class RecipeFragment extends Fragment {
                 Log.d(TAG, "Search Icon clicked, search text: " + searchText);
                 filter(searchText);
                 searchInput.setText("");
+
             }
         });
 
@@ -212,7 +227,18 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "Text changed: " + charSequence.toString());
-                filter(charSequence.toString());
+                if (charSequence.toString().isEmpty()) {
+                    // Show mainIngredientRecyclerView and hide recipeRecyclerView
+                    mainIngredientRecyclerView.setVisibility(View.VISIBLE);
+                    recipeRecyclerView.setVisibility(View.GONE);
+                    cuisineRecyclerView.setVisibility(View.GONE);
+                } else {
+                    // Perform filtering and show recipeRecyclerView
+                    filter(charSequence.toString());
+                    mainIngredientRecyclerView.setVisibility(View.GONE);
+                    recipeRecyclerView.setVisibility(View.VISIBLE);
+                    cuisineRecyclerView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

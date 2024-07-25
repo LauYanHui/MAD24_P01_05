@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/timberWolf"
     tools:context=".activities.TimerActivity">
+
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="40dp"
@@ -25,26 +26,29 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="80dp"
         android:background="@drawable/circle_shape"
         android:indeterminate="false"
         android:progressDrawable="@drawable/circle_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.249" />
 
     <TextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
         android:text="25:00"
         android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@id/pickerLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/progressBar"
+        app:layout_constraintBottom_toBottomOf="@id/progressBar"
+        app:layout_constraintStart_toStartOf="@id/progressBar"
+        app:layout_constraintEnd_toEndOf="@id/progressBar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        android:gravity="center"/>
 
     <LinearLayout
         android:id="@+id/pickerLayout"
@@ -53,7 +57,6 @@
         android:layout_marginTop="40dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timerTextView">
 
@@ -87,7 +90,6 @@
         android:padding="16dp"
         android:rowCount="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pickerLayout">
 
@@ -138,7 +140,6 @@
             android:id="@+id/stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="20dp"
             android:background="@drawable/style_rounded_et"
             android:backgroundTint="@color/caribbeanCurrent"
@@ -148,6 +149,3 @@
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--
-    android:layout_column=""
-    android:layout_row=""-->
