@@ -48,7 +48,7 @@ public class ChildRecipeAdapter extends RecyclerView.Adapter<ChildRecipeAdapter.
         loadImageFromFirebase(recipe.getImageName(), holder.recipeImage);
 
         // Set up the click listener for the recipe image
-        holder.recipeImage.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, RecipeDetailsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("Recipe", recipe); // Pass the recipe object

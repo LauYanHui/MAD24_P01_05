@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="225dp"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:layout_marginLeft="10dp"
+    android:background="@drawable/recipebox"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/recipeImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop" />
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/border_background" />
 
-    <TextView
-        android:id="@+id/recipeName"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="recipeName"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/recipeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="recipeName"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:scrollbars="vertical" />
+    </ScrollView>
+
 </LinearLayout>
