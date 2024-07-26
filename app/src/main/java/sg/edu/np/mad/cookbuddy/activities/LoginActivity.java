@@ -108,6 +108,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     // go to home page
                                     Intent goHome = new Intent(LoginActivity.this, HomeActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("User",temp);
+                                    goHome.putExtras(bundle);
                                     startActivity(goHome);
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();

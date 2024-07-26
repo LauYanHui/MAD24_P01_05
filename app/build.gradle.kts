@@ -7,6 +7,7 @@ android {
     namespace = "sg.edu.np.mad.cookbuddy"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "sg.edu.np.mad.cookbuddy"
 
@@ -30,6 +31,18 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    packaging {
+        resources {
+            excludes.add("META-INF/DEPENDENCIES")
+            // You can also exclude other conflicting files if needed
+            excludes.add("META-INF/LICENSE")
+            excludes.add("META-INF/LICENSE.txt")
+            excludes.add("META-INF/NOTICE")
+            excludes.add("META-INF/NOTICE.txt")
+            excludes.add("META-INF/INDEX.LIST")
+        }
     }
 
     compileOptions {
@@ -57,6 +70,18 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation ("com.google.cloud:google-cloud-vision:2.0.0")
+    implementation ("com.google.android.gms:play-services-vision:20.1.3")
+    implementation ("androidx.camera:camera-core:1.0.2")
+    implementation ("androidx.camera:camera-camera2:1.0.2")
+    implementation ("androidx.camera:camera-lifecycle:1.0.2")
+    implementation ("androidx.camera:camera-view:1.0.0-alpha24")
+    implementation ("androidx.camera:camera-extensions:1.0.0-alpha24")
+    implementation ("androidx.activity:activity-ktx:1.3.0")
+    implementation ("androidx.fragment:fragment-ktx:1.4.0")
+    implementation ("io.grpc:grpc-okhttp:1.40.1")
+    implementation ("io.grpc:grpc-protobuf:1.40.1")
+    implementation ("io.grpc:grpc-stub:1.40.1")
     implementation ("com.google.android.material:material:1.9.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("com.github.rubensousa:gravitysnaphelper:2.2.2")

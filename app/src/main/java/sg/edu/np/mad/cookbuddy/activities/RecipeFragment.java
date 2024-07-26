@@ -3,7 +3,41 @@ package sg.edu.np.mad.cookbuddy.activities;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.api.client.util.Lists;
+import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageAnnotatorSettings;
+import com.google.protobuf.ByteString;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.Manifest;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,6 +48,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -29,10 +64,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import sg.edu.np.mad.cookbuddy.R;
@@ -49,6 +96,12 @@ public class RecipeFragment extends Fragment {
     private ArrayList<String> cuisineList = new ArrayList<>();
     private Map<String, List<Recipe>> recipeMap = new HashMap<>();
     private RecipeAdapter recipeAdapter;
+
+    private static final String API_KEY = "AIzaSyBXzZRrpRt3GYcxnr9FbyemHOxC2_fxyrc";
+
+    private Uri photoURI;
+
+    private ActivityResultLauncher<Intent> selectPictureLauncher;
     private MainIngredientAdapter mainIngredientAdapter;
     private CuisineAdapter cuisineAdapter;
     private ConstraintLayout constraintLayout;
@@ -64,6 +117,24 @@ public class RecipeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        selectPictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == AppCompatActivity.RESULT_OK && result.getData() != null) {
+                        Uri selectedImageUri = result.getData().getData();
+                        if (selectedImageUri != null) {
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
+                                Log.e(TAG, "I am searching For Image");
+                                detectFoodItems(bitmap);
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error getting bitmap from selectedImageUri: " + e.getMessage());
+                            }
+                        }
+                    }
+                }
+        );
         if (getActivity() != null) {
             getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -71,14 +142,14 @@ public class RecipeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
         RecyclerView mainIngredientRecyclerView = view.findViewById(R.id.mainIngredientRecyclerView);
         RecyclerView cuisineRecyclerView = view.findViewById(R.id.cuisineRecyclerView);
         RecyclerView recipeRecyclerView = view.findViewById(R.id.recyclerView);
+        ImageView fileExplorerButton = view.findViewById(R.id.camera_icon);
         NestedScrollView nestedScrollView = view.findViewById(R.id.nestedScrollView);
 
         mainIngredientAdapter = new MainIngredientAdapter(getContext(), mainIngredientList, recipeMap);
@@ -180,6 +251,7 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+
         EditText searchInput = view.findViewById(R.id.searchInput);
         ImageView searchIcon = view.findViewById(R.id.searchIcon);
         constraintLayout = view.findViewById(R.id.banner_container);
@@ -246,24 +318,10 @@ public class RecipeFragment extends Fragment {
                 // Do nothing
             }
         });
-
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        fileExplorerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                // Implement snapping logic here
-                int threshold = 50; // Adjust threshold as needed
-
-                if (scrollY > oldScrollY) {
-                    // Scrolling down
-                    if (Math.abs(scrollY - recipeRecyclerView.getBottom()) < threshold) {
-                        nestedScrollView.smoothScrollTo(0, recipeRecyclerView.getBottom());
-                    }
-                } else if (scrollY < oldScrollY) {
-                    // Scrolling up
-                    if (Math.abs(scrollY - mainIngredientRecyclerView.getTop()) < threshold) {
-                        nestedScrollView.smoothScrollTo(0, mainIngredientRecyclerView.getTop());
-                    }
-                }
+            public void onClick(View v) {
+                openFileExplorer();
             }
         });
 
@@ -284,6 +342,27 @@ public class RecipeFragment extends Fragment {
         recipeAdapter.updateRecipeList(filteredList);
         Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredList.size());
     }
+    private void filterByIngredients(List<String> detectedIngredients) {
+        filteredRecipeList.clear();
+        for (Recipe recipe : recipeList) {
+            boolean ingredientMatched = false;
+            for (String ingredient : detectedIngredients) {
+                for (String recipeIngredient : recipe.getIngredients()) {
+                    // Normalize both detected ingredient and recipe ingredient for comparison
+                    if (recipeIngredient.toLowerCase().contains(ingredient.toLowerCase())) {
+                        filteredRecipeList.add(recipe);
+                        ingredientMatched = true;
+                        break; // Break to avoid adding the same recipe multiple times
+                    }
+                }
+                if (ingredientMatched) {
+                    break;
+                }
+            }
+        }
+        recipeAdapter.updateRecipeList(filteredRecipeList);
+        Log.d(TAG, "Filtered by ingredients: " + detectedIngredients + ", filtered list size: " + filteredRecipeList.size());
+    }
 
     private void filter(String text) {
         ArrayList<Recipe> filteredList = new ArrayList<>();
@@ -294,5 +373,89 @@ public class RecipeFragment extends Fragment {
         }
         recipeAdapter.updateRecipeList(filteredList);
         Log.d(TAG, "Filter applied, filtered list size: " + filteredList.size());
+    }
+
+    private void openFileExplorer() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        selectPictureLauncher.launch(intent);
+    }
+
+    private void detectFoodItems(Bitmap bitmap) {
+        new DetectFoodItemsTask().execute(bitmap);
+    }
+
+    private class DetectFoodItemsTask extends AsyncTask<Bitmap, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Bitmap... bitmaps) {
+            Bitmap bitmap = bitmaps[0];
+            try {
+                byte[] imageBytes = bitmapToByteArray(bitmap);
+                String base64Image = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+                JSONObject requestPayload = new JSONObject();
+                JSONArray requests = new JSONArray();
+                JSONObject requestObject = new JSONObject();
+                JSONObject imageObject = new JSONObject();
+                imageObject.put("content", base64Image);
+                requestObject.put("image", imageObject);
+                JSONArray features = new JSONArray();
+                JSONObject feature = new JSONObject();
+                feature.put("type", "LABEL_DETECTION");
+                features.put(feature);
+                requestObject.put("features", features);
+                requests.put(requestObject);
+                requestPayload.put("requests", requests);
+
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestPayload.toString());
+                Request request = new Request.Builder()
+                        .url("https://vision.googleapis.com/v1/images:annotate?key=" + API_KEY)
+                        .post(body)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "API request failed: " + response);
+                    return new ArrayList<>();
+                }
+
+                String responseBody = response.body().string();
+                JSONObject responseJson = new JSONObject(responseBody);
+                JSONArray responsesArray = responseJson.getJSONArray("responses");
+                List<String> detectedItems = new ArrayList<>();
+
+                for (int i = 0; i < responsesArray.length(); i++) {
+                    JSONObject responseObj = responsesArray.getJSONObject(i);
+                    JSONArray labelAnnotations = responseObj.getJSONArray("labelAnnotations");
+
+                    for (int j = 0; j < labelAnnotations.length(); j++) {
+                        JSONObject annotation = labelAnnotations.getJSONObject(j);
+                        String description = annotation.getString("description");
+                        detectedItems.add(description);
+                    }
+                }
+                return detectedItems;
+
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to detect food items: " + e.getMessage(), e);
+                return new ArrayList<>();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<String> detectedItems) {
+            super.onPostExecute(detectedItems);
+            for (String item : detectedItems) {
+                Log.i(TAG, "Detected food item: " + item);
+            }
+            filterByIngredients(detectedItems); // Call the new filter method
+        }
+    }
+
+    private byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 }
