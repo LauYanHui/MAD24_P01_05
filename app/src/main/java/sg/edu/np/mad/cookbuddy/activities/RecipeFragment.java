@@ -136,7 +136,7 @@ public class RecipeFragment extends Fragment {
 
         RecyclerView cuisineRecyclerView = view.findViewById(R.id.cuisineRecyclerView);
         RecyclerView recipeRecyclerView = view.findViewById(R.id.recyclerView);
-        ImageButton fileExplorerButton = view.findViewById(R.id.ai_camera_Button);
+        ImageView fileExplorerButton = view.findViewById(R.id.camera_icon);
 
         recipeAdapter = new RecipeAdapter(filteredRecipeList, getContext());
         cuisineAdapter = new CuisineAdapter(cuisineList, getContext(), new CuisineAdapter.OnCuisineClickListener() {
