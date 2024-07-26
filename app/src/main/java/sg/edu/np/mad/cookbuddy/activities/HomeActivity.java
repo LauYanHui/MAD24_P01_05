@@ -1,5 +1,6 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import sg.edu.np.mad.cookbuddy.R;
 import sg.edu.np.mad.cookbuddy.databinding.ActivityHomeBinding;
+import sg.edu.np.mad.cookbuddy.models.User;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -32,6 +34,8 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         changeFragment(new RecipeFragment());
+        Intent intent = getIntent();
+        User currentUser = (User)intent.getSerializableExtra("User");
 
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
@@ -61,8 +65,12 @@ public class HomeActivity extends AppCompatActivity {
                     newFragment = fm.findFragmentById(R.id.fragment_profile);
                     if (newFragment == null) {
                         newFragment = new ProfileFragment();
+                        Bundle args = new Bundle();
+                        args.putSerializable("User", currentUser);
+                        newFragment.setArguments(args);
                     }
                 }
+
 
                 if (newFragment != null) {
                     changeFragment(newFragment);

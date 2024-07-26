@@ -7,7 +7,7 @@ import java.util.Map;
 public class Recipe implements Serializable {
     public String id;
 
-    private int imageResId;
+    private String imageName;;
     private List<String> allergies;
     private String cuisine;
     private List<String> ingredients;
@@ -16,7 +16,7 @@ public class Recipe implements Serializable {
     private String name;
     private Map<String, String> nutritiousFacts;
     private boolean isFavorite;
-    public Recipe(String id,int imageResId, List<String> allergies, String cuisine, List<String> ingredients, List<String> instructions,
+    public Recipe(String id,String imageName, List<String> allergies, String cuisine, List<String> ingredients, List<String> instructions,
                   String mainIngredient, String name, Map<String, String> nutritiousFacts, boolean isFavorite) {
         this.id = id;
         this.allergies = allergies;
@@ -25,8 +25,9 @@ public class Recipe implements Serializable {
         this.instructions = instructions;
         this.mainIngredient = mainIngredient;
         this.name = name;
+        this.imageName = imageName;
         this.nutritiousFacts = nutritiousFacts;
-        this.imageResId = imageResId;
+        //this.imageResId = imageResId;
         this.isFavorite = isFavorite;
     }
 
@@ -75,6 +76,7 @@ public class Recipe implements Serializable {
         return nutritiousFacts;
     }
 
+    /*
     public int getImageResId() {
         return imageResId;
     }
@@ -82,12 +84,18 @@ public class Recipe implements Serializable {
     public void setImageResId(int imageResId) {
         this.imageResId = imageResId;
     }
+    */
+
 
     public boolean isFavorite() {
         return isFavorite;
+    }
+    public String getImageName(){
+        return imageName;
     }
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
+
 }

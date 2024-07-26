@@ -7,9 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -21,10 +26,12 @@ import sg.edu.np.mad.cookbuddy.views.RecipeViewHolder;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> recipeList;
     private Context context;
+    private FirebaseStorage firebaseStorage;
 
     public RecipeAdapter(ArrayList<Recipe> recipeList, Context context) {
         this.recipeList = recipeList;
         this.context = context;
+        this.firebaseStorage = FirebaseStorage.getInstance();
     }
 
     @NonNull
@@ -42,7 +49,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.getName().setText(listItem.getName());
         holder.getCuisine().setText(listItem.getCuisine());
         holder.getMainIngredient().setText(listItem.getMainIngredient());
-        holder.getImage().setImageResource(listItem.getImageResId());
+        //holder.getImage().setImageResource(listItem.getImageResId());
+        loadImageFromFirebase(listItem.getImageName(), holder.getImage());
+        //Log.i("ezreal",listItem.getImageName());
 
         holder.getName().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +76,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         recipeList = newRecipeList;
         notifyDataSetChanged();
     }
-
+    private void loadImageFromFirebase(String imageName, ImageView imageView) {
+        StorageReference imageRef = firebaseStorage.getReference().child("Recipe Images/" + imageName);
+        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(context).load(uri).into(imageView);
+        }).addOnFailureListener(exception -> {
+            Log.e("RecipeAdapter", "Error getting image URL: " + exception.getMessage());
+        });
+    }
 
 }
