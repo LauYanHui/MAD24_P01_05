@@ -35,11 +35,14 @@ import java.util.List;
 import java.util.Map;
 
 import sg.edu.np.mad.cookbuddy.R;
+import sg.edu.np.mad.cookbuddy.models.Recipe;
 import sg.edu.np.mad.cookbuddy.models.User;
 
 public class ProfileFragment extends Fragment {
 
     private DatabaseReference userRef;
+
+    private  DatabaseReference recipeRef;
     private TextView tvUsername;
     private User currentUser;
     private LinearLayout bookmarkedTechniquesLayout;
@@ -58,12 +61,13 @@ public class ProfileFragment extends Fragment {
         // Initialize Firebase reference
         String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
         userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users");
+        recipeRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Recipes");
 
         // Initialize UI elements
         Button btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         Button btnEditAllergies = view.findViewById(R.id.btn_edit_allergies);
         tvUsername = view.findViewById(R.id.username);
-        bookmarkedTechniquesLayout = view.findViewById(R.id.bookmarked_techniques_container);
+//        bookmarkedTechniquesLayout = view.findViewById(R.id.bookmarked_techniques_container);
         favoriteRecipesLayout = view.findViewById(R.id.favorite_recipes_container);
         allergiesLayout = view.findViewById(R.id.allergies_container);
 
@@ -97,7 +101,6 @@ public class ProfileFragment extends Fragment {
                 if (snapshot.exists()) {
                     // Clear existing views
                     allergiesLayout.removeAllViews();
-                    bookmarkedTechniquesLayout.removeAllViews();
                     favoriteRecipesLayout.removeAllViews();
 
                     // Fetch and display allergies
@@ -106,16 +109,22 @@ public class ProfileFragment extends Fragment {
                         addAllergy(allergy);
                     }
 
-                    // Fetch and display bookmarked techniques
-                    for (DataSnapshot techniqueSnapshot : snapshot.child("bookmarkedTechniques").getChildren()) {
-                        String technique = techniqueSnapshot.getValue(String.class);
-                        addBookmarkedTechnique(technique);
-                    }
-
                     // Fetch and display favourite recipes
-                    for (DataSnapshot recipeSnapshot : snapshot.child("favoriteRecipes").getChildren()) {
-                        String recipe = recipeSnapshot.getValue(String.class);
-                        addFavoriteRecipe(recipe);
+                    for (DataSnapshot recipeSnapshot : snapshot.child("favourites").getChildren()) {
+                        String key = recipeSnapshot.getKey();
+                        recipeRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String name = snapshot.child("Name").getValue(String.class);
+                                addFavoriteRecipe(name);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 }
             }
@@ -142,44 +151,6 @@ public class ProfileFragment extends Fragment {
         allergiesLayout.addView(layout);
     }
 
-    private void addBookmarkedTechnique(String technique) {
-        LinearLayout layout = new LinearLayout(getContext());
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-
-        TextView textView = new TextView(getContext());
-        textView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        textView.setText(technique);
-
-        Button removeButton = new Button(getContext());
-        removeButton.setLayoutParams(new LinearLayout.LayoutParams(40, 40));
-        removeButton.setBackgroundResource(android.R.drawable.ic_delete);
-        removeButton.setOnClickListener(v -> removeBookmarkedTechnique(technique));
-
-        layout.addView(textView);
-        layout.addView(removeButton);
-
-        bookmarkedTechniquesLayout.addView(layout);
-    }
-
-    private void removeBookmarkedTechnique(String technique) {
-        userRef.child(currentUser.getUsername()).child("bookmarkedTechniques").orderByValue().equalTo(technique).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    dataSnapshot.getRef().removeValue();
-                }
-                // Refresh the UI
-                bookmarkedTechniquesLayout.removeAllViews();
-                fetchUserData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to remove technique.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void addFavoriteRecipe(String recipe) {
         LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -188,35 +159,11 @@ public class ProfileFragment extends Fragment {
         textView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         textView.setText(recipe);
 
-        Button removeButton = new Button(getContext());
-        removeButton.setLayoutParams(new LinearLayout.LayoutParams(40, 40));
-        removeButton.setBackgroundResource(android.R.drawable.ic_delete);
-        removeButton.setOnClickListener(v -> removeFavoriteRecipe(recipe));
-
         layout.addView(textView);
-        layout.addView(removeButton);
 
         favoriteRecipesLayout.addView(layout);
     }
 
-    private void removeFavoriteRecipe(String recipe) {
-        userRef.child(currentUser.getUsername()).child("favoriteRecipes").orderByValue().equalTo(recipe).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    dataSnapshot.getRef().removeValue();
-                }
-                // Refresh the UI
-                favoriteRecipesLayout.removeAllViews();
-                fetchUserData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void showEditDetailsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Initialize UI elements
         Button btnEditProfile = findViewById(R.id.btn_edit_profile);
         TextView tvUsername = findViewById(R.id.username);
-        bookmarkedTechniquesLayout = findViewById(R.id.bookmarked_techniques_container);
+//        bookmarkedTechniquesLayout = findViewById(R.id.bookmarked_techniques_container);
         favoriteRecipesLayout = findViewById(R.id.favorite_recipes_container);
 
         tvUsername.setText(user.getUsername());
@@ -89,12 +89,12 @@ public class ProfileActivity extends AppCompatActivity {
                     // Fetch and display bookmarked techniques
                     for (DataSnapshot techniqueSnapshot : snapshot.child("bookmarkedTechniques").getChildren()) {
                         String technique = techniqueSnapshot.getValue(String.class);
-                        addBookmarkedTechnique(technique);
                     }
 
                     // Fetch and display favourite recipes
-                    for (DataSnapshot recipeSnapshot : snapshot.child("favoriteRecipes").getChildren()) {
-                        String recipe = recipeSnapshot.getValue(String.class);
+                    for (DataSnapshot recipeSnapshot : snapshot.child("favorites").getChildren()) {
+                        String recipe = recipeSnapshot.getKey();
+
                         addFavoriteRecipe(recipe);
                     }
                 }
@@ -107,43 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void addBookmarkedTechnique(String technique) {
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.HORIZONTAL);
 
-        TextView textView = new TextView(this);
-        textView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        textView.setText(technique);
-
-        Button removeButton = new Button(this);
-        removeButton.setLayoutParams(new LinearLayout.LayoutParams(40, 40));
-        removeButton.setBackgroundResource(android.R.drawable.ic_delete);
-        removeButton.setOnClickListener(v -> removeBookmarkedTechnique(technique));
-
-        layout.addView(textView);
-        layout.addView(removeButton);
-
-        bookmarkedTechniquesLayout.addView(layout);
-    }
-
-    private void removeBookmarkedTechnique(String technique) {
-        userRef.child(currentUser.getUsername()).child("bookmarkedTechniques").orderByValue().equalTo(technique).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    dataSnapshot.getRef().removeValue();
-                }
-                // Refresh the UI
-                bookmarkedTechniquesLayout.removeAllViews();
-                fetchUserData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this, "Failed to remove technique.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void addFavoriteRecipe(String recipe) {
         LinearLayout layout = new LinearLayout(this);
@@ -155,8 +119,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         Button removeButton = new Button(this);
         removeButton.setLayoutParams(new LinearLayout.LayoutParams(40, 40));
-        removeButton.setBackgroundResource(android.R.drawable.ic_delete);
-        removeButton.setOnClickListener(v -> removeFavoriteRecipe(recipe));
 
         layout.addView(textView);
         layout.addView(removeButton);
@@ -164,24 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
         favoriteRecipesLayout.addView(layout);
     }
 
-    private void removeFavoriteRecipe(String recipe) {
-        userRef.child(currentUser.getUsername()).child("favoriteRecipes").orderByValue().equalTo(recipe).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    dataSnapshot.getRef().removeValue();
-                }
-                // Refresh the UI
-                favoriteRecipesLayout.removeAllViews();
-                fetchUserData();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this, "Failed to remove recipe.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
     private void showEditDetailsDialog() {

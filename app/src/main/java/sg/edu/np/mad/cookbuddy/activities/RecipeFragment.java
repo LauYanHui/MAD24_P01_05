@@ -94,6 +94,8 @@ public class RecipeFragment extends Fragment {
     private ArrayList<Recipe> recipeList = new ArrayList<>();
     private ArrayList<String> mainIngredientList = new ArrayList<>();
     private ArrayList<String> cuisineList = new ArrayList<>();
+
+    private ArrayList<Recipe> filteredList = new ArrayList<>();
     private Map<String, List<Recipe>> recipeMap = new HashMap<>();
     private RecipeAdapter recipeAdapter;
 
@@ -149,7 +151,7 @@ public class RecipeFragment extends Fragment {
         RecyclerView mainIngredientRecyclerView = view.findViewById(R.id.mainIngredientRecyclerView);
         RecyclerView cuisineRecyclerView = view.findViewById(R.id.cuisineRecyclerView);
         RecyclerView recipeRecyclerView = view.findViewById(R.id.recyclerView);
-        ImageView fileExplorerButton = view.findViewById(R.id.camera_icon);
+        ImageView camera_btn = view.findViewById(R.id.camera_icon);
         NestedScrollView nestedScrollView = view.findViewById(R.id.nestedScrollView);
 
         mainIngredientAdapter = new MainIngredientAdapter(getContext(), mainIngredientList, recipeMap);
@@ -302,12 +304,14 @@ public class RecipeFragment extends Fragment {
                 if (charSequence.toString().isEmpty()) {
                     // Show mainIngredientRecyclerView and hide recipeRecyclerView
                     mainIngredientRecyclerView.setVisibility(View.VISIBLE);
+                    camera_btn.setVisibility(View.GONE);
                     recipeRecyclerView.setVisibility(View.GONE);
                     cuisineRecyclerView.setVisibility(View.GONE);
                 } else {
                     // Perform filtering and show recipeRecyclerView
                     filter(charSequence.toString());
                     mainIngredientRecyclerView.setVisibility(View.GONE);
+                    camera_btn.setVisibility(View.VISIBLE);
                     recipeRecyclerView.setVisibility(View.VISIBLE);
                     cuisineRecyclerView.setVisibility(View.VISIBLE);
                 }
@@ -318,7 +322,7 @@ public class RecipeFragment extends Fragment {
                 // Do nothing
             }
         });
-        fileExplorerButton.setOnClickListener(new View.OnClickListener() {
+        camera_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileExplorer();
@@ -329,7 +333,7 @@ public class RecipeFragment extends Fragment {
     }
 
     private void filterByCuisine(String cuisine) {
-        ArrayList<Recipe> filteredList = new ArrayList<>();
+        filteredList.clear();
         if (cuisine.equals("All Recipes")) {
             filteredList.addAll(recipeList);
         } else {
@@ -343,14 +347,14 @@ public class RecipeFragment extends Fragment {
         Log.d(TAG, "Filtered by cuisine: " + cuisine + ", filtered list size: " + filteredList.size());
     }
     private void filterByIngredients(List<String> detectedIngredients) {
-        filteredRecipeList.clear();
+        filteredList.clear();
         for (Recipe recipe : recipeList) {
             boolean ingredientMatched = false;
             for (String ingredient : detectedIngredients) {
                 for (String recipeIngredient : recipe.getIngredients()) {
                     // Normalize both detected ingredient and recipe ingredient for comparison
                     if (recipeIngredient.toLowerCase().contains(ingredient.toLowerCase())) {
-                        filteredRecipeList.add(recipe);
+                        filteredList.add(recipe);
                         ingredientMatched = true;
                         break; // Break to avoid adding the same recipe multiple times
                     }
@@ -360,8 +364,8 @@ public class RecipeFragment extends Fragment {
                 }
             }
         }
-        recipeAdapter.updateRecipeList(filteredRecipeList);
-        Log.d(TAG, "Filtered by ingredients: " + detectedIngredients + ", filtered list size: " + filteredRecipeList.size());
+        recipeAdapter.updateRecipeList(filteredList);
+        Log.d(TAG, "Filtered by ingredients: " + detectedIngredients + ", filtered list size: " + filteredList.size());
     }
 
     private void filter(String text) {
