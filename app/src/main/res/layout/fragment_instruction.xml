@@ -60,4 +60,17 @@
         android:textAllCaps="false"
         android:background="@drawable/style_rounded_et"
         android:backgroundTint="@color/caribbeanCurrent"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/timerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="16dp"
+        android:text="Set Timer"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/style_rounded_et"
+        android:backgroundTint="@color/caribbeanCurrent"/>
 </LinearLayout>

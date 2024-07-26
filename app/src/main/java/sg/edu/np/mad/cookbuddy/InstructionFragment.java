@@ -1,6 +1,5 @@
-package sg.edu.np.mad.cookbuddy.activities;
+package sg.edu.np.mad.cookbuddy;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -19,30 +18,24 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.List;
 
-import sg.edu.np.mad.cookbuddy.R;
 import sg.edu.np.mad.cookbuddy.adapters.InstructionsPagerAdapter;
-import sg.edu.np.mad.cookbuddy.models.Recipe;
 
 public class InstructionFragment extends Fragment implements OnInitListener {
     private static final String ARG_INSTRUCTION_LIST = "instructionList";
     private static final String TAG = "InstructionFragment";
-    private static final String ARG_RECIPE = "recipe";
 
     private List<String> instructionList;
     private TextToSpeech textToSpeech;
     private ViewPager2 instructionsPager;
     private Button speakButton;
-    private Button timer;
-    private Recipe recipe;
 
     public InstructionFragment() {
         // Required empty public constructor
     }
 
-    public static InstructionFragment newInstance(List<String> instructionList, Recipe recipe) {
+    public static InstructionFragment newInstance(List<String> instructionList) {
         InstructionFragment fragment = new InstructionFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_RECIPE,recipe);
         args.putStringArrayList(ARG_INSTRUCTION_LIST, (ArrayList<String>) instructionList);
         fragment.setArguments(args);
         return fragment;
@@ -53,7 +46,6 @@ public class InstructionFragment extends Fragment implements OnInitListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             instructionList = getArguments().getStringArrayList(ARG_INSTRUCTION_LIST);
-            recipe = (Recipe) getArguments().getSerializable(ARG_RECIPE);
         }
         // Initialize TextToSpeech
         textToSpeech = new TextToSpeech(getContext(), this);
@@ -66,7 +58,6 @@ public class InstructionFragment extends Fragment implements OnInitListener {
 
         instructionsPager = view.findViewById(R.id.instructionsPager);
         speakButton = view.findViewById(R.id.speakButton);
-        timer = view.findViewById(R.id.timerButton);
 
         if (instructionList != null) {
             InstructionsPagerAdapter adapter = new InstructionsPagerAdapter(instructionList);
@@ -78,17 +69,6 @@ public class InstructionFragment extends Fragment implements OnInitListener {
             if (currentItem < instructionList.size()) {
                 String instruction = instructionList.get(currentItem);
                 speakInstruction(instruction);
-            }
-        });
-
-        timer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TimerActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Recipe",recipe);
-                intent.putExtras(bundle);
-                startActivity(intent);
             }
         });
 
