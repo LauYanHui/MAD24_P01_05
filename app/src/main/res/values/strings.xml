@@ -14,6 +14,16 @@
     <string name="content_description_favourite_button">Favourite button</string>
     <string name="content_description_image_technique">Image of cooking technique</string>
     <string name="content_description_image_recipe">Image of recipe</string>
+    <string name="content_description_pause_button">Image of Pause button</string>
+    <string name="content_description_rewind_button">Image of Rewind button</string>
+    <string name="content_description_forward_button">Image of Forward button</string>
+    <string name="content_description_fullscreen_button">Image of Fullscreen button</string>
+    <string name="content_description_speed_control_button">Image of Speed Control button</string>
+
+
+
+
+
 
     <string name="hint_username">Enter username</string>
     <string name="hint_password">Enter password</string>
@@ -42,7 +52,7 @@
     <string name="label_btn_tts">Text-To-Speech</string>
     <string name="label_btn_instructions">Instructions</string>
     <string name="label_btn_information">Information</string>
-
+    <string name="label_time_stamp">00:00</string>
     <string name="placeholder">test</string>
     <string name="error">Unable to fetch information</string>
 </resources>

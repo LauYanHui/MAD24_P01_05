@@ -17,6 +17,7 @@
         <activity
             android:name=".activities.TechniqueDetailsActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="unspecified"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
