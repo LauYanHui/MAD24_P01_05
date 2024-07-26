@@ -1,11 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
-
-    <string name="nav_home">Home</string>
-    <string name="nav_recipe">Recipe</string>
-    <string name="nav_technique">Technique</string>
-    <string name="nav_grocery">Grocery</string>
-    <string name="nav_profile">Profile</string>
+    <string name="app_name">CookBuddy</string>
 
     <string name="content_description_login_icon">Login icon</string>
     <string name="content_description_back_button">Back button</string>
@@ -25,20 +19,20 @@
 
 
 
-    <string name="hint_username">Enter username</string>
-    <string name="hint_password">Enter password</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm password</string>
     <string name="hint_grocery">Enter grocery item</string>
     <string name="hint_search">Search</string>
 
-    <string name="login_username">Username:&#160;</string>
-    <string name="login_password">Password:&#160;</string>
-    <string name="login_confirm_password">Confirm&#160;Password:&#160;</string>
+    <string name="register_verify_email">Verify&#160;Your&#160;Email</string>
+    <string name="register_enter_username">Who&#160;Are&#160;You\?</string>
 
     <string name="allergies_instruction">Tick&#160;your&#160;allergies&#160;(where&#160;applicable):</string>
 
     <string name="label_login">Login</string>
     <string name="label_register">Register</string>
+    <string name="label_sign_out">Sign&#160;out</string>
     <string name="label_next">Next</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_submit">Submit</string>

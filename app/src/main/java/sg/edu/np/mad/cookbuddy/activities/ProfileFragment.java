@@ -1,22 +1,26 @@
 package sg.edu.np.mad.cookbuddy.activities;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,10 +42,20 @@ import sg.edu.np.mad.cookbuddy.R;
 import sg.edu.np.mad.cookbuddy.models.Recipe;
 import sg.edu.np.mad.cookbuddy.models.User;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import sg.edu.np.mad.cookbuddy.R;
+
 public class ProfileFragment extends Fragment {
 
-    private DatabaseReference userRef;
-
+    private final static String TAG = "ProfileFragment";
+    private Button btnSignOut;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
+    private DatabaseReference userRef
     private  DatabaseReference recipeRef;
     private TextView tvUsername;
     private User currentUser;
@@ -49,15 +63,47 @@ public class ProfileFragment extends Fragment {
     private LinearLayout favoriteRecipesLayout;
     private LinearLayout allergiesLayout;
 
+
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+    public static ProfileFragment newInstance() {
+        return new ProfileFragment();
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = firebaseAuth -> {
+            user = firebaseAuth.getCurrentUser(); // get cached user
+
+            // user signed out
+            if (user == null) {
+                Log.d(TAG, "signOut:success");
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                Toast.makeText(getContext(), "Signed Out", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+        @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnSignOut = view.findViewById(R.id.btnSignOut);
+
+        btnSignOut.setOnClickListener(v -> {
+            mAuth.signOut();
+        });
+      
         // Initialize Firebase reference
         String FIREBASE_URL = "https://mad-assignment-8c5d2-default-rtdb.asia-southeast1.firebasedatabase.app/";
         userRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("Users");
@@ -67,7 +113,8 @@ public class ProfileFragment extends Fragment {
         Button btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         Button btnEditAllergies = view.findViewById(R.id.btn_edit_allergies);
         tvUsername = view.findViewById(R.id.username);
-//        bookmarkedTechniquesLayout = view.findViewById(R.id.bookmarked_techniques_container);
+  
+        // bookmarkedTechniquesLayout = view.findViewById(R.id.bookmarked_techniques_container);
         favoriteRecipesLayout = view.findViewById(R.id.favorite_recipes_container);
         allergiesLayout = view.findViewById(R.id.allergies_container);
 
@@ -90,9 +137,24 @@ public class ProfileFragment extends Fragment {
 
         btnEditProfile.setOnClickListener(v -> showEditDetailsDialog());
         btnEditAllergies.setOnClickListener(v -> showEditAllergiesDialog());
-
-        return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAuthListener != null) {
+            mAuth.addAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
 
     private void fetchUserData() {
         userRef.child(currentUser.getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -378,3 +440,4 @@ public class ProfileFragment extends Fragment {
         });
     }
 }
+

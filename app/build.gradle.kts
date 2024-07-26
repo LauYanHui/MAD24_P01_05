@@ -52,24 +52,33 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-    implementation("com.google.firebase:firebase-analytics")
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.storage)
+
+    implementation(libs.cardview)
+    implementation (libs.viewpager2)
+    implementation (libs.glide)
+    implementation(libs.recyclerview.animators)
+    implementation("com.airbnb.android:lottie:3.4.0")
+
+    // don't specify version for firebase library dependencies if using bom
+    implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("nu.aaro.gustav:passwordstrengthmeter:0.4")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation ("com.google.android.material:material:1.3.0")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation (libs.glide)
     annotationProcessor (libs.glide.compiler)
-    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+
+    implementation(libs.firebase.storage)
+    implementation ("com.google.android.material:material:1.3.0")
+    implementation ("com.google.android.material:material:1.9.0")
+    annotationProcessor (libs.glide.compiler)
     implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")
@@ -85,7 +94,8 @@ dependencies {
     implementation ("io.grpc:grpc-okhttp:1.40.1")
     implementation ("io.grpc:grpc-protobuf:1.40.1")
     implementation ("io.grpc:grpc-stub:1.40.1")
-    implementation ("com.google.android.material:material:1.9.0")
+
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("com.github.rubensousa:gravitysnaphelper:2.2.2")
+
 }
