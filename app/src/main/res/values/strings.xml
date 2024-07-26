@@ -1,3 +1,54 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">CookBuddy</string>
+
+    <string name="content_description_login_icon">Login icon</string>
+    <string name="content_description_back_button">Back button</string>
+    <string name="content_description_add_button">Add button</string>
+    <string name="content_description_delete_button">Delete button</string>
+    <string name="content_description_favourite_button">Favourite button</string>
+    <string name="content_description_image_technique">Image of cooking technique</string>
+    <string name="content_description_image_recipe">Image of recipe</string>
+    <string name="content_description_pause_button">Image of Pause button</string>
+    <string name="content_description_rewind_button">Image of Rewind button</string>
+    <string name="content_description_forward_button">Image of Forward button</string>
+    <string name="content_description_fullscreen_button">Image of Fullscreen button</string>
+    <string name="content_description_speed_control_button">Image of Speed Control button</string>
+
+
+
+
+
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="hint_grocery">Enter grocery item</string>
+    <string name="hint_search">Search</string>
+
+    <string name="register_verify_email">Verify&#160;Your&#160;Email</string>
+    <string name="register_enter_username">Who&#160;Are&#160;You\?</string>
+
+    <string name="allergies_instruction">Tick&#160;your&#160;allergies&#160;(where&#160;applicable):</string>
+
+    <string name="label_login">Login</string>
+    <string name="label_register">Register</string>
+    <string name="label_sign_out">Sign&#160;out</string>
+    <string name="label_next">Next</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_submit">Submit</string>
+    <string name="label_cuisine">Cuisine:&#160;</string>
+    <string name="label_main_ingredient">Main Ingredient:&#160;</string>
+    <string name="label_nutrient">Nutrients</string>
+    <string name="label_ingredient">Ingredients</string>
+    <string name="label_instruction">Instructions</string>
+    <string name="label_allergy">Allergies</string>
+    <string name="label_instruction_swipe">Swipe left to see new instructions</string>
+    <string name="label_btn_tts">Text-To-Speech</string>
+    <string name="label_btn_instructions">Instructions</string>
+    <string name="label_btn_information">Information</string>
+    <string name="label_time_stamp">00:00</string>
+    <string name="placeholder">test</string>
+    <string name="error">Unable to fetch information</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
