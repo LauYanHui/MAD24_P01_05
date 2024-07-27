@@ -9,6 +9,16 @@ Your go-to app for culinary inspiration and healthy eating! With our app, you wi
 As food connoisseurs, we understand that there are some of them that are willing to try recreating good food themselves to consume. However, individuals like us aren't aware of the paramount difficulty of making good food, causing them to lose motivation to 
 begin their culinary journey. Therefore, with the help of our app, not only will beginner chefs be inspired to start cooking, but chefs from all skill levels will also be inspired to view the variety of recipes that they could try and cook for themselves. This app provides recipes from all kinds of cuisines, providing people a single-app solution when trying to search for recipes to make.
 
+### User's Guide:
+
+1. A novice chef wants to learn more about 'Deglazing' in order to widen his variety of recipes he/she can try replicating.
+   1. Sign-in/Register into 'CookBuddy' app.
+   2. From the navigation bar, click on the 2nd navigation item (left to right).
+   3. A recycler list of Culinary Techniques should be displayed.
+   4. Click on the 'Deglazing' Card.
+   5. Finally, details of the technique should be displayed, giving the user more information alongside a short video tutorial.
+   6. For better user experience, the user can also click on the "Fullscreen" or "Speed Control" button.
+
 Stage 1:
 
 1. Account Creation/Login(Ryan)
