@@ -1,4 +1,5 @@
 ## App Name: CookBuddy
+![image](https://github.com/user-attachments/assets/7a5555f5-1a78-4daf-825d-8857d8c4b30c)
 
 ## App Category: Food & Drink
 ## What is CookBuddy?
