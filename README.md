@@ -9,7 +9,15 @@ Your go-to app for culinary inspiration and healthy eating! With our app, you wi
 As food connoisseurs, we understand that there are some of them that are willing to try recreating good food themselves to consume. However, individuals like us aren't aware of the paramount difficulty of making good food, causing them to lose motivation to 
 begin their culinary journey. Therefore, with the help of our app, not only will beginner chefs be inspired to start cooking, but chefs from all skill levels will also be inspired to view the variety of recipes that they could try and cook for themselves. This app provides recipes from all kinds of cuisines, providing people a single-app solution when trying to search for recipes to make.
 
-### User's Guide:
+## App Colour Theme:
+
+![image](https://github.com/user-attachments/assets/3b3f6059-1dbc-4f05-b863-d72288133444)
+
+1. Visual Clarity and Focus: The light grey background helps the colorful food images and text stand out, making it easier for users to focus on the content without being distracted by a busy or overly vibrant background.
+2. Modern and Clean Aesthetic: The use of neutral tones like grey is often associated with modern and minimalistic design. It gives the app a clean and professional look, which can be appealing to users who prefer simplicity.
+
+
+## User's Guide:
 
 1. A novice chef wants to learn more about 'Deglazing' in order to widen his variety of recipes he/she can try replicating.
    1. Sign-in/Register into 'CookBuddy' app.
@@ -28,7 +36,7 @@ begin their culinary journey. Therefore, with the help of our app, not only will
    6. if the user want there is a text to speech button located below the viewpager, it would read the viewpager's contents out loud.
    7. there is also a timer feature in build where the user can set a timer for up to an hour that will play an alarm and send a notification when the alarm ends 
 
-Stage 1:
+## Stage 1:
 
 1. Account Creation/Login(Ryan)
    - This feature will ensure that users are provided a secure and personalized experience when trying to make use of our app. When they create an account, they will be provided a list of checkboxes that indicate certain food allergies before being able to view recipes and culinary techniques that they want to learn.
@@ -47,7 +55,13 @@ Stage 1:
 5. Culinary Technique Tutorials (Ashton)
    - When beginner chefs are trying to follow recipes, they may end up being overwhelmed by the amount of skill required and especially if its their first time trying to replicate the technique. Therefore, with this feature, it provides them video evidence on how typical restaurant chefs manipulate such techniques in order to maximize the quality of the food product. Each technique tutorial will provide insights on the importance of this technique and how it can boosts the quality of the food product. On top of that, a video will be displayed to the users so that they can view the technique in action, done by professional chefs.
 
+## Stage 2: 
 
+5. Optimized Video Tutorials (Ashton)
+   - Swapped out general videoView provided via Android Studio to ExoPlayer's PlayerView. Along with the PlayerView includes a more dynamic layout to allow for a better user experience. From customizing their speed control to scrubbing through the video, it ensures that their experience with the video tutorial is much more smoother.
+
+## App Screenshots:
+![image](https://github.com/user-attachments/assets/8eeadac2-de12-4b68-b751-0dab20f2c795)
 
 ### Video References:
    - [How to Braise Meat | Tesco](https://www.youtube.com/watch?v=TyEhYBWDV2o)
