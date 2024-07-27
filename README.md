@@ -19,6 +19,15 @@ begin their culinary journey. Therefore, with the help of our app, not only will
    5. Finally, details of the technique should be displayed, giving the user more information alongside a short video tutorial.
    6. For better user experience, the user can also click on the "Fullscreen" or "Speed Control" button.
 
+2. A novice chef wants to get recipes to cook.
+   1. Sign-in/Register into 'CookBuddy' app.
+   2. A recycler in recycler where the parent recycler that consist of main ingredients and the child recycler would show the recipes.
+   3. click on one of the recipe that interests the user.
+   4. details about the recipe would be displayed such as the main ingredient, cuisine, nutrition facts, ingredients and instructions will all be shown.
+   5. on the instruction fragment, the user can slide the viewpager to the left to see more instructions
+   6. if the user want there is a text to speech button located below the viewpager, it would read the viewpager's contents out loud.
+   7. there is also a timer feature in build where the user can set a timer for up to an hour that will play an alarm and send a notification when the alarm ends 
+
 Stage 1:
 
 1. Account Creation/Login(Ryan)
