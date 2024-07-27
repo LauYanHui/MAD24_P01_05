@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/timberWolf">
+
+<!--    Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dasian%2Bfood%2Bbanner&psig=AOvVaw1-lnS5JtOa1RULCIwEsbyk&ust=1717250786429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDFsOuHuIYDFQAAAAAdAAAAABAJ&ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/ivBanner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="180dp"-->
+<!--        android:background="@drawable/img_banner_allergies"-->
+<!--        android:contentDescription="Banner with a variety of food"/>-->
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_allergy"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:background="@color/airForceBlue"
+        android:padding="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/allergies_instruction"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="17sp"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvAllergies"
+        android:layout_marginTop="15dp"
+        android:divider="@null"/>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_cancel"
+            android:layout_marginEnd="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_submit"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+</LinearLayout>
