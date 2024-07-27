@@ -44,13 +44,14 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvPurpose;
     TextView tvDescription;
+    ImageView ivBack;
     PlayerView videoView;
 
     @UnstableApi
     DefaultTimeBar playerTimeBar;
     Handler handler;
     ExoPlayer player;
-    RelativeLayout videoFrame;
+    RelativeLayout videoFrame, topBar;
 
     //custom_player_controls view groups
     ImageView ivPlayPause, ivFastRewind, ivFastForward, ivFullScreen, ivSpeedControl;
@@ -75,9 +76,10 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvTitle);
         tvPurpose = findViewById(R.id.tvPurpose);
         tvDescription = findViewById(R.id.tvDescription);
+        ivBack = findViewById(R.id.btnBack);
         videoView = findViewById(R.id.videoView);
         videoFrame = findViewById(R.id.videoFrame);
-
+        topBar = findViewById(R.id.topBar);
         //receive intent from TechniqueRecycler and make changes to text
         Intent receivingTechnique = getIntent();
         tvTitle.setText(receivingTechnique.getStringExtra("title"));
@@ -106,6 +108,11 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
         tvVideoPosition = videoView.findViewById(R.id.tvVideoPosition);
         tvVideoDuration = videoView.findViewById(R.id.tvVideoDuration);
         playerTimeBar = videoView.findViewById(R.id.playerTimeBar);
+
+        ivBack.setOnClickListener(v -> {
+            Intent backToListIntent = new Intent(TechniqueDetailsActivity.this, HomeActivity.class);
+            startActivity(backToListIntent);
+        });
 
         //handle when user drags the player Time bar
         playerTimeBar.addListener(new DefaultTimeBar.OnScrubListener() {
@@ -271,7 +278,7 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
             videoFrameParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             videoFrameParams.gravity = Gravity.CENTER;
             videoFrame.setLayoutParams(videoFrameParams);
-
+            topBar.setVisibility(View.GONE);
             tvTitle.setVisibility(View.GONE);
             tvPurpose.setVisibility(View.GONE);
             tvDescription.setVisibility(View.GONE);
@@ -292,6 +299,7 @@ public class TechniqueDetailsActivity extends AppCompatActivity {
             videoFrame.setLayoutParams(videoFrameParams);
 
             videoFrameParams.setMargins(0, 20, 0, 0); // Add margins for portrait
+            topBar.setVisibility(View.VISIBLE);
             tvTitle.setVisibility(View.VISIBLE);
             tvPurpose.setVisibility(View.VISIBLE);
             tvDescription.setVisibility(View.VISIBLE);

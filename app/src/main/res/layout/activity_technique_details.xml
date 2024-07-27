@@ -6,16 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/cambridgeBlue"
     tools:context=".activities.TechniqueDetailsActivity">
 
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/caribbeanCurrent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_back_32"
+            android:contentDescription="@string/content_description_back_button"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/error"
-        android:layout_marginTop="20dp"
-        android:textSize="30sp"
+        android:layout_marginTop="40dp"
+        android:textSize="35sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:gravity="center"/>
 
     <RelativeLayout
@@ -40,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="@string/error"
         android:textSize="24sp"
         android:textStyle="italic|bold"/>
@@ -48,11 +65,12 @@
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:lineSpacingExtra="6sp"
         android:text="@string/error"
         android:textSize="24sp"
         android:padding="20dp"
+        android:textColor="@color/black"
         android:background="#F0F0F0"/>
 
 </LinearLayout>
