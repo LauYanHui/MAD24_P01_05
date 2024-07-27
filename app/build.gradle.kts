@@ -45,13 +45,18 @@ android {
         }
     }
 
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
+
 
 dependencies {
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.gms.maps)
+    implementation(libs.gms.location)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
