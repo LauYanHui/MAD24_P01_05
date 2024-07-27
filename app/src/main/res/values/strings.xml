@@ -30,6 +30,10 @@
 
     <string name="allergies_instruction">Tick&#160;your&#160;allergies&#160;(where&#160;applicable):</string>
 
+    <string name="profile_change_username">Change&#160;Username</string>
+    <string name="profile_change_password">Change&#160;Password</string>
+    <string name="profile_favourite_recipe">Favourite&#160;Recipes:</string>
+
     <string name="label_login">Login</string>
     <string name="label_register">Register</string>
     <string name="label_sign_out">Sign&#160;out</string>

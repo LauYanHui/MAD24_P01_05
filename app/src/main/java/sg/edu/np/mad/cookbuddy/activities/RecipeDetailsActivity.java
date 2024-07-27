@@ -21,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            startActivity(new Intent(RecipeDetailsActivity.this, LoginActivity.class));
+            Toast.makeText(this, "Re-login", Toast.LENGTH_SHORT).show();
+        }
 
         tvName = findViewById(R.id.tvRecipeName);
         tvCuisine = findViewById(R.id.tvCuisine);
@@ -102,12 +111,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         // get user info
-        SharedPreferences sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = sharedPref.getString("username", null);
+        String uid = user.getUid();
 
         // get data from firebase
         DatabaseReference favouriteRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL)
-                .getReference("Users/" + username + "/favourites/");
+                .getReference("Users/" + uid + "/favourites/");
 
         // set favourite icon original state
         favouriteRef.addListenerForSingleValueEvent(new ValueEventListener() {

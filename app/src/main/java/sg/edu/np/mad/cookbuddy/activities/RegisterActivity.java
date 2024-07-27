@@ -181,7 +181,6 @@ public class RegisterActivity extends AppCompatActivity {
                     score += 0.5;
                 }
 
-                Log.d(TAG, "Score: " + score);
                 return (int) Math.floor(score);
             }
 

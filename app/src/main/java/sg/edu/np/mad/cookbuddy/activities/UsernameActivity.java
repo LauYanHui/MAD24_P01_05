@@ -61,7 +61,7 @@ public class UsernameActivity extends AppCompatActivity {
                 } else {
 
                     // enable button if username is appropriately long
-                    btnNext.setEnabled(s.length() >= 8 && s.length() <= 30);
+                    btnNext.setEnabled(!result.isEmpty() && result.length() < 30);
                 }
             }
         });
