@@ -61,7 +61,6 @@ begin their culinary journey. Therefore, with the help of our app, not only will
    - Swapped out general videoView provided via Android Studio to ExoPlayer's PlayerView. Along with the PlayerView includes a more dynamic layout to allow for a better user experience. From customizing their speed control to scrubbing through the video, it ensures that their experience with the video tutorial is much more smoother.
 
 ## App Screenshots:
-![image](https://github.com/user-attachments/assets/8eeadac2-de12-4b68-b751-0dab20f2c795)
 
 ### Video References:
    - [How to Braise Meat | Tesco](https://www.youtube.com/watch?v=TyEhYBWDV2o)
