@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -18,6 +19,7 @@ import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -33,10 +35,11 @@ public class TimerActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "timer_channel";
     private static final int VIBRATE_PERMISSION_REQUEST_CODE = 1;
     private static final int SCHEDULE_EXACT_ALARM_REQUEST_CODE = 2;
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 3;
+
     private TextView timerTextView;
     private NumberPicker minutePicker, secondPicker;
     private Button startButton, pauseButton, resumeButton, resetButton, stopAlarm;
-
     private Handler handler;
     private Runnable runnable;
     private int minutes = 25; // Default duration
@@ -48,6 +51,7 @@ public class TimerActivity extends AppCompatActivity {
     private ImageView backButton;
     private Recipe recipe;
     private ProgressBar progressBar;
+    private boolean isAlarmActive = false; // Flag to check if alarm is active
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +77,30 @@ public class TimerActivity extends AppCompatActivity {
                     SCHEDULE_EXACT_ALARM_REQUEST_CODE);
         }
 
+        // Check for POST_NOTIFICATIONS permission on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE);
+            }
+        }
+
         backButton = findViewById(R.id.btnBack);
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             recipe = (Recipe) intent.getSerializableExtra("Recipe");
         }
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), RecipeDetailsActivity.class);
+        backButton.setOnClickListener(v -> {
+            if (!isRunning) {
+                Intent intent1 = new Intent(v.getContext(), RecipeDetailsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Recipe", recipe);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                intent1.putExtras(bundle);
+                startActivity(intent1);
+            } else {
+                Toast.makeText(this, "Cannot go back while the timer is running.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -94,7 +109,7 @@ public class TimerActivity extends AppCompatActivity {
         secondPicker = findViewById(R.id.secondPicker);
         startButton = findViewById(R.id.startButton);
         pauseButton = findViewById(R.id.pauseButton);
-        resumeButton = findViewById(R.id.resumeButton);
+        //resumeButton = findViewById(R.id.resumeButton);
         resetButton = findViewById(R.id.resetButton);
         stopAlarm = findViewById(R.id.stopButton);
         progressBar = findViewById(R.id.progressBar);
@@ -124,15 +139,16 @@ public class TimerActivity extends AppCompatActivity {
                 }
             }
         });
+
         stopAlarm.setOnClickListener(v -> stopAlarm());
 
         pauseButton.setOnClickListener(v -> pauseTimer());
 
-        resumeButton.setOnClickListener(v -> {
-            if (isPaused) {
-                resumeTimer();
-            }
-        });
+//        resumeButton.setOnClickListener(v -> {
+//            if (isPaused) {
+//                resumeTimer();
+//            }
+//        });
 
         resetButton.setOnClickListener(v -> resetTimer());
     }
@@ -140,7 +156,7 @@ public class TimerActivity extends AppCompatActivity {
     private void startTimer() {
         isRunning = true;
         isPaused = false;
-        pauseButton.setEnabled(true); // Enable stop button when timer starts
+        pauseButton.setEnabled(true); // Enable pause button when timer starts
 
         runnable = new Runnable() {
             @Override
@@ -150,11 +166,12 @@ public class TimerActivity extends AppCompatActivity {
                         // Timer finished
                         isRunning = false;
                         showNotification();
-                        //stopAlarm.setEnabled(true);
                         if (canScheduleExactAlarms()) {
                             setAlarm(); // Set the alarm
+                            if (isAlarmActive) { // Only enable the button if alarm is active
+                                enableStopButtonWithDelay();
+                            }
                         }
-                        stopAlarm.setEnabled(true);
                         return;
                     }
                     minutes--;
@@ -163,7 +180,6 @@ public class TimerActivity extends AppCompatActivity {
                     seconds--;
                 }
 
-                //updateTimerText();
                 updateTimer();
                 handler.postDelayed(this, 1000);
             }
@@ -199,6 +215,18 @@ public class TimerActivity extends AppCompatActivity {
         pauseButton.setEnabled(false);
     }
 
+    private void updateTimer() {
+        String time = String.format("%02d:%02d", minutes, seconds);
+        timerTextView.setText(time);
+
+        // Calculate the total and remaining time in seconds
+        int totalSeconds = (minutePicker.getValue() * 60) + secondPicker.getValue();
+        int elapsedSeconds = (minutes * 60) + seconds;
+        int progress = (int) (((totalSeconds - elapsedSeconds) / (float) totalSeconds) * 100);
+
+        progressBar.setProgress(progress);
+    }
+
     private void updateTimerText() {
         String time = String.format("%02d:%02d", minutes, seconds);
         timerTextView.setText(time);
@@ -218,13 +246,16 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setAlarm() {
-        long triggerTime = System.currentTimeMillis() + 1000; // Trigger immediately
+        long triggerTime = System.currentTimeMillis(); // Trigger immediately
 
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+
+        // Update flag only if alarm is scheduled successfully
+        isAlarmActive = true;
     }
 
     private boolean canScheduleExactAlarms() {
@@ -233,7 +264,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == VIBRATE_PERMISSION_REQUEST_CODE) {
             if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -243,8 +274,22 @@ public class TimerActivity extends AppCompatActivity {
             if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 Toast.makeText(this, "Exact alarm permission denied. Alarms may not be set correctly.", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, "Notification permission denied. Notifications may not be shown.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (isRunning) {
+            Toast.makeText(this, "Cannot go back while the timer is running.", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void stopAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
@@ -260,18 +305,17 @@ public class TimerActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Alarm stopped.", Toast.LENGTH_SHORT).show();
 
-        // Optionally, update button state
-        stopAlarm.setEnabled(false);
+        isAlarmActive = false; // Reset the alarm active flag
+        stopAlarm.setEnabled(false); // Disable the stop alarm button
     }
-    private void updateTimer() {
-        String time = String.format("%02d:%02d", minutes, seconds);
-        timerTextView.setText(time);
 
-        // Calculate the total and remaining time in seconds
-        int totalSeconds = (minutePicker.getValue() * 60) + secondPicker.getValue();
-        int elapsedSeconds = (minutes * 60) + seconds;
-        int progress = (int) (((totalSeconds - elapsedSeconds) / (float) totalSeconds) * 100);
-
-        progressBar.setProgress(progress);
+    private void enableStopButtonWithDelay() {
+        // Use a Handler to delay the enabling of the stop button
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopAlarm.setEnabled(true);
+            }
+        }, 5000); // 2000 milliseconds = 2 seconds
     }
 }
