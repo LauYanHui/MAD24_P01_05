@@ -10,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -63,17 +65,19 @@ public class GroceryAdapter extends BaseAdapter {
 
         final GroceryItem item = groceryList.get(position);
         holder.textView.setText(item.getName());
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.setChecked(isChecked);
-                SharedPreferences sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-                String username = sharedPref.getString("username", null);
-                DatabaseReference groceryRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL)
-                        .getReference("Users/" + username + "/grocery/" + item.getName() + "/");
-                groceryRef.child("checked").setValue(isChecked);
-            }
-        });
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    item.setChecked(isChecked);
+                    DatabaseReference groceryRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL)
+                            .getReference("Users/" + user.getUid() + "/grocery/" + item.getName() + "/");
+                    groceryRef.child("checked").setValue(isChecked);
+                }
+            });
+        }
         holder.checkBox.setChecked(item.isChecked());
 
         return convertView;

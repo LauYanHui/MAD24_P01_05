@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +45,8 @@ public class GroceryFragment extends Fragment {
     private EditText textBox;
     private ImageView addIcon;
     private ImageView deleteIcon;
-
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     public GroceryFragment() {
         // Required empty public constructor
@@ -56,6 +59,13 @@ public class GroceryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            Toast.makeText(getContext(), "Re-login", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -76,11 +86,10 @@ public class GroceryFragment extends Fragment {
         list.setAdapter(adapter);
 
         // get user info
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String username = sharedPref.getString("username", null);
+        String uid = user.getUid();
 
         // get data from firebase
-        DatabaseReference groceryRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL).getReference("Users/" + username + "/grocery/");
+        DatabaseReference groceryRef = FirebaseDatabase.getInstance(HomeActivity.FIREBASE_URL).getReference("Users/" + uid + "/grocery/");
         groceryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
