@@ -56,6 +56,12 @@ begin their culinary journey. Therefore, with the help of our app, not only will
    - When beginner chefs are trying to follow recipes, they may end up being overwhelmed by the amount of skill required and especially if its their first time trying to replicate the technique. Therefore, with this feature, it provides them video evidence on how typical restaurant chefs manipulate such techniques in order to maximize the quality of the food product. Each technique tutorial will provide insights on the importance of this technique and how it can boosts the quality of the food product. On top of that, a video will be displayed to the users so that they can view the technique in action, done by professional chefs.
 
 ## Stage 2: 
+1. Text to speech
+   - added text to speech so that when users are cooking all they need to do is press one button for the instructions to be read out. 
+2. Recycler in Recycler
+  - Improved recipe UI by using recycler in recyler where the parent recycler show the main ingredient a recipe used and the child recycler just shows all the recipes that has the main ingredient.
+3. Timer
+   - In the recipe app, I’ve implemented a timer feature that enhances user experience by providing dual notifications when the timer concludes. It utilizes both an audible alarm and a visual notification to ensure users are promptly alerted when their cooking time is up, making it easier to keep track of their recipes without missing a beat.
 
 5. Optimized Video Tutorials (Ashton)
    - Swapped out general videoView provided via Android Studio to ExoPlayer's PlayerView. Along with the PlayerView includes a more dynamic layout to allow for a better user experience. From customizing their speed control to scrubbing through the video, it ensures that their experience with the video tutorial is much more smoother.
