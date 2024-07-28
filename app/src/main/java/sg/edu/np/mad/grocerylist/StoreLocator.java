@@ -1,9 +1,16 @@
 package sg.edu.np.mad.grocerylist;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
+//import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+//import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -27,6 +37,7 @@ import org.json.JSONObject;
 
 public class StoreLocator extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -42,29 +53,75 @@ public class StoreLocator extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (checkLocationPermission()) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                            // Optionally add a marker for the user's location
+                            mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
+                        }
+                    });
+        } else {
+            requestLocationPermission();
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (checkLocationPermission()) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                            // Optionally add a marker for the user's location
+                            mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
+                        }
+                    });
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    if (location != null) {
-                        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
-                        // Optionally add a marker for the user's location
-                        mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
-                    }
-                });
+            // Load store data and display markers
+            List<Store> stores = loadStoreData();
+            for (Store store : stores) {
+                LatLng storeLocation = new LatLng(store.getLat(), store.getLng());
+                mMap.addMarker(new MarkerOptions().position(storeLocation).title(store.getName()).snippet(store.getAddress()));
+            }
 
-        // Load store data and display markers
-        List<Store> stores = loadStoreData();
-        for (Store store : stores) {
-            LatLng storeLocation = new LatLng(store.getLat(), store.getLng());
-            mMap.addMarker(new MarkerOptions().position(storeLocation).title(store.getName()).snippet(store.getAddress()));
+            requestLocationUpdates();
+        } else {
+            requestLocationPermission();
         }
     }
+
+    private void requestLocationUpdates() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000); // 10 seconds
+        locationRequest.setFastestInterval(5000); // 5 seconds
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if (checkLocationPermission()) {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        } else {
+            requestLocationPermission();
+        }
+    }
+
+    private final LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            if (locationResult == null) {
+                return;
+            }
+            for (Location location : locationResult.getLocations()) {
+                // Update map with new location
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+            }
+        }
+    };
 
     private List<Store> loadStoreData() {
         List<Store> storeList = new ArrayList<>();
@@ -92,41 +149,14 @@ public class StoreLocator extends AppCompatActivity implements OnMapReadyCallbac
         return storeList;
     }
 
-    private void displayStores(List<Store> stores) {
-        for (Store store : stores) {
-            LatLng location = new LatLng(store.getLat(), store.getLng());
-            mMap.addMarker(new MarkerOptions().position(location).title(store.getName()));
-        }
+    private boolean checkLocationPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestLocationUpdates() {
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000); // 10 seconds
-        locationRequest.setFastestInterval(5000); // 5 seconds
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
-    private final LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            if (locationResult == null) {
-                return;
-            }
-            for (Location location : locationResult.getLocations()) {
-                // Update map with new location
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
-            }
-        }
-    };
-
-
-    List<Store> stores = loadStoreData();
-    displayStores(stores);
-
-    // Define the Store class within this file or in a separate file
     public class Store {
         private String name;
         private double lat;

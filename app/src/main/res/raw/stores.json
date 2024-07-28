@@ -1,0 +1,32 @@
+[
+  {
+    "name": "FairPrice Finest Bukit Panjang Plaza",
+    "lat": 1.380017,
+    "lng": 103.764827,
+    "address": "1 Jelebu Road, Bukit Panjang Plaza, #B1-03, Singapore 677743"
+  },
+  {
+    "name": "Sheng Siong Supermarket",
+    "lat": 1.378297,
+    "lng": 103.764257,
+    "address": "202 Lompang Road, #01-01, Singapore 670202"
+  },
+  {
+    "name": "Giant Supermarket Greenridge Shopping Centre",
+    "lat": 1.384457,
+    "lng": 103.769687,
+    "address": "524A Jelapang Road, Greenridge Shopping Centre, #02-01, Singapore 671524"
+  },
+  {
+    "name": "Prime Supermarket",
+    "lat": 1.377216,
+    "lng": 103.763787,
+    "address": "142 Teck Whye Lane, Singapore 680142"
+  },
+  {
+    "name": "NTUC FairPrice Hillion Mall",
+    "lat": 1.380962,
+    "lng": 103.762992,
+    "address": "17 Petir Road, Hillion Mall, #B2-01, Singapore 678278"
+  }
+]
