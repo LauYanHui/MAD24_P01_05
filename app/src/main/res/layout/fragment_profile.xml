@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.TechniqueFragment"
+    android:background="@color/timberWolf">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="24dp"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:drawableStart="@drawable/ic_profile_24"
+            android:drawableEnd="@drawable/ic_edit_24"
+            android:drawablePadding="20dp"
+            android:background="@null"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/caribbeanCurrent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/hint_password"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:drawableStart="@drawable/ic_lock_24"
+            android:drawableEnd="@drawable/ic_edit_24"
+            android:drawablePadding="20dp"
+            android:background="@null" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/caribbeanCurrent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_favourite_recipe"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="40dp"
+            android:paddingHorizontal="10dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutFav"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/style_primary_rounded_solid"
+            android:text="@string/label_sign_out"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</FrameLayout>
+
+

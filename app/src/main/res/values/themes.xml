@@ -1,9 +1,14 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.GroceryList" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:buttonBarButtonStyle">@style/BorderlessButton</item>
     </style>
 
-    <style name="Theme.GroceryList" parent="Base.Theme.GroceryList" />
+    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+
+    <style name="BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/selector_recipe_details_btn</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
