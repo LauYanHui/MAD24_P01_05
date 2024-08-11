@@ -12,6 +12,7 @@ navigationFragment = "2.6.0"
 navigationUi = "2.6.0"
 gmsMaps = "18.1.0"
 gmsLocation = "21.0.1"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,4 +30,5 @@ gms-location = { group = "com.google.android.gms", name = "play-services-locatio
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
 

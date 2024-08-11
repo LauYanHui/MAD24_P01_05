@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "sg.edu.np.mad.grocerylist"
-        minSdk = 21
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
